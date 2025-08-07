@@ -156,7 +156,7 @@
             font-weight: 300;
             margin-bottom: 2.5rem;
         }
-        /* CASES CAROUSEL */
+        /* CASES VERTICAL CAROUSEL */
         .cases-carousel {
             position: relative;
             min-height: 70vh;
@@ -179,22 +179,52 @@
             opacity: 1;
         }
         .case-content {
-            position: relative;
-            z-index: 2;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 100%;
             max-width: 540px;
-            margin: 0 auto;
             background: rgba(10,10,10,0.82);
             padding: 60px 40px;
             border-radius: 0;
             box-shadow: none;
             text-align: center;
-            transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+            z-index: 2;
             opacity: 0;
-            transform: translateY(40px);
+            transform: translate(-50%, 60%) scale(0.98);
+            transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+            pointer-events: none;
         }
         .case-content.active {
             opacity: 1;
-            transform: translateY(0);
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+        .case-content.to-up {
+            opacity: 0;
+            transform: translate(-50%, -120%) scale(0.96);
+        }
+        .case-content.to-down {
+            opacity: 0;
+            transform: translate(-50%, 20%) scale(0.96);
+        }
+        .case-content.from-up {
+            opacity: 1;
+            transform: translate(-50%, -120%) scale(0.96);
+            animation: slideInFromUp 0.7s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        .case-content.from-down {
+            opacity: 1;
+            transform: translate(-50%, 20%) scale(0.96);
+            animation: slideInFromDown 0.7s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        @keyframes slideInFromUp {
+            from { opacity: 1; transform: translate(-50%, -120%) scale(0.96); }
+            to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        @keyframes slideInFromDown {
+            from { opacity: 1; transform: translate(-50%, 20%) scale(0.96); }
+            to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
         .case-title {
             font-family: 'Cormorant Garamond', serif;
@@ -232,11 +262,13 @@
         }
         .carousel-arrows {
             position: absolute;
+            left: 50%;
             top: 50%;
-            left: 0; right: 0;
+            transform: translate(-50%, -50%);
             display: flex;
-            justify-content: space-between;
-            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
             z-index: 3;
             pointer-events: none;
         }
@@ -275,50 +307,6 @@
         }
         .carousel-dot.active {
             background: #fff;
-        }
-        .contact-section {
-            background: #0a0a0a;
-            padding: 100px 0 80px 0;
-        }
-        .contact-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 2.5rem;
-        }
-        .contact-form input, .contact-form textarea, .contact-form select {
-            background: transparent;
-            border: 1px solid #fff;
-            color: #fff;
-            font-family: 'Lato', sans-serif;
-            font-size: 1rem;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            width: 100%;
-            border-radius: 0;
-            outline: none;
-            transition: border 0.4s cubic-bezier(.4,0,.2,1);
-        }
-        .contact-form input:focus, .contact-form textarea:focus, .contact-form select:focus {
-            border: 1px solid #bbb;
-        }
-        .contact-form button {
-            background: transparent;
-            border: 1px solid #fff;
-            color: #fff;
-            font-family: 'Lato', sans-serif;
-            font-size: 1rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            border-radius: 0;
-            padding: 1rem 2.5rem;
-            transition: background 0.5s cubic-bezier(.4,0,.2,1), color 0.5s cubic-bezier(.4,0,.2,1);
-            cursor: pointer;
-        }
-        .contact-form button:hover {
-            background: #fff;
-            color: #0a0a0a;
         }
         .footer {
             background: #0a0a0a;
@@ -400,8 +388,8 @@
             </div>
             <!-- Arrows -->
             <div class="carousel-arrows">
-                <button class="carousel-arrow" id="case-prev" aria-label="Предыдущий кейс">&#8592;</button>
-                <button class="carousel-arrow" id="case-next" aria-label="Следующий кейс">&#8594;</button>
+                <button class="carousel-arrow" id="case-prev" aria-label="Предыдущий кейс">&#8593;</button>
+                <button class="carousel-arrow" id="case-next" aria-label="Следующий кейс">&#8595;</button>
             </div>
             <div class="carousel-dots" id="carousel-dots"></div>
         </div>
@@ -413,12 +401,12 @@
             <input type="tel" id="phone" name="phone" required placeholder="Номер телефона">
             <select id="consultation" name="consultation" required>
                 <option value="">Консультация для</option>
-                                <option value="person">Персоны</option>
-                                <option value="brand">Бренда</option>
-                            </select>
+                <option value="person">Персоны</option>
+                <option value="brand">Бренда</option>
+            </select>
             <textarea id="message" name="message" rows="4" placeholder="Сообщение"></textarea>
             <button type="submit">Отправить заявку</button>
-                    </form>
+        </form>
     </section>
     <footer class="footer font-lato">© 2025 Empire Agency &nbsp;|&nbsp; +7 (906) 770-07-03 &nbsp;|&nbsp; pr@empireagency.ru</footer>
     <script>
@@ -445,34 +433,86 @@
                 heroPhotos.forEach(photo => photo.classList.remove('spreading'));
             }
         });
-        // Cases carousel logic
+        // Cases vertical carousel logic
         const caseBgs = document.querySelectorAll('.case-bg');
         const caseContents = document.querySelectorAll('.case-content');
         const dotsContainer = document.getElementById('carousel-dots');
         let currentCase = 0;
-        function showCase(idx) {
-            caseBgs.forEach((bg, i) => bg.classList.toggle('active', i === idx));
-            caseContents.forEach((c, i) => c.classList.toggle('active', i === idx));
-            dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => dot.classList.toggle('active', i === idx));
+        let isSliding = false;
+        function setCaseState(idx, state) {
+            caseContents[idx].classList.remove('active', 'to-up', 'to-down', 'from-up', 'from-down');
+            if (state) caseContents[idx].classList.add(state);
+        }
+        function showCase(idx, direction = 1) {
+            if (isSliding || idx === currentCase) return;
+            isSliding = true;
+            // Prepare next
+            setCaseState(idx, direction === 1 ? 'from-down' : 'from-up');
+            setTimeout(() => {
+                // Animate out current
+                setCaseState(currentCase, direction === 1 ? 'to-up' : 'to-down');
+                // Animate in next
+                setCaseState(idx, 'active');
+                caseBgs.forEach((bg, i) => bg.classList.toggle('active', i === idx));
+                dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => dot.classList.toggle('active', i === idx));
+                setTimeout(() => {
+                    setCaseState(currentCase, null);
+                    setCaseState(idx, 'active');
+                    currentCase = idx;
+                    isSliding = false;
+                }, 700);
+            }, 20);
         }
         function nextCase() {
-            currentCase = (currentCase + 1) % caseContents.length;
-            showCase(currentCase);
+            if (isSliding) return;
+            let next = (currentCase + 1) % caseContents.length;
+            showCase(next, 1);
         }
         function prevCase() {
-            currentCase = (currentCase - 1 + caseContents.length) % caseContents.length;
-            showCase(currentCase);
+            if (isSliding) return;
+            let prev = (currentCase - 1 + caseContents.length) % caseContents.length;
+            showCase(prev, -1);
         }
         // Dots
         for (let i = 0; i < caseContents.length; i++) {
             const dot = document.createElement('button');
             dot.className = 'carousel-dot';
-            dot.onclick = () => { currentCase = i; showCase(i); };
+            dot.onclick = () => { if (!isSliding) showCase(i, i > currentCase ? 1 : -1); };
             dotsContainer.appendChild(dot);
         }
         document.getElementById('case-next').onclick = nextCase;
         document.getElementById('case-prev').onclick = prevCase;
-        showCase(0);
+        // Touch/Mouse swipe/scroll
+        let startY = null;
+        const carousel = document.getElementById('cases-carousel');
+        carousel.addEventListener('touchstart', e => { startY = e.touches[0].clientY; });
+        carousel.addEventListener('touchend', e => {
+            if (startY === null) return;
+            let dy = e.changedTouches[0].clientY - startY;
+            if (Math.abs(dy) > 50) {
+                if (dy < 0) nextCase(); else prevCase();
+            }
+            startY = null;
+        });
+        carousel.addEventListener('mousedown', e => { startY = e.clientY; });
+        carousel.addEventListener('mouseup', e => {
+            if (startY === null) return;
+            let dy = e.clientY - startY;
+            if (Math.abs(dy) > 50) {
+                if (dy < 0) nextCase(); else prevCase();
+            }
+            startY = null;
+        });
+        carousel.addEventListener('wheel', e => {
+            if (isSliding) return;
+            if (e.deltaY > 0) nextCase();
+            else if (e.deltaY < 0) prevCase();
+        });
+        // Init
+        caseBgs.forEach((bg, i) => bg.classList.toggle('active', i === 0));
+        caseContents.forEach((c, i) => c.classList.remove('active', 'to-up', 'to-down', 'from-up', 'from-down'));
+        setCaseState(0, 'active');
+        dotsContainer.querySelectorAll('.carousel-dot')[0].classList.add('active');
         // Contact form
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
