@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Агентство Empire Анны Чернавских. PR и медиасопровождение артистов и инфлюенсеров, подбор рекламных лиц для брендов, гест-менеджмент, ивенты и креативные кампании.">
+    <title>Empire Agency - Агентство Анны Чернавских</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .font-lux {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+        }
+        .font-lato {
+            font-family: 'Lato', sans-serif;
+        }
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hero-container {
+            position: relative;
+            height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .hero-background-photos {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            justify-content: space-between;
+            z-index: 1;
+        }
+        .hero-photo {
+            width: 50%; height: 100%;
+            background: #111 url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
+            filter: grayscale(1) contrast(1.1);
+            opacity: 0.7;
+            transition: transform 1.2s cubic-bezier(.4,0,.2,1), opacity 0.8s cubic-bezier(.4,0,.2,1);
+        }
+        .hero-photo-left { border-right: none; }
+        .hero-photo-right { border-left: none; }
+        .hero-photo.spreading { transform: translateX(-100%); opacity: 0.2; }
+        .hero-photo-right.spreading { transform: translateX(100%); opacity: 0.2; }
+        .hero-center-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 540px;
+            padding: 60px 40px;
+            background: rgba(10,10,10,0.85);
+            border-radius: 0;
+            box-shadow: none;
+            margin: 0 auto;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            margin-bottom: 1.5rem;
+        }
+        .hero-desc {
+            font-size: 1.25rem;
+            color: #e5e5e5;
+            font-family: 'Lato', sans-serif;
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+        }
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        .ghost-btn {
+            background: transparent;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 0.9rem 2.2rem;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border-radius: 0;
+            transition: background 0.5s cubic-bezier(.4,0,.2,1), color 0.5s cubic-bezier(.4,0,.2,1);
+            cursor: pointer;
+        }
+        .ghost-btn:hover {
+            background: #fff;
+            color: #0a0a0a;
+        }
+        .hero-navigation {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            z-index: 20;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.95rem;
+            color: #bbb;
+            font-family: 'Lato', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            font-weight: 400;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            border: none;
+            background: none;
+            padding: 0;
+            transition: color 0.4s cubic-bezier(.4,0,.2,1);
+        }
+        .nav-links a:hover {
+            color: #fff;
+        }
+        .section {
+            padding: 120px 0 100px 0;
+            background: #0a0a0a;
+            margin: 0;
+        }
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.01em;
+        }
+        .section-desc {
+            font-family: 'Lato', sans-serif;
+            font-size: 1.15rem;
+            color: #bbb;
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+        }
+        /* CASES VERTICAL CAROUSEL */
+        .cases-carousel {
+            position: relative;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .case-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(1) contrast(1.1);
+            opacity: 0;
+            transition: opacity 1.1s cubic-bezier(.4,0,.2,1);
+            z-index: 1;
+        }
+        .case-bg.active {
+            opacity: 1;
+        }
+        .case-content {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 100%;
+            max-width: 540px;
+            background: rgba(10,10,10,0.82);
+            padding: 60px 40px;
+            border-radius: 0;
+            box-shadow: none;
+            text-align: center;
+            z-index: 2;
+            opacity: 0;
+            transform: translate(-50%, 60%) scale(0.98);
+            transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+            pointer-events: none;
+        }
+        .case-content.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+        .case-content.to-up {
+            opacity: 0;
+            transform: translate(-50%, -120%) scale(0.96);
+        }
+        .case-content.to-down {
+            opacity: 0;
+            transform: translate(-50%, 20%) scale(0.96);
+        }
+        .case-content.from-up {
+            opacity: 1;
+            transform: translate(-50%, -120%) scale(0.96);
+            animation: slideInFromUp 0.7s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        .case-content.from-down {
+            opacity: 1;
+            transform: translate(-50%, 20%) scale(0.96);
+            animation: slideInFromDown 0.7s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        @keyframes slideInFromUp {
+            from { opacity: 1; transform: translate(-50%, -120%) scale(0.96); }
+            to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        @keyframes slideInFromDown {
+            from { opacity: 1; transform: translate(-50%, 20%) scale(0.96); }
+            to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        .case-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.01em;
+        }
+        .case-desc {
+            font-family: 'Lato', sans-serif;
+            font-size: 1.1rem;
+            color: #bbb;
+            font-weight: 300;
+            margin-bottom: 1.8rem;
+        }
+        .case-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: #fff;
+            letter-spacing: 0.08em;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+        .case-accent {
+            font-family: 'Lato', sans-serif;
+            font-size: 1.1rem;
+            color: #fff;
+            background: #fff2;
+            padding: 0.3em 1.2em;
+            border-radius: 2em;
+            display: inline-block;
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.12em;
+        }
+        .carousel-arrows {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .carousel-arrow {
+            background: rgba(10,10,10,0.7);
+            border: none;
+            color: #fff;
+            font-size: 2.2rem;
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            cursor: pointer;
+            pointer-events: all;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.4s cubic-bezier(.4,0,.2,1);
+        }
+        .carousel-arrow:hover {
+            background: #fff;
+            color: #0a0a0a;
+        }
+        .carousel-dots {
+            position: absolute;
+            bottom: 32px;
+            left: 0; right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            z-index: 4;
+        }
+        .carousel-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: #fff3;
+            border: none;
+            transition: background 0.3s cubic-bezier(.4,0,.2,1);
+            cursor: pointer;
+        }
+        .carousel-dot.active {
+            background: #fff;
+        }
+        .footer {
+            background: #0a0a0a;
+            color: #bbb;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            text-align: center;
+            padding: 40px 0 20px 0;
+            letter-spacing: 0.08em;
+        }
+        @media (max-width: 900px) {
+            .hero-center-content, .case-content { padding: 30px 10px; }
+            .hero-title { font-size: 2.2rem; }
+            .section-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero-container fade-in-up">
+        <div class="hero-background-photos">
+            <div class="hero-photo hero-photo-left"></div>
+            <div class="hero-photo hero-photo-right"></div>
+        </div>
+        <div class="hero-center-content">
+            <div class="hero-title font-lux">Empire</div>
+            <div class="hero-desc font-lato">PR и медиасопровождение артистов и инфлюенсеров. Создаем истории, которые запоминаются и работают на результат.</div>
+            <div class="hero-actions">
+                <a href="#contact" class="ghost-btn">Связаться</a>
+                <a href="#cases" class="ghost-btn">Кейсы</a>
+            </div>
+        </div>
+        <nav class="hero-navigation">
+            <div class="nav-links">
+                <a href="#about">курс</a>
+                <a href="#services">обо мне</a>
+                <a href="#clients">портфолио</a>
+                <a href="#cases">прайс</a>
+                <a href="#contact">дизайнерам</a>
+                <a href="#contact">контакты</a>
+            </div>
+        </nav>
+    </section>
+    <section class="section fade-in-up" id="about">
+        <div class="section-title font-lux">Обо мне</div>
+        <div class="section-desc font-lato">Основатель и руководитель агентства Empire, PR-директор артистов. Работа с ведущими академическими деятелями, западными и российскими артистами, создание уникальных историй брендов.</div>
+    </section>
+    <section class="section" id="cases" style="padding:0;">
+        <div class="section-title font-lux" style="margin-bottom: 0;">Кейсы</div>
+        <div class="cases-carousel" id="cases-carousel" style="width:100vw;height:100vh;min-height:100vh;">
+            <!-- Backgrounds -->
+            <div class="case-bg" style="background-image:url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1200&q=80')"></div>
+            <div class="case-bg" style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80')"></div>
+            <div class="case-bg" style="background-image:url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1200&q=80')"></div>
+            <div class="case-bg" style="background-image:url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1200&q=80')"></div>
+            <!-- Cases -->
+            <div class="case-content">
+                <div class="case-title font-lux">Indilight</div>
+                <div class="case-accent">Fashion Lighting</div>
+                <div class="case-desc font-lato">PR-сопровождение бренда освещения</div>
+                <div class="case-label">LIGHT</div>
+            </div>
+            <div class="case-content">
+                <div class="case-title font-lux" style="font-style:italic;">Tom Hardy</div>
+                <div class="case-accent" style="background:#fff1; color:#fff;">Celebrity Event</div>
+                <div class="case-desc font-lato">Организация мероприятий с участием звезды</div>
+                <div class="case-label" style="font-size:2.2rem;letter-spacing:0.18em;">STAR</div>
+            </div>
+            <div class="case-content">
+                <div class="case-title font-lux" style="letter-spacing:0.18em;">Карина Нигай</div>
+                <div class="case-accent" style="background:#fff2;color:#fff;">Fashion Influencer</div>
+                <div class="case-desc font-lato">PR-сопровождение fashion-инфлюенсера</div>
+                <div class="case-label" style="font-family:'Lato',sans-serif;font-weight:700;">FASHION</div>
+            </div>
+            <div class="case-content">
+                <div class="case-title font-lux" style="font-weight:400;">Аврора</div>
+                <div class="case-accent" style="background:#fff1;color:#fff;">Media Personality</div>
+                <div class="case-desc font-lato">PR-сопровождение телеведущей</div>
+                <div class="case-label" style="font-size:2.1rem;letter-spacing:0.12em;">MEDIA</div>
+            </div>
+            <!-- Arrows -->
+            <div class="carousel-arrows">
+                <button class="carousel-arrow" id="case-prev" aria-label="Предыдущий кейс">&#8593;</button>
+                <button class="carousel-arrow" id="case-next" aria-label="Следующий кейс">&#8595;</button>
+            </div>
+            <div class="carousel-dots" id="carousel-dots"></div>
+        </div>
+    </section>
+    <section class="contact-section fade-in-up" id="contact" style="width:100vw;height:100vh;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:0;">
+        <div style="width:100vw;max-width:1200px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:0;">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 5vw;min-width:340px;">
+                <div class="contact-title font-lux" style="font-size:3rem;margin-bottom:2.5rem;letter-spacing:0.01em;">Контакты</div>
+                <div style="font-family:'Lato',sans-serif;font-size:1.2rem;color:#bbb;margin-bottom:2.5rem;text-align:center;max-width:400px;">
+                    +7 (906) 770-07-03<br>pr@empireagency.ru<br><br>
+                    Москва, Россия
+                </div>
+                <div style="font-family:'Lato',sans-serif;font-size:1.1rem;color:#bbb;opacity:0.7;max-width:400px;text-align:center;">
+                    WhatsApp / Telegram / Instagram<br>
+                    <a href="https://wa.me/79067700703" target="_blank" style="color:#fff;text-decoration:none;margin:0 0.5em;">wa.me/79067700703</a>
+                    <a href="https://t.me/agencyempire" target="_blank" style="color:#fff;text-decoration:none;margin:0 0.5em;">@agencyempire</a>
+                    <a href="https://instagram.com/agencyempire" target="_blank" style="color:#fff;text-decoration:none;margin:0 0.5em;">Instagram</a>
+                </div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 5vw;min-width:340px;">
+                <form class="contact-form" id="contact-form" style="width:100%;max-width:400px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,10,10,0.92);padding:48px 36px;border-radius:0;">
+                    <div class="contact-title font-lux" style="font-size:2rem;margin-bottom:2.2rem;letter-spacing:0.01em;">Оставить заявку</div>
+                    <input type="text" id="name" name="name" required placeholder="Имя и Фамилия" style="margin-bottom:1.2rem;">
+                    <input type="tel" id="phone" name="phone" required placeholder="Номер телефона" style="margin-bottom:1.2rem;">
+                    <select id="consultation" name="consultation" required style="margin-bottom:1.2rem;">
+                        <option value="">Консультация для</option>
+                                <option value="person">Персоны</option>
+                                <option value="brand">Бренда</option>
+                            </select>
+                    <textarea id="message" name="message" rows="4" placeholder="Сообщение" style="margin-bottom:1.8rem;"></textarea>
+                    <button type="submit" style="margin-top:0.5rem;">Отправить заявку</button>
+                    </form>
+            </div>
+        </div>
+    </section>
+    <footer class="footer font-lato">© 2025 Empire Agency &nbsp;|&nbsp; +7 (906) 770-07-03 &nbsp;|&nbsp; pr@empireagency.ru</footer>
+    <script>
+        // Fade-in-up on scroll
+        function fadeInOnScroll() {
+            document.querySelectorAll('.fade-in-up').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 60) {
+                    el.classList.add('visible');
+                }
+            });
+        }
+        window.addEventListener('scroll', fadeInOnScroll);
+        window.addEventListener('load', fadeInOnScroll);
+        // Hero photo spread effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroPhotos = document.querySelectorAll('.hero-photo');
+            const heroSection = document.querySelector('.hero-container');
+            const heroHeight = heroSection.offsetHeight;
+            if (scrolled > heroHeight * 0.3) {
+                heroPhotos.forEach(photo => photo.classList.add('spreading'));
+            } else {
+                heroPhotos.forEach(photo => photo.classList.remove('spreading'));
+            }
+        });
+        // Cases vertical carousel logic
+        const caseBgs = document.querySelectorAll('.case-bg');
+        const caseContents = document.querySelectorAll('.case-content');
+        const dotsContainer = document.getElementById('carousel-dots');
+        let currentCase = 0;
+        let isSliding = false;
+        function setCaseState(idx, state) {
+            caseContents[idx].classList.remove('active', 'to-up', 'to-down', 'from-up', 'from-down');
+            if (state) caseContents[idx].classList.add(state);
+        }
+        function showCase(idx, direction = 1) {
+            if (isSliding || idx === currentCase) return;
+            isSliding = true;
+            // Prepare next
+            setCaseState(idx, direction === 1 ? 'from-down' : 'from-up');
+            setTimeout(() => {
+                // Animate out current
+                setCaseState(currentCase, direction === 1 ? 'to-up' : 'to-down');
+                // Animate in next
+                setCaseState(idx, 'active');
+                caseBgs.forEach((bg, i) => bg.classList.toggle('active', i === idx));
+                dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => dot.classList.toggle('active', i === idx));
+                setTimeout(() => {
+                    setCaseState(currentCase, null);
+                    setCaseState(idx, 'active');
+                    currentCase = idx;
+                    isSliding = false;
+                }, 700);
+            }, 20);
+        }
+        function nextCase() {
+            if (isSliding) return;
+            let next = (currentCase + 1) % caseContents.length;
+            showCase(next, 1);
+        }
+        function prevCase() {
+            if (isSliding) return;
+            let prev = (currentCase - 1 + caseContents.length) % caseContents.length;
+            showCase(prev, -1);
+        }
+        // Dots
+        for (let i = 0; i < caseContents.length; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'carousel-dot';
+            dot.onclick = () => { if (!isSliding) showCase(i, i > currentCase ? 1 : -1); };
+            dotsContainer.appendChild(dot);
+        }
+        document.getElementById('case-next').onclick = nextCase;
+        document.getElementById('case-prev').onclick = prevCase;
+        // Touch/Mouse swipe/scroll
+        let startY = null;
+        const carousel = document.getElementById('cases-carousel');
+        carousel.addEventListener('touchstart', e => { startY = e.touches[0].clientY; });
+        carousel.addEventListener('touchend', e => {
+            if (startY === null) return;
+            let dy = e.changedTouches[0].clientY - startY;
+            if (Math.abs(dy) > 50) {
+                if (dy < 0) nextCase(); else prevCase();
+            }
+            startY = null;
+        });
+        carousel.addEventListener('mousedown', e => { startY = e.clientY; });
+        carousel.addEventListener('mouseup', e => {
+            if (startY === null) return;
+            let dy = e.clientY - startY;
+            if (Math.abs(dy) > 50) {
+                if (dy < 0) nextCase(); else prevCase();
+            }
+            startY = null;
+        });
+        carousel.addEventListener('wheel', e => {
+            if (isSliding) return;
+            if (e.deltaY > 0) nextCase();
+            else if (e.deltaY < 0) prevCase();
+        });
+        // Init
+        caseBgs.forEach((bg, i) => bg.classList.toggle('active', i === 0));
+        caseContents.forEach((c, i) => c.classList.remove('active', 'to-up', 'to-down', 'from-up', 'from-down'));
+        setCaseState(0, 'active');
+        dotsContainer.querySelectorAll('.carousel-dot')[0].classList.add('active');
+        // Contact form
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
