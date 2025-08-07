@@ -394,19 +394,36 @@
             <div class="carousel-dots" id="carousel-dots"></div>
         </div>
     </section>
-    <section class="contact-section fade-in-up" id="contact">
-        <div class="contact-title font-lux">Контакты</div>
-        <form class="contact-form" id="contact-form">
-            <input type="text" id="name" name="name" required placeholder="Имя и Фамилия">
-            <input type="tel" id="phone" name="phone" required placeholder="Номер телефона">
-            <select id="consultation" name="consultation" required>
-                <option value="">Консультация для</option>
-                <option value="person">Персоны</option>
-                <option value="brand">Бренда</option>
-            </select>
-            <textarea id="message" name="message" rows="4" placeholder="Сообщение"></textarea>
-            <button type="submit">Отправить заявку</button>
-        </form>
+    <section class="contact-section fade-in-up" id="contact" style="width:100vw;height:100vh;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:0;">
+        <div style="width:100vw;max-width:1200px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:0;">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 5vw;min-width:340px;">
+                <div class="contact-title font-lux" style="font-size:3rem;margin-bottom:2.5rem;letter-spacing:0.01em;">Контакты</div>
+                <div style="font-family:'Lato',sans-serif;font-size:1.2rem;color:#bbb;margin-bottom:2.5rem;text-align:center;max-width:400px;">
+                    +7 (906) 770-07-03<br>pr@empireagency.ru<br><br>
+                    Москва, Россия
+                </div>
+                <div style="font-family:'Lato',sans-serif;font-size:1.1rem;color:#bbb;opacity:0.7;max-width:400px;text-align:center;">
+                    WhatsApp / Telegram / Instagram<br>
+                    <a href="https://wa.me/79067700703" target="_blank" style="color:#fff;text-decoration:none;margin:0 0.5em;">wa.me/79067700703</a>
+                    <a href="https://t.me/agencyempire" target="_blank" style="color:#fff;text-decoration:none;margin:0 0.5em;">@agencyempire</a>
+                    <a href="https://instagram.com/agencyempire" target="_blank" style="color:#fff;text-decoration:none;margin:0 0.5em;">Instagram</a>
+                </div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 5vw;min-width:340px;">
+                <form class="contact-form" id="contact-form" style="width:100%;max-width:400px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,10,10,0.92);padding:48px 36px;border-radius:0;">
+                    <div class="contact-title font-lux" style="font-size:2rem;margin-bottom:2.2rem;letter-spacing:0.01em;">Оставить заявку</div>
+                    <input type="text" id="name" name="name" required placeholder="Имя и Фамилия" style="margin-bottom:1.2rem;">
+                    <input type="tel" id="phone" name="phone" required placeholder="Номер телефона" style="margin-bottom:1.2rem;">
+                    <select id="consultation" name="consultation" required style="margin-bottom:1.2rem;">
+                        <option value="">Консультация для</option>
+                        <option value="person">Персоны</option>
+                        <option value="brand">Бренда</option>
+                    </select>
+                    <textarea id="message" name="message" rows="4" placeholder="Сообщение" style="margin-bottom:1.8rem;"></textarea>
+                    <button type="submit" style="margin-top:0.5rem;">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
     </section>
     <footer class="footer font-lato">© 2025 Empire Agency &nbsp;|&nbsp; +7 (906) 770-07-03 &nbsp;|&nbsp; pr@empireagency.ru</footer>
     <script>
