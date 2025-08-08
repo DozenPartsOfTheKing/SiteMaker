@@ -110,10 +110,10 @@
             color: #0a0a0a;
         }
         .hero-navigation {
-            position: absolute;
+            position: fixed;
             top: 40px;
             right: 40px;
-            z-index: 20;
+            z-index: 1000;
         }
         .nav-links {
             display: flex;
@@ -178,54 +178,32 @@
         .case-bg.active {
             opacity: 1;
         }
+        /* CASE INFO in bottom-left (per full-screen case) */
         .case-content {
             position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 100%;
-            max-width: 540px;
-            background: rgba(10,10,10,0.82);
-            padding: 60px 40px;
-            border-radius: 0;
-            box-shadow: none;
-            text-align: center;
+            left: 40px;
+            bottom: 36px;
+            max-width: 560px;
+            background: transparent;
+            padding: 0;
+            text-align: left;
             z-index: 2;
             opacity: 0;
-            transform: translate(-50%, 60%) scale(0.98);
-            transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+            transform: translateY(18px);
+            transition: opacity 0.6s cubic-bezier(.4,0,.2,1), transform 0.6s cubic-bezier(.4,0,.2,1);
             pointer-events: none;
         }
-        .case-content.active {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-            pointer-events: auto;
-        }
-        .case-content.to-up {
-            opacity: 0;
-            transform: translate(-50%, -120%) scale(0.96);
-        }
-        .case-content.to-down {
-            opacity: 0;
-            transform: translate(-50%, 20%) scale(0.96);
-        }
-        .case-content.from-up {
-            opacity: 1;
-            transform: translate(-50%, -120%) scale(0.96);
-            animation: slideInFromUp 0.7s cubic-bezier(.4,0,.2,1) forwards;
-        }
-        .case-content.from-down {
-            opacity: 1;
-            transform: translate(-50%, 20%) scale(0.96);
-            animation: slideInFromDown 0.7s cubic-bezier(.4,0,.2,1) forwards;
-        }
-        @keyframes slideInFromUp {
-            from { opacity: 1; transform: translate(-50%, -120%) scale(0.96); }
-            to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        }
-        @keyframes slideInFromDown {
-            from { opacity: 1; transform: translate(-50%, 20%) scale(0.96); }
-            to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        }
+        .case-content.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .case-content.to-up   { opacity: 0; transform: translateY(-16px); }
+        .case-content.to-down { opacity: 0; transform: translateY(16px); }
+        .case-content.from-up   { opacity: 0; transform: translateY(-16px); }
+        .case-content.from-down { opacity: 0; transform: translateY(16px); }
+        /* Hide title/accent/label here to keep only description bottom-left */
+        .case-content .case-title,
+        .case-content .case-accent,
+        .case-content .case-label { display: none; }
+        @keyframes slideInFromUp { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInFromDown { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         .case-title {
             font-family: 'Cormorant Garamond', serif;
             font-size: 2.2rem;
@@ -259,6 +237,25 @@
             display: inline-block;
             margin-bottom: 1.2rem;
             letter-spacing: 0.12em;
+        }
+        /* CASES VERTICAL SCROLLER */
+        .cases-vertical {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .case-slide {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            scroll-snap-align: start;
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(1) contrast(1.1);
         }
         .carousel-arrows {
             position: absolute;
@@ -308,6 +305,94 @@
         .carousel-dot.active {
             background: #fff;
         }
+        /* Sliding Visit Card */
+        .visit-card {
+            position: sticky;
+            top: 50%;
+            transform: translate(-60vw, -50%);
+            width: clamp(280px, 32vw, 460px);
+            padding: 28px 32px;
+            background: rgba(10,10,10,0.9);
+            border: 1px solid #ffffff22;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.35);
+            z-index: 4;
+            pointer-events: none;
+        }
+        .visit-card.animate { animation: slideAcrossX 1.4s cubic-bezier(.4,0,.2,1) forwards; }
+        @keyframes slideAcrossX {
+            0% { transform: translate(-60vw, -50%); }
+            100% { transform: translate(60vw, -50%); }
+        }
+        .visit-card .vc-accent {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9rem;
+            color: #fff;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: #ffffff1a;
+            display: inline-block;
+            padding: 0.2em 0.9em;
+            border-radius: 2em;
+            margin-bottom: 0.9rem;
+        }
+        .visit-card .vc-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+            font-weight: 600;
+            line-height: 1.05;
+            letter-spacing: 0.01em;
+            margin-bottom: 0.4rem;
+        }
+        .visit-card .vc-label {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            color: #ddd;
+            letter-spacing: 0.18em;
+        }
+        /* Center Card (static in center) */
+        .center-card {
+            position: sticky;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: clamp(280px, 38vw, 560px);
+            padding: 36px 40px;
+            background: rgba(10,10,10,0.85);
+            border: 1px solid #ffffff22;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.35);
+            z-index: 3;
+            pointer-events: none;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(.4,0,.2,1);
+        }
+        .center-card.show { opacity: 1; }
+        .center-card .cc-accent {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9rem;
+            color: #fff;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: #ffffff1a;
+            display: inline-block;
+            padding: 0.25em 1.1em;
+            border-radius: 2em;
+            margin-bottom: 0.9rem;
+        }
+        .center-card .cc-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 3.6vw, 3rem);
+            font-weight: 600;
+            line-height: 1.05;
+            letter-spacing: 0.01em;
+            margin-bottom: 0.4rem;
+        }
+        .center-card .cc-label {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            color: #ddd;
+            letter-spacing: 0.18em;
+        }
         .footer {
             background: #0a0a0a;
             color: #bbb;
@@ -319,9 +404,33 @@
         }
         @media (max-width: 900px) {
             .hero-center-content, .case-content { padding: 30px 10px; }
+            .case-content { left: 20px; bottom: 20px; max-width: 84vw; }
             .hero-title { font-size: 2.2rem; }
             .section-title { font-size: 2rem; }
+            .hero-navigation {
+                top: 20px;
+                right: 20px;
+            }
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
         }
+        
+        @media (max-width: 600px) {
+            .hero-navigation {
+                top: 15px;
+                right: 15px;
+            }
+            .nav-links {
+                gap: 0.8rem;
+                font-size: 0.8rem;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+        }
+        /* Hide static heading inside full-screen cases section */
+        #cases > .section-title { display: none; }
     </style>
 </head>
 <body>
@@ -355,43 +464,49 @@
     </section>
     <section class="section" id="cases" style="padding:0;">
         <div class="section-title font-lux" style="margin-bottom: 0;">Кейсы</div>
-        <div class="cases-carousel" id="cases-carousel" style="width:100vw;height:100vh;min-height:100vh;">
-            <!-- Backgrounds -->
-            <div class="case-bg" style="background-image:url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1200&q=80')"></div>
-            <div class="case-bg" style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80')"></div>
-            <div class="case-bg" style="background-image:url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1200&q=80')"></div>
-            <div class="case-bg" style="background-image:url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1200&q=80')"></div>
-            <!-- Cases -->
-            <div class="case-content">
-                <div class="case-title font-lux">Indilight</div>
-                <div class="case-accent">Fashion Lighting</div>
-                <div class="case-desc font-lato">PR-сопровождение бренда освещения</div>
-                <div class="case-label">LIGHT</div>
+        <div class="cases-vertical" id="cases-vertical">
+            <div class="center-card" id="center-card" aria-hidden="true">
+                <div class="cc-accent">Fashion Lighting</div>
+                <div class="cc-title">Indilight</div>
+                <div class="cc-label">LIGHT</div>
             </div>
-            <div class="case-content">
-                <div class="case-title font-lux" style="font-style:italic;">Tom Hardy</div>
-                <div class="case-accent" style="background:#fff1; color:#fff;">Celebrity Event</div>
-                <div class="case-desc font-lato">Организация мероприятий с участием звезды</div>
-                <div class="case-label" style="font-size:2.2rem;letter-spacing:0.18em;">STAR</div>
+            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1600&q=80')">
+                <div class="case-content">
+                    <div class="case-title font-lux">Indilight</div>
+                    <div class="case-accent">Fashion Lighting</div>
+                    <div class="case-desc font-lato">PR-сопровождение бренда освещения</div>
+                    <div class="case-label">LIGHT</div>
+                </div>
+            </section>
+            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80')">
+                <div class="case-content">
+                    <div class="case-title font-lux" style="font-style:italic;">Tom Hardy</div>
+                    <div class="case-accent" style="background:#fff1; color:#fff;">Celebrity Event</div>
+                    <div class="case-desc font-lato">Организация мероприятий с участием звезды</div>
+                    <div class="case-label" style="font-size:2.2rem;letter-spacing:0.18em;">STAR</div>
+                </div>
+            </section>
+            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1600&q=80')">
+                <div class="case-content">
+                    <div class="case-title font-lux" style="letter-spacing:0.18em;">Карина Нигай</div>
+                    <div class="case-accent" style="background:#fff2;color:#fff;">Fashion Influencer</div>
+                    <div class="case-desc font-lato">PR-сопровождение fashion-инфлюенсера</div>
+                    <div class="case-label" style="font-family:'Lato',sans-serif;font-weight:700;">FASHION</div>
+                </div>
+            </section>
+            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1600&q=80')">
+                <div class="case-content">
+                    <div class="case-title font-lux" style="font-weight:400;">Аврора</div>
+                    <div class="case-accent" style="background:#fff1;color:#fff;">Media Personality</div>
+                    <div class="case-desc font-lato">PR-сопровождение телеведущей</div>
+                    <div class="case-label" style="font-size:2.1rem;letter-spacing:0.12em;">MEDIA</div>
+                </div>
+            </section>
+            <div class="visit-card" id="visit-card" aria-hidden="true">
+                <div class="vc-accent">Case</div>
+                <div class="vc-title">Название</div>
+                <div class="vc-label">TAG</div>
             </div>
-            <div class="case-content">
-                <div class="case-title font-lux" style="letter-spacing:0.18em;">Карина Нигай</div>
-                <div class="case-accent" style="background:#fff2;color:#fff;">Fashion Influencer</div>
-                <div class="case-desc font-lato">PR-сопровождение fashion-инфлюенсера</div>
-                <div class="case-label" style="font-family:'Lato',sans-serif;font-weight:700;">FASHION</div>
-            </div>
-            <div class="case-content">
-                <div class="case-title font-lux" style="font-weight:400;">Аврора</div>
-                <div class="case-accent" style="background:#fff1;color:#fff;">Media Personality</div>
-                <div class="case-desc font-lato">PR-сопровождение телеведущей</div>
-                <div class="case-label" style="font-size:2.1rem;letter-spacing:0.12em;">MEDIA</div>
-            </div>
-            <!-- Arrows -->
-            <div class="carousel-arrows">
-                <button class="carousel-arrow" id="case-prev" aria-label="Предыдущий кейс">&#8593;</button>
-                <button class="carousel-arrow" id="case-next" aria-label="Следующий кейс">&#8595;</button>
-            </div>
-            <div class="carousel-dots" id="carousel-dots"></div>
         </div>
     </section>
     <section class="contact-section fade-in-up" id="contact" style="width:100vw;height:100vh;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:0;">
@@ -450,86 +565,64 @@
                 heroPhotos.forEach(photo => photo.classList.remove('spreading'));
             }
         });
-        // Cases vertical carousel logic
-        const caseBgs = document.querySelectorAll('.case-bg');
-        const caseContents = document.querySelectorAll('.case-content');
-        const dotsContainer = document.getElementById('carousel-dots');
-        let currentCase = 0;
-        let isSliding = false;
-        function setCaseState(idx, state) {
-            caseContents[idx].classList.remove('active', 'to-up', 'to-down', 'from-up', 'from-down');
-            if (state) caseContents[idx].classList.add(state);
+        // Cases vertical scroll-snap logic
+        const vertical = document.getElementById('cases-vertical');
+        const slides = Array.from(document.querySelectorAll('.case-slide'));
+        const caseContents = Array.from(document.querySelectorAll('.case-slide .case-content'));
+        const visitCard = document.getElementById('visit-card');
+        const vcAccent = visitCard.querySelector('.vc-accent');
+        const vcTitle = visitCard.querySelector('.vc-title');
+        const vcLabel = visitCard.querySelector('.vc-label');
+        const centerCard = document.getElementById('center-card');
+        const ccAccent = centerCard.querySelector('.cc-accent');
+        const ccTitle = centerCard.querySelector('.cc-title');
+        const ccLabel = centerCard.querySelector('.cc-label');
+        let currentIndex = 0;
+        function readCaseData(idx) {
+            const root = caseContents[idx];
+            const title = (root.querySelector('.case-title')?.textContent || '').trim();
+            const accent = (root.querySelector('.case-accent')?.textContent || '').trim();
+            const label = (root.querySelector('.case-label')?.textContent || '').trim();
+            return { title, accent, label };
         }
-        function showCase(idx, direction = 1) {
-            if (isSliding || idx === currentCase) return;
-            isSliding = true;
-            // Prepare next
-            setCaseState(idx, direction === 1 ? 'from-down' : 'from-up');
-            setTimeout(() => {
-                // Animate out current
-                setCaseState(currentCase, direction === 1 ? 'to-up' : 'to-down');
-                // Animate in next
-                setCaseState(idx, 'active');
-                caseBgs.forEach((bg, i) => bg.classList.toggle('active', i === idx));
-                dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => dot.classList.toggle('active', i === idx));
-                setTimeout(() => {
-                    setCaseState(currentCase, null);
-                    setCaseState(idx, 'active');
-                    currentCase = idx;
-                    isSliding = false;
-                }, 700);
-            }, 20);
+        function renderVisitCard(data) {
+            vcAccent.textContent = data.accent || '';
+            vcTitle.textContent = data.title || '';
+            vcLabel.textContent = data.label || '';
         }
-        function nextCase() {
-            if (isSliding) return;
-            let next = (currentCase + 1) % caseContents.length;
-            showCase(next, 1);
+        function renderCenterCard(data) {
+            ccAccent.textContent = data.accent || '';
+            ccTitle.textContent = data.title || '';
+            ccLabel.textContent = data.label || '';
         }
-        function prevCase() {
-            if (isSliding) return;
-            let prev = (currentCase - 1 + caseContents.length) % caseContents.length;
-            showCase(prev, -1);
+        function animateVisitCard() {
+            visitCard.classList.remove('animate');
+            void visitCard.offsetWidth;
+            visitCard.classList.add('animate');
         }
-        // Dots
-        for (let i = 0; i < caseContents.length; i++) {
-            const dot = document.createElement('button');
-            dot.className = 'carousel-dot';
-            dot.onclick = () => { if (!isSliding) showCase(i, i > currentCase ? 1 : -1); };
-            dotsContainer.appendChild(dot);
-        }
-        document.getElementById('case-next').onclick = nextCase;
-        document.getElementById('case-prev').onclick = prevCase;
-        // Touch/Mouse swipe/scroll
-        let startY = null;
-        const carousel = document.getElementById('cases-carousel');
-        carousel.addEventListener('touchstart', e => { startY = e.touches[0].clientY; });
-        carousel.addEventListener('touchend', e => {
-            if (startY === null) return;
-            let dy = e.changedTouches[0].clientY - startY;
-            if (Math.abs(dy) > 50) {
-                if (dy < 0) nextCase(); else prevCase();
-            }
-            startY = null;
-        });
-        carousel.addEventListener('mousedown', e => { startY = e.clientY; });
-        carousel.addEventListener('mouseup', e => {
-            if (startY === null) return;
-            let dy = e.clientY - startY;
-            if (Math.abs(dy) > 50) {
-                if (dy < 0) nextCase(); else prevCase();
-            }
-            startY = null;
-        });
-        carousel.addEventListener('wheel', e => {
-            if (isSliding) return;
-            if (e.deltaY > 0) nextCase();
-            else if (e.deltaY < 0) prevCase();
-        });
-        // Init
-        caseBgs.forEach((bg, i) => bg.classList.toggle('active', i === 0));
-        caseContents.forEach((c, i) => c.classList.remove('active', 'to-up', 'to-down', 'from-up', 'from-down'));
-        setCaseState(0, 'active');
-        dotsContainer.querySelectorAll('.carousel-dot')[0].classList.add('active');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const idx = slides.indexOf(entry.target);
+                if (idx === -1) return;
+                if (entry.isIntersecting && entry.intersectionRatio > 0.55) {
+                    // activate content
+                    caseContents.forEach((c, i) => c.classList.toggle('active', i === idx));
+                    // update visit card
+                    const data = readCaseData(idx);
+                    renderVisitCard(data);
+                    renderCenterCard(data);
+                    animateVisitCard();
+                    currentIndex = idx;
+                }
+            });
+        }, { threshold: [0.55] });
+        slides.forEach(slide => observer.observe(slide));
+        // init first state
+        caseContents.forEach((c, i) => c.classList.toggle('active', i === 0));
+        const initialData = readCaseData(0);
+        renderVisitCard(initialData);
+        renderCenterCard(initialData);
+        centerCard.classList.add('show');
         // Contact form
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
