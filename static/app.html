@@ -201,7 +201,10 @@
         /* Hide title/accent/label here to keep only description bottom-left */
         .case-content .case-title,
         .case-content .case-accent,
-        .case-content .case-label { display: none; }
+        .case-content .case-label,
+        .case-content .case-subtitle,
+        .case-content .case-links,
+        .case-content .case-preview { display: none; }
         @keyframes slideInFromUp { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInFromDown { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         .case-title {
@@ -355,43 +358,51 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: clamp(280px, 38vw, 560px);
-            padding: 36px 40px;
-            background: rgba(10,10,10,0.85);
-            border: 1px solid #ffffff22;
-            box-shadow: 0 20px 80px rgba(0,0,0,0.35);
+            width: clamp(320px, 44vw, 720px);
+            padding: 28px 28px 32px 28px;
+            background: #fff;
+            color: #000;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.35);
             z-index: 3;
-            pointer-events: none;
+            pointer-events: auto;
             text-align: center;
             opacity: 0;
             transition: opacity 0.4s cubic-bezier(.4,0,.2,1);
         }
         .center-card.show { opacity: 1; }
-        .center-card .cc-accent {
+        .center-card .cc-sub {
             font-family: 'Lato', sans-serif;
-            font-size: 0.9rem;
-            color: #fff;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            background: #ffffff1a;
-            display: inline-block;
-            padding: 0.25em 1.1em;
-            border-radius: 2em;
-            margin-bottom: 0.9rem;
+            font-size: 0.95rem;
+            color: #333;
+            margin-bottom: 16px;
+            line-height: 1.4;
         }
         .center-card .cc-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2rem, 3.6vw, 3rem);
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
             font-weight: 600;
-            line-height: 1.05;
             letter-spacing: 0.01em;
-            margin-bottom: 0.4rem;
+            margin-bottom: 14px;
         }
-        .center-card .cc-label {
+        .center-card .cc-links {
             font-family: 'Lato', sans-serif;
             font-size: 0.95rem;
-            color: #ddd;
-            letter-spacing: 0.18em;
+            color: #000;
+            opacity: 0.7;
+            margin-bottom: 18px;
+        }
+        .center-card .cc-links a { color: inherit; text-decoration: none; border-bottom: 1px solid transparent; }
+        .center-card .cc-links a:hover { border-bottom-color: #000; }
+        .center-card .cc-media {
+            width: 100%;
+            height: clamp(160px, 28vw, 340px);
+            overflow: hidden;
+            border: 1px solid #eaeaea;
+        }
+        .center-card .cc-media img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(0) contrast(1.05);
         }
         .footer {
             background: #0a0a0a;
@@ -466,9 +477,12 @@
         <div class="section-title font-lux" style="margin-bottom: 0;">Кейсы</div>
         <div class="cases-vertical" id="cases-vertical">
             <div class="center-card" id="center-card" aria-hidden="true">
-                <div class="cc-accent">Fashion Lighting</div>
-                <div class="cc-title">Indilight</div>
-                <div class="cc-label">LIGHT</div>
+                <div class="cc-sub">Айдентика для украшений ручной работы — Bergammo</div>
+                <div class="cc-title">bergammo</div>
+                <div class="cc-links"><a href="#">behance</a> / <a href="#">dprofile</a></div>
+                <div class="cc-media">
+                    <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80" alt="preview"/>
+                </div>
             </div>
             <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1600&q=80')">
                 <div class="case-content">
@@ -476,6 +490,9 @@
                     <div class="case-accent">Fashion Lighting</div>
                     <div class="case-desc font-lato">PR-сопровождение бренда освещения</div>
                     <div class="case-label">LIGHT</div>
+                    <div class="case-subtitle" hidden>Айдентика для украшений ручной работы — Bergammo</div>
+                    <div class="case-links" hidden>behance / dprofile</div>
+                    <div class="case-preview" hidden>https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80</div>
                 </div>
             </section>
             <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80')">
@@ -484,6 +501,9 @@
                     <div class="case-accent" style="background:#fff1; color:#fff;">Celebrity Event</div>
                     <div class="case-desc font-lato">Организация мероприятий с участием звезды</div>
                     <div class="case-label" style="font-size:2.2rem;letter-spacing:0.18em;">STAR</div>
+                    <div class="case-subtitle" hidden>Фандрайзинг-ивент с участием звезды</div>
+                    <div class="case-links" hidden>press / tv</div>
+                    <div class="case-preview" hidden>https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80</div>
                 </div>
             </section>
             <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1600&q=80')">
@@ -492,6 +512,9 @@
                     <div class="case-accent" style="background:#fff2;color:#fff;">Fashion Influencer</div>
                     <div class="case-desc font-lato">PR-сопровождение fashion-инфлюенсера</div>
                     <div class="case-label" style="font-family:'Lato',sans-serif;font-weight:700;">FASHION</div>
+                    <div class="case-subtitle" hidden>Медиа-кампания и коллаборации</div>
+                    <div class="case-links" hidden>instagram / press</div>
+                    <div class="case-preview" hidden>https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80</div>
                 </div>
             </section>
             <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1600&q=80')">
@@ -500,6 +523,9 @@
                     <div class="case-accent" style="background:#fff1;color:#fff;">Media Personality</div>
                     <div class="case-desc font-lato">PR-сопровождение телеведущей</div>
                     <div class="case-label" style="font-size:2.1rem;letter-spacing:0.12em;">MEDIA</div>
+                    <div class="case-subtitle" hidden>Личные медиа и эфиры</div>
+                    <div class="case-links" hidden>youtube / tv</div>
+                    <div class="case-preview" hidden>https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80</div>
                 </div>
             </section>
             <div class="visit-card" id="visit-card" aria-hidden="true">
@@ -583,7 +609,10 @@
             const title = (root.querySelector('.case-title')?.textContent || '').trim();
             const accent = (root.querySelector('.case-accent')?.textContent || '').trim();
             const label = (root.querySelector('.case-label')?.textContent || '').trim();
-            return { title, accent, label };
+            const sub = (root.querySelector('.case-subtitle')?.textContent || '').trim();
+            const links = (root.querySelector('.case-links')?.textContent || '').trim();
+            const preview = (root.querySelector('.case-preview')?.textContent || '').trim();
+            return { title, accent, label, sub, links, preview };
         }
         function renderVisitCard(data) {
             vcAccent.textContent = data.accent || '';
@@ -591,9 +620,16 @@
             vcLabel.textContent = data.label || '';
         }
         function renderCenterCard(data) {
-            ccAccent.textContent = data.accent || '';
+            // map: sub -> cc-sub, title -> cc-title, links -> cc-links, preview -> cc-media img
+            centerCard.querySelector('.cc-sub').textContent = data.sub || '';
             ccTitle.textContent = data.title || '';
-            ccLabel.textContent = data.label || '';
+            const linksEl = centerCard.querySelector('.cc-links');
+            linksEl.textContent = '';
+            if (data.links) {
+                linksEl.textContent = data.links;
+            }
+            const img = centerCard.querySelector('.cc-media img');
+            if (img && data.preview) img.src = data.preview;
         }
         function animateVisitCard() {
             visitCard.classList.remove('animate');
