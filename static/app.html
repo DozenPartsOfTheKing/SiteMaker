@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Lato', sans-serif;
             background: #0a0a0a;
@@ -156,6 +157,67 @@
             font-weight: 300;
             margin-bottom: 2.5rem;
         }
+        /* ABOUT LAYOUT */
+        #about { position: relative; }
+        #about .about-container {
+            width: 100vw;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5vw;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 48px;
+            align-items: start;
+        }
+        #about .about-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 2.4rem;
+            letter-spacing: 0.01em;
+            margin: 0 0 32px 0;
+        }
+        #about .about-text p {
+            font-family: 'Lato', sans-serif;
+            color: #bbb;
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.7;
+            margin: 0 0 20px 0;
+            max-width: 560px;
+        }
+        #about .about-photo {
+            width: 100%;
+            height: clamp(360px, 62vh, 640px);
+            overflow: hidden;
+            border: 1px solid #1a1a1a;
+        }
+        #about .about-photo img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(1) contrast(1.05);
+        }
+        #about .about-vert-links {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%) rotate(90deg);
+            transform-origin: right center;
+            font-family: 'Lato', sans-serif;
+            color: #bbb;
+            letter-spacing: 0.12em;
+            text-transform: lowercase;
+            opacity: 0.8;
+            white-space: nowrap;
+        }
+        #about .about-vert-links a { color: inherit; text-decoration: none; border: none; }
+        #about .about-vert-links a:hover { color: #fff; }
+        @media (max-width: 900px) {
+            #about .about-container {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+            #about .about-vert-links { display: none; }
+            #about .about-title { font-size: 2rem; }
+        }
         /* CASES VERTICAL CAROUSEL */
         .cases-carousel {
             position: relative;
@@ -205,6 +267,7 @@
         .case-content .case-subtitle,
         .case-content .case-links,
         .case-content .case-preview { display: none; }
+        .case-content .case-desc { display: none; }
         @keyframes slideInFromUp { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInFromDown { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         .case-title {
@@ -245,19 +308,17 @@
         .cases-vertical {
             position: relative;
             width: 100vw;
-            height: 100vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-            scroll-snap-type: y mandatory;
-            -webkit-overflow-scrolling: touch;
+            height: auto;
+            overflow: visible;
         }
         .case-slide {
             position: relative;
             width: 100%;
             height: 100vh;
             scroll-snap-align: start;
-            background-size: cover;
-            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 50% 100%, 50% 100%;
+            background-position: left center, right center;
             filter: grayscale(1) contrast(1.1);
         }
         .carousel-arrows {
@@ -309,18 +370,7 @@
             background: #fff;
         }
         /* Sliding Visit Card */
-        .visit-card {
-            position: sticky;
-            top: 50%;
-            transform: translate(-60vw, -50%);
-            width: clamp(280px, 32vw, 460px);
-            padding: 28px 32px;
-            background: rgba(10,10,10,0.9);
-            border: 1px solid #ffffff22;
-            box-shadow: 0 20px 80px rgba(0,0,0,0.35);
-            z-index: 4;
-            pointer-events: none;
-        }
+        .visit-card { display: none; }
         .visit-card.animate { animation: slideAcrossX 1.4s cubic-bezier(.4,0,.2,1) forwards; }
         @keyframes slideAcrossX {
             0% { transform: translate(-60vw, -50%); }
@@ -354,7 +404,7 @@
         }
         /* Center Card (static in center) */
         .center-card {
-            position: sticky;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -364,7 +414,7 @@
             color: #000;
             border: 1px solid #eaeaea;
             box-shadow: 0 24px 80px rgba(0,0,0,0.35);
-            z-index: 3;
+            z-index: 4;
             pointer-events: auto;
             text-align: center;
             opacity: 0;
@@ -404,14 +454,77 @@
             width: 100%; height: 100%; object-fit: cover;
             filter: grayscale(0) contrast(1.05);
         }
-        .footer {
-            background: #0a0a0a;
-            color: #bbb;
-            font-family: 'Lato', sans-serif;
-            font-size: 1rem;
-            text-align: center;
-            padding: 40px 0 20px 0;
-            letter-spacing: 0.08em;
+        /* Rising transition line overlay */
+        .cases-overlay {
+            position: fixed;
+            left: 0; right: 0; bottom: 0;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.35s cubic-bezier(.4,0,.2,1);
+        }
+        .cases-overlay.show { opacity: 1; }
+        .cases-overlay .reveal-line {
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 0;
+            background: linear-gradient(to top, #fff, #ffffff99 40%, transparent 100%);
+            box-shadow: 0 0 18px rgba(255,255,255,0.18);
+        }
+        @media (max-width: 900px) {
+            .cases-overlay .reveal-line { width: 1px; }
+        }
+        /* DESIGNERS SECTION */
+        .designers-section { padding: 120px 0; }
+        .designers-container {
+            width: 100vw; max-width: 1200px; margin: 0 auto; padding: 0 5vw;
+            display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: start;
+        }
+        .designers-media { width: 100%; height: clamp(360px, 62vh, 680px); overflow: hidden; border: 1px solid #1a1a1a; }
+        .designers-media img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.15) contrast(1.05); }
+        .designers-kicker { font-family:'Cormorant Garamond',serif; font-weight:600; font-size:1.6rem; opacity:0.8; margin-bottom: 12px; }
+        .designers-title { font-family:'Cormorant Garamond',serif; font-weight:600; font-size:2rem; margin-bottom:18px; letter-spacing:0.01em; }
+        .designers-desc { font-family:'Lato',sans-serif; color:#bbb; font-size:1rem; font-weight:300; line-height:1.7; margin-bottom: 22px; }
+        .info-table { margin-top: 16px; border-top:1px solid #222; }
+        .info-row { display:flex; justify-content:space-between; gap:24px; padding:14px 0; border-bottom:1px solid #222; }
+        .info-row .left { color:#bbb; font-family:'Lato',sans-serif; font-size:0.98rem; }
+        .info-row .right { color:#ddd; font-family:'Lato',sans-serif; font-size:0.98rem; text-align:right; }
+        .designers-cta { margin-top:20px; width:100%; padding:22px 18px; background:#111; color:#bbb; border:1px solid #222; text-align:center; font-family:'Cormorant Garamond',serif; font-size:1.4rem; letter-spacing:0.01em; }
+        .designers-cta[disabled] { opacity:0.85; }
+        @media (max-width: 900px) {
+            .designers-container { grid-template-columns: 1fr; gap: 28px; }
+        }
+        /* FOOTER */
+        .site-footer { padding: 80px 0 36px 0; border-top: 1px solid #1a1a1a; background:#0a0a0a; color:#bbb; }
+        .footer-inner { width:100vw; max-width:1200px; margin:0 auto; padding:0 5vw; }
+        .footer-brand { font-family:'Cormorant Garamond',serif; font-weight:600; font-size:3rem; letter-spacing:0.01em; margin-bottom:28px; }
+        .footer-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items:start; }
+        .footer-col { font-family:'Lato',sans-serif; font-size:1rem; line-height:1.7; }
+        .footer-links { margin-top:18px; font-family:'Cormorant Garamond',serif; font-size:1.4rem; }
+        .footer-links a { color:#ddd; text-decoration:none; margin-right:18px; }
+        .footer-meta { display:flex; justify-content:space-between; align-items:center; margin-top:36px; font-family:'Lato',sans-serif; font-size:0.95rem; }
+        .to-top { color:#ddd; text-decoration:none; }
+        @media (max-width: 900px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 20px; }
+            .footer-meta { flex-direction: row; gap: 16px; }
+        }
+        /* BOTTOM COMBINED SECTION */
+        .footer-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:36px; }
+        .footer-top .footer-links { margin:0; }
+        .footer-contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; margin: 18px 0 28px 0; }
+        .footer-contact-grid .contact-title { font-size:3rem; letter-spacing:0.01em; margin-bottom: 2rem; }
+        .footer-contact-grid .contact-col { padding:0 0; }
+        .footer-contact-grid form { width:100%; max-width:420px; display:flex; flex-direction:column; align-items:stretch; background:rgba(10,10,10,0.92); padding:32px 28px; border-radius:0; border:1px solid #1a1a1a; margin-left:auto; }
+        .footer-contact-grid input,
+        .footer-contact-grid select,
+        .footer-contact-grid textarea,
+        .footer-contact-grid button { width:100%; margin-bottom:14px; }
+        @media (max-width: 900px) {
+            .footer-contact-grid { grid-template-columns:1fr; gap:28px; }
+            .footer-contact-grid form { margin-left:0; }
         }
         @media (max-width: 900px) {
             .hero-center-content, .case-content { padding: 30px 10px; }
@@ -442,6 +555,49 @@
         }
         /* Hide static heading inside full-screen cases section */
         #cases > .section-title { display: none; }
+        /* Per-case overlay description */
+        #cases { position: relative; }
+        .case-overlay {
+            position: absolute;
+            left: 3.2vw;
+            bottom: 10vh;
+            max-width: 480px;
+            z-index: 3;
+            color: #e5e5e5;
+            pointer-events: none;
+        }
+        .case-overlay .overlay-text {
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.55;
+            text-shadow: 0 1px 20px rgba(0,0,0,0.35);
+        }
+        .case-overlay .overlay-kicker {
+            margin-top: 8px;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 1.8rem;
+            letter-spacing: 0.01em;
+            color: #fff;
+            opacity: 0.96;
+        }
+        .case-index {
+            position: fixed;
+            right: 2.4vw;
+            bottom: 10vh;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: #ddd;
+            opacity: 0.85;
+            z-index: 4;
+        }
+        @media (max-width: 900px) {
+            .case-overlay { left: 5vw; right: 5vw; bottom: 10vh; max-width: none; }
+            .case-overlay .overlay-text { font-size: 0.95rem; line-height: 1.5; }
+            .case-overlay .overlay-kicker { font-size: 1.6rem; }
+            .case-index { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -461,20 +617,36 @@
         <nav class="hero-navigation">
             <div class="nav-links">
                 <a href="#about">курс</a>
-                <a href="#services">обо мне</a>
+                <a href="#about">обо мне</a>
                 <a href="#clients">портфолио</a>
                 <a href="#cases">прайс</a>
-                <a href="#contact">дизайнерам</a>
+                <a href="#designers">дизайнерам</a>
                 <a href="#contact">контакты</a>
             </div>
         </nav>
     </section>
-    <section class="section fade-in-up" id="about">
-        <div class="section-title font-lux">Обо мне</div>
-        <div class="section-desc font-lato">Основатель и руководитель агентства Empire, PR-директор артистов. Работа с ведущими академическими деятелями, западными и российскими артистами, создание уникальных историй брендов.</div>
+    <section class="section fade-in-up" id="about" style="padding-top: 120px; padding-bottom: 120px;">
+        <div class="about-container">
+            <div class="about-left">
+                <div class="about-title">( about me )</div>
+                <div class="about-text">
+                    <p>5 лет разрабатываю дизайн брендам со всего мира, мои работы — отражение моих знаний и видения, имеют награды на дизайн‑площадках Behance/Dprofile (28 наград). За моей спиной множество обучений, высшее образование дизайнера, десятки реализованных проектов, а ещё я обучаю с нуля.</p>
+                    <p>Я ценю аутентичность людей и брендов, верю в уникальность и непохожесть каждого из них, моя задача отразить это визуально, сделать так, чтобы внешнее соответствовало внутреннему.</p>
+                    <p>Я за подлинность, непохожесть, идеи и смыслы, которые можно отразить в дизайне, который будет о вас и раскроет именно вашу историю.</p>
+                    <p>Услуги, на которых я специализируюсь: разработка логотипов, айдентики, визуала социальных сетей. Я расскажу вашу историю и историю вашего бренда людям, чтобы навсегда остаться в их сердце.</p>
+                </div>
+            </div>
+            <div class="about-right">
+                <div class="about-photo">
+                    <img src="https://images.unsplash.com/photo-1516642499105-492ff3ac5215?auto=format&fit=crop&w=1200&q=80" alt="portrait" />
+                </div>
+            </div>
+            <div class="about-vert-links"><a href="#">behance</a> / <a href="#">dprofile</a> / <a href="#">inst*</a></div>
+        </div>
     </section>
     <section class="section" id="cases" style="padding:0;">
         <div class="section-title font-lux" style="margin-bottom: 0;">Кейсы</div>
+        <!-- case overlay is injected per slide by JS -->
         <div class="cases-vertical" id="cases-vertical">
             <div class="center-card" id="center-card" aria-hidden="true">
                 <div class="cc-sub">Айдентика для украшений ручной работы — Bergammo</div>
@@ -484,7 +656,7 @@
                     <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80" alt="preview"/>
                 </div>
             </div>
-            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1600&q=80')">
+            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1600&q=80'),url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1600&q=80')">
                 <div class="case-content">
                     <div class="case-title font-lux">Indilight</div>
                     <div class="case-accent">Fashion Lighting</div>
@@ -495,7 +667,7 @@
                     <div class="case-preview" hidden>https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80</div>
                 </div>
             </section>
-            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80')">
+            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80'),url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80')">
                 <div class="case-content">
                     <div class="case-title font-lux" style="font-style:italic;">Tom Hardy</div>
                     <div class="case-accent" style="background:#fff1; color:#fff;">Celebrity Event</div>
@@ -506,7 +678,7 @@
                     <div class="case-preview" hidden>https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80</div>
                 </div>
             </section>
-            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1600&q=80')">
+            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1600&q=80'),url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1600&q=80')">
                 <div class="case-content">
                     <div class="case-title font-lux" style="letter-spacing:0.18em;">Карина Нигай</div>
                     <div class="case-accent" style="background:#fff2;color:#fff;">Fashion Influencer</div>
@@ -517,7 +689,7 @@
                     <div class="case-preview" hidden>https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80</div>
                 </div>
             </section>
-            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1600&q=80')">
+            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1600&q=80'),url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1600&q=80')">
                 <div class="case-content">
                     <div class="case-title font-lux" style="font-weight:400;">Аврора</div>
                     <div class="case-accent" style="background:#fff1;color:#fff;">Media Personality</div>
@@ -535,38 +707,83 @@
             </div>
         </div>
     </section>
-    <section class="contact-section fade-in-up" id="contact" style="width:100vw;height:100vh;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:0;">
-        <div style="width:100vw;max-width:1200px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:0;">
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 5vw;min-width:340px;">
-                <div class="contact-title font-lux" style="font-size:3rem;margin-bottom:2.5rem;letter-spacing:0.01em;">Контакты</div>
-                <div style="font-family:'Lato',sans-serif;font-size:1.2rem;color:#bbb;margin-bottom:2.5rem;text-align:center;max-width:400px;">
+    <div class="cases-overlay" id="cases-overlay" aria-hidden="true">
+        <div class="reveal-line" id="reveal-line"></div>
+    </div>
+    <section class="designers-section fade-in-up" id="designers">
+        <div class="designers-container">
+            <div class="designers-media">
+                <img src="https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?auto=format&fit=crop&w=1400&q=80" alt="poster" />
+            </div>
+            <div class="designers-info">
+                <div class="designers-kicker">( new )</div>
+                <div class="designers-title">Мини‑курс по типографике: туро шрифт</div>
+                <div class="designers-desc">Типографика — основа всех дизайн‑проектов. Курс поможет погрузиться в искусство типографики. Программа охватывает ключевые аспекты шрифтового дизайна. Вы сможете вывести ваши дизайн‑проекты на новый уровень и чувствовать себя увереннее при работе с версткой текста и другими тонкостями типографики.</div>
+                <div class="info-table">
+                    <div class="info-row"><div class="left">Для кого:</div><div class="right">Дизайнеры с опытом / небольшим опытом</div></div>
+                    <div class="info-row"><div class="left">Из чего состоит курс:</div><div class="right">10 видео уроков с домашними заданиями</div></div>
+                    <div class="info-row"><div class="left">Длительность обучения:</div><div class="right">Без привязки к дедлайнам</div></div>
+                    <div class="info-row"><div class="left">Обратная связь:</div><div class="right">Без обратной связи, свободное прохождение</div></div>
+                    <div class="info-row"><div class="left">Результат обучения:</div><div class="right">Повышение навыков, разработанные макеты</div></div>
+                </div>
+                <button class="designers-cta" disabled>Скоро</button>
+            </div>
+        </div>
+    </section>
+    <footer class="site-footer" id="contact">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">resayme</div>
+                <div class="footer-links">
+                    <a href="https://t.me/agencyempire" target="_blank">( tg )</a>
+                    <a href="https://instagram.com/agencyempire" target="_blank">( inst* )</a>
+                    <a href="mailto:pr@empireagency.ru">( e‑mail )</a>
+                    <a href="#">( dprofile )</a>
+                    <a href="#">( behance )</a>
+                </div>
+                <a class="to-top" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'})">наверх ↑</a>
+            </div>
+            <div class="footer-contact-grid">
+                <div class="contact-col">
+                    <div class="contact-title font-lux">Контакты</div>
+                    <div style="font-family:'Lato',sans-serif;font-size:1.2rem;color:#bbb;margin-bottom:2rem;max-width:420px;">
                     +7 (906) 770-07-03<br>pr@empireagency.ru<br><br>
                     Москва, Россия
                 </div>
-                <div style="font-family:'Lato',sans-serif;font-size:1.1rem;color:#bbb;opacity:0.7;max-width:400px;text-align:center;">
+                    <div style="font-family:'Lato',sans-serif;font-size:1.05rem;color:#bbb;opacity:0.8;max-width:420px;">
                     WhatsApp / Telegram / Instagram<br>
                     <a href="https://wa.me/79067700703" target="_blank" style="color:#fff;text-decoration:none;margin:0 0.5em;">wa.me/79067700703</a>
                     <a href="https://t.me/agencyempire" target="_blank" style="color:#fff;text-decoration:none;margin:0 0.5em;">@agencyempire</a>
                     <a href="https://instagram.com/agencyempire" target="_blank" style="color:#fff;text-decoration:none;margin:0 0.5em;">Instagram</a>
                 </div>
             </div>
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 5vw;min-width:340px;">
-                <form class="contact-form" id="contact-form" style="width:100%;max-width:400px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,10,10,0.92);padding:48px 36px;border-radius:0;">
-                    <div class="contact-title font-lux" style="font-size:2rem;margin-bottom:2.2rem;letter-spacing:0.01em;">Оставить заявку</div>
-                    <input type="text" id="name" name="name" required placeholder="Имя и Фамилия" style="margin-bottom:1.2rem;">
-                    <input type="tel" id="phone" name="phone" required placeholder="Номер телефона" style="margin-bottom:1.2rem;">
-                    <select id="consultation" name="consultation" required style="margin-bottom:1.2rem;">
+                <div class="contact-col">
+                    <form class="contact-form" id="contact-form">
+                        <div class="contact-title font-lux" style="font-size:2rem;margin-bottom:1.5rem;letter-spacing:0.01em;">Оставить заявку</div>
+                        <input type="text" id="name" name="name" required placeholder="Имя и Фамилия">
+                        <input type="tel" id="phone" name="phone" required placeholder="Номер телефона">
+                        <select id="consultation" name="consultation" required>
                         <option value="">Консультация для</option>
                                 <option value="person">Персоны</option>
                                 <option value="brand">Бренда</option>
                             </select>
-                    <textarea id="message" name="message" rows="4" placeholder="Сообщение" style="margin-bottom:1.8rem;"></textarea>
-                    <button type="submit" style="margin-top:0.5rem;">Отправить заявку</button>
+                        <textarea id="message" name="message" rows="4" placeholder="Сообщение"></textarea>
+                        <button type="submit" style="margin-top:4px;">Отправить заявку</button>
                     </form>
+                </div>
+            </div>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    ОГРН 324670000028912<br/>
+                    resayme@icloud.com
+                </div>
+                <div class="footer-col" style="text-align:right;">
+                    ИП Семёнова Диана Сергеевна<br/>
+                    ИНН 671302692110
+                </div>
             </div>
         </div>
-    </section>
-    <footer class="footer font-lato">© 2025 Empire Agency &nbsp;|&nbsp; +7 (906) 770-07-03 &nbsp;|&nbsp; pr@empireagency.ru</footer>
+    </footer>
     <script>
         // Fade-in-up on scroll
         function fadeInOnScroll() {
@@ -593,6 +810,7 @@
         });
         // Cases vertical scroll-snap logic
         const vertical = document.getElementById('cases-vertical');
+        const projectsIntro = document.getElementById('projects-intro');
         const slides = Array.from(document.querySelectorAll('.case-slide'));
         const caseContents = Array.from(document.querySelectorAll('.case-slide .case-content'));
         const visitCard = document.getElementById('visit-card');
@@ -604,6 +822,13 @@
         const ccTitle = centerCard.querySelector('.cc-title');
         const ccLabel = centerCard.querySelector('.cc-label');
         let currentIndex = 0;
+        // floating case index indicator
+        const caseIndexEl = document.createElement('div');
+        caseIndexEl.className = 'case-index';
+        document.body.appendChild(caseIndexEl);
+        function renderCaseIndex() {
+            caseIndexEl.textContent = `(${currentIndex + 1})`;
+        }
         function readCaseData(idx) {
             const root = caseContents[idx];
             const title = (root.querySelector('.case-title')?.textContent || '').trim();
@@ -631,6 +856,22 @@
             const img = centerCard.querySelector('.cc-media img');
             if (img && data.preview) img.src = data.preview;
         }
+        // Build per-slide overlay content reusing the intro copy
+        const perSlideOverlay = {
+            text: 'Моё портфолио является отражением моего видения и навыков. Содержит множество проектов, разработанных для брендов со всего мира. Здесь собраны некоторые кейсы, подробнее с каждым из них и со многими другими вы можете ознакомиться на площадках: behance / dprofile / inst*',
+            kicker: '( projects )'
+        };
+        function ensureOverlayForSlide(slideEl) {
+            let overlay = slideEl.querySelector('.case-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'case-overlay';
+                overlay.innerHTML = `<div class="overlay-text"></div><div class="overlay-kicker"></div>`;
+                slideEl.appendChild(overlay);
+            }
+            overlay.querySelector('.overlay-text').textContent = perSlideOverlay.text;
+            overlay.querySelector('.overlay-kicker').textContent = perSlideOverlay.kicker;
+        }
         function animateVisitCard() {
             visitCard.classList.remove('animate');
             void visitCard.offsetWidth;
@@ -642,6 +883,7 @@
                 if (idx === -1) return;
                 if (entry.isIntersecting && entry.intersectionRatio > 0.55) {
                     // activate content
+                    ensureOverlayForSlide(entry.target);
                     caseContents.forEach((c, i) => c.classList.toggle('active', i === idx));
                     // update visit card
                     const data = readCaseData(idx);
@@ -649,16 +891,57 @@
                     renderCenterCard(data);
                     animateVisitCard();
                     currentIndex = idx;
+                    renderCaseIndex();
                 }
             });
         }, { threshold: [0.55] });
-        slides.forEach(slide => observer.observe(slide));
+        slides.forEach(slide => {
+            ensureOverlayForSlide(slide);
+            observer.observe(slide);
+        });
         // init first state
         caseContents.forEach((c, i) => c.classList.toggle('active', i === 0));
         const initialData = readCaseData(0);
         renderVisitCard(initialData);
         renderCenterCard(initialData);
-        centerCard.classList.add('show');
+        renderCaseIndex();
+        // center card should appear only when cases are in view
+        // Reveal line overlay logic
+        const casesSection = document.getElementById('cases');
+        const casesOverlay = document.getElementById('cases-overlay');
+        const revealLine = document.getElementById('reveal-line');
+        function clamp01(v){ return Math.max(0, Math.min(1, v)); }
+        const casesInViewObserver = new IntersectionObserver(([entry]) => {
+            const inView = entry.isIntersecting && entry.intersectionRatio > 0.05;
+            casesOverlay.classList.toggle('show', inView);
+            centerCard.classList.toggle('show', inView);
+            caseIndexEl.style.display = inView ? 'block' : 'none';
+            if (!inView) {
+                revealLine.style.height = '0px';
+            }
+        }, { threshold: 0.05 });
+        casesInViewObserver.observe(casesSection);
+        // Show intro only during cases
+        // We no longer use a single intro; each slide has its own overlay
+        function updateRevealLine() {
+            if (!casesOverlay.classList.contains('show')) return;
+            const nextIndex = Math.min(currentIndex + 1, slides.length - 1);
+            if (nextIndex === currentIndex) {
+                revealLine.style.height = '0px';
+                return;
+            }
+            const nextRect = slides[nextIndex].getBoundingClientRect();
+            const vh = window.innerHeight || 1;
+            const progress = clamp01(1 - (nextRect.top / vh));
+            const maxHeight = Math.round(vh * 0.75);
+            revealLine.style.height = Math.round(progress * maxHeight) + 'px';
+            // subtle parallax on center card based on progress
+            const translateY = -50 - (progress * 4);
+            centerCard.style.transform = `translate(-50%, ${translateY}%)`;
+        }
+        window.addEventListener('scroll', updateRevealLine, { passive: true });
+        window.addEventListener('load', updateRevealLine);
+        updateRevealLine();
         // Contact form
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
