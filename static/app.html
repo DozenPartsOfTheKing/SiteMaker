@@ -3,950 +3,1332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Агентство Empire Анны Чернавских. PR и медиасопровождение артистов и инфлюенсеров, подбор рекламных лиц для брендов, гест-менеджмент, ивенты и креативные кампании.">
-    <title>Empire Agency - Агентство Анны Чернавских</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="Empire Agency - Агентство Анны Чернавских. PR и медиасопровождение артистов и инфлюенсеров">
+    <title>Empire Agency - Anna Chernavskikh</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Lato', sans-serif;
-            background: #0a0a0a;
-            color: #fff;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8f8f8;
+            color: #000;
+            line-height: 1.6;
             overflow-x: hidden;
         }
-        .font-lux {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 600;
-            letter-spacing: 0.01em;
+        
+        /* Logo in top left */
+        .logo {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 1000;
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: #000;
+            text-decoration: none;
+            letter-spacing: -0.02em;
         }
-        .font-lato {
-            font-family: 'Lato', sans-serif;
+        
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            font-weight: 400;
         }
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
+        
+        .nav a {
+            color: #000;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
         }
-        .fade-in-up.visible {
-            opacity: 1;
-            transform: translateY(0);
+        
+        .nav a:hover {
+            opacity: 0.6;
         }
-        .hero-container {
+        
+        /* Hero Section */
+        .hero {
             position: relative;
             height: 100vh;
-            background: #0a0a0a;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            scroll-snap-align: start;
         }
-        .hero-background-photos {
+        
+        .hero-bg {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
-            justify-content: space-between;
-            z-index: 1;
         }
-        .hero-photo {
-            width: 50%; height: 100%;
-            background: #111 url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-            filter: grayscale(1) contrast(1.1);
-            opacity: 0.7;
-            transition: transform 1.2s cubic-bezier(.4,0,.2,1), opacity 0.8s cubic-bezier(.4,0,.2,1);
+        
+        .hero-bg-left,
+        .hero-bg-right {
+            width: 50%;
+            height: 100%;
+            background: #e8e8e8;
+            background-image: url('https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(1);
+            will-change: transform;
+            backface-visibility: hidden;
+            transform: translateZ(0);
         }
-        .hero-photo-left { border-right: none; }
-        .hero-photo-right { border-left: none; }
-        .hero-photo.spreading { transform: translateX(-100%); opacity: 0.2; }
-        .hero-photo-right.spreading { transform: translateX(100%); opacity: 0.2; }
-        .hero-center-content {
+        
+        .hero-bg-right {
+            background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80');
+        }
+        
+        /* Make left hero image the same as right */
+        .hero-bg-left {
+            background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80');
+        }
+        
+        .hero-content {
             position: relative;
-            z-index: 10;
+            z-index: 2;
             text-align: center;
-            max-width: 540px;
-            padding: 60px 40px;
-            background: rgba(10,10,10,0.85);
-            border-radius: 0;
-            box-shadow: none;
+            background: rgba(248, 248, 248, 0.95);
+            padding: 4rem 3rem;
+            max-width: 600px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .hero-logo {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero-subtitle {
+            font-size: 0.9rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: #666;
+        }
+        
+        .hero-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-description {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.7;
+            max-width: 400px;
             margin: 0 auto;
         }
-        .hero-title {
-            font-size: 3.5rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 700;
-            letter-spacing: 0.01em;
-            margin-bottom: 1.5rem;
+        
+        /* About Section */
+        .about {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            background: #000;
+            color: #fff;
+            scroll-snap-align: start;
         }
-        .hero-desc {
-            font-size: 1.25rem;
-            color: #e5e5e5;
-            font-family: 'Lato', sans-serif;
+        
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .about-content {
+            max-width: 500px;
+        }
+        
+        .about-title {
+            font-size: 2.5rem;
             font-weight: 300;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .about-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #ccc;
+            margin-bottom: 2rem;
+        }
+        
+        .about-quote {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin: 3rem 0;
+            padding: 2rem 0;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+            color: #fff;
+        }
+        
+        .about-services {
+            font-size: 0.9rem;
+            color: #999;
+            line-height: 1.7;
+        }
+        
+        .about-image {
+            width: 100%;
+            height: 600px;
+            background: #222;
+            background-image: url('https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(0.8);
+        }
+        
+        .about-sidebar {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%) rotate(90deg);
+            transform-origin: center;
+            font-size: 0.8rem;
+            color: #666;
+            white-space: nowrap;
+        }
+        
+        /* Cases Section */
+        .cases-section {
+            background: #f8f8f8;
+            scroll-snap-type: y mandatory;
+        }
+        
+        .cases-container {
+            max-width: 100%;
+            margin: 0;
+        }
+        
+        .cases-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 4rem;
+            letter-spacing: -0.02em;
+            padding: 6rem 2rem 2rem;
+            scroll-snap-align: start;
+        }
+        
+        .case-item {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            scroll-snap-align: start;
+        }
+        
+        .case-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+        
+        .case-bg-left,
+        .case-bg-right {
+            width: 50%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(0.8) brightness(0.7);
+            transition: all 0.8s ease;
+        }
+        
+        .case-bg-left {
+            background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80');
+        }
+        
+        .case-bg-right {
+            background-image: url('https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=1200&q=80');
+        }
+        
+        .case-item:hover .case-bg-left,
+        .case-item:hover .case-bg-right {
+            filter: grayscale(0.5) brightness(0.8);
+        }
+        
+        .case-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .case-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 4rem 3rem;
+            border-radius: 0;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+            max-width: 550px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        
+        .case-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 35px 100px rgba(0, 0, 0, 0.2);
+        }
+        
+        .case-header {
             margin-bottom: 2.5rem;
         }
-        .hero-actions {
+        
+        .case-subtitle {
+            font-size: 0.75rem;
+            color: #888;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 500;
+        }
+        
+        .case-title {
+            font-size: 2.8rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+        
+        .case-links {
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .case-image {
+            margin: 2.5rem 0;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        
+        .case-image img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .case-card:hover .case-image img {
+            transform: scale(1.03);
+        }
+        
+        .case-footer {
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .case-footer p {
+            font-size: 0.75rem;
+            color: #999;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+        
+        /* Case-specific backgrounds */
+        .case-indilight .case-bg-left,
+        .case-indilight .case-bg-right {
+            background-image: url('img/IMG_4025%20(2).WEBP');
+        }
+
+        .case-tomhardy .case-bg-left,
+        .case-tomhardy .case-bg-right {
+            background-image: url('img/IMG_4024%20(2).JPG');
+        }
+
+        .case-karina .case-bg-left,
+        .case-karina .case-bg-right {
+            background-image: url('img/IMG_2716%20(2).JPG');
+        }
+
+        .case-verник .case-bg-left,
+        .case-verник .case-bg-right {
+            background-image: url('img/IMG_2711%20(2).JPG');
+        }
+
+        .case-slutskaya .case-bg-left,
+        .case-slutskaya .case-bg-right {
+            background-image: url('img/IMG_4026%20(2).JPG');
+        }
+        
+        /* Case navigation dots */
+        .case-nav {
+            position: fixed;
+            right: 2.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        
+        .case-nav-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        
+        .case-nav-dot::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.4);
+            transition: all 0.4s ease;
+        }
+        
+        .case-nav-dot:hover {
+            background: rgba(0, 0, 0, 0.4);
+            transform: scale(1.3);
+        }
+        
+        .case-nav-dot.active {
+            background: #000;
+            border-color: #fff;
+            transform: scale(1.2);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+        }
+        
+        .case-nav-dot.active::before {
+            background: #fff;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #000;
+            color: #fff;
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            z-index: 300;
+            scroll-snap-align: start;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .footer-title {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .footer-contact {
+            font-size: 1rem;
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-links {
             display: flex;
             justify-content: center;
             gap: 2rem;
+            margin-bottom: 2rem;
         }
-        .ghost-btn {
-            background: transparent;
-            border: 1px solid #fff;
-            color: #fff;
-            padding: 0.9rem 2.2rem;
-            font-family: 'Lato', sans-serif;
-            font-size: 1rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            border-radius: 0;
-            transition: background 0.5s cubic-bezier(.4,0,.2,1), color 0.5s cubic-bezier(.4,0,.2,1);
-            cursor: pointer;
-        }
-        .ghost-btn:hover {
-            background: #fff;
-            color: #0a0a0a;
-        }
-        .hero-navigation {
-            position: fixed;
-            top: 40px;
-            right: 40px;
-            z-index: 1000;
-        }
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            font-size: 0.95rem;
-            color: #bbb;
-            font-family: 'Lato', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            font-weight: 400;
-        }
-        .nav-links a {
+        
+        .footer-links a {
+            color: #999;
             text-decoration: none;
-            color: inherit;
-            border: none;
-            background: none;
-            padding: 0;
-            transition: color 0.4s cubic-bezier(.4,0,.2,1);
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
         }
-        .nav-links a:hover {
+        
+        .footer-links a:hover {
             color: #fff;
         }
-        .section {
-            padding: 120px 0 100px 0;
-            background: #0a0a0a;
-            margin: 0;
+        
+        .footer-bottom {
+            font-size: 0.8rem;
+            color: #666;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
         }
-        .section-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.8rem;
-            font-weight: 600;
+        
+        /* Contact Section refinements */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .contact-card-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.25rem;
             color: #fff;
-            margin-bottom: 2.5rem;
-            letter-spacing: 0.01em;
+            font-weight: 500;
+            letter-spacing: 0.02em;
         }
-        .section-desc {
-            font-family: 'Lato', sans-serif;
-            font-size: 1.15rem;
+
+        .contact-card .footer-links {
+            justify-content: flex-start;
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 1rem;
+            max-width: 420px;
+        }
+
+        .contact-form input,
+        .contact-form select {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .contact-form input::placeholder {
             color: #bbb;
-            font-weight: 300;
-            margin-bottom: 2.5rem;
         }
-        /* ABOUT LAYOUT */
-        #about { position: relative; }
-        #about .about-container {
-            width: 100vw;
+
+        .contact-form button {
+            justify-self: start;
+        }
+        
+        /* CTA Button */
+        .cta-btn {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: lowercase;
+            transition: all 0.3s ease;
+            border: 2px solid #000;
+        }
+        
+        .cta-btn:hover {
+            background: transparent;
+            color: #000;
+            border-color: #000;
+        }
+
+        .cta-btn--white {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        .cta-btn--white:hover {
+            background: transparent;
+            color: #fff;
+            border-color: #fff;
+        }
+        
+        /* Services Section */
+        .services {
+            background: #f8f8f8;
+            padding: 6rem 2rem;
+            scroll-snap-align: start;
+        }
+        
+        .services-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 5vw;
-            display: grid;
-            grid-template-columns: 1fr 1.1fr;
-            gap: 48px;
-            align-items: start;
         }
-        #about .about-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 600;
-            font-size: 2.4rem;
-            letter-spacing: 0.01em;
-            margin: 0 0 32px 0;
-        }
-        #about .about-text p {
-            font-family: 'Lato', sans-serif;
-            color: #bbb;
-            font-size: 1rem;
-            font-weight: 300;
-            line-height: 1.7;
-            margin: 0 0 20px 0;
-            max-width: 560px;
-        }
-        #about .about-photo {
-            width: 100%;
-            height: clamp(360px, 62vh, 640px);
-            overflow: hidden;
-            border: 1px solid #1a1a1a;
-        }
-        #about .about-photo img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(1) contrast(1.05);
-        }
-        #about .about-vert-links {
-            position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%) rotate(90deg);
-            transform-origin: right center;
-            font-family: 'Lato', sans-serif;
-            color: #bbb;
-            letter-spacing: 0.12em;
-            text-transform: lowercase;
-            opacity: 0.8;
-            white-space: nowrap;
-        }
-        #about .about-vert-links a { color: inherit; text-decoration: none; border: none; }
-        #about .about-vert-links a:hover { color: #fff; }
-        @media (max-width: 900px) {
-            #about .about-container {
-                grid-template-columns: 1fr;
-                gap: 28px;
-            }
-            #about .about-vert-links { display: none; }
-            #about .about-title { font-size: 2rem; }
-        }
-        /* CASES VERTICAL CAROUSEL */
-        .cases-carousel {
-            position: relative;
-            min-height: 70vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        .case-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            filter: grayscale(1) contrast(1.1);
-            opacity: 0;
-            transition: opacity 1.1s cubic-bezier(.4,0,.2,1);
-            z-index: 1;
-        }
-        .case-bg.active {
-            opacity: 1;
-        }
-        /* CASE INFO in bottom-left (per full-screen case) */
-        .case-content {
-            position: absolute;
-            left: 40px;
-            bottom: 36px;
-            max-width: 560px;
-            background: transparent;
-            padding: 0;
-            text-align: left;
-            z-index: 2;
-            opacity: 0;
-            transform: translateY(18px);
-            transition: opacity 0.6s cubic-bezier(.4,0,.2,1), transform 0.6s cubic-bezier(.4,0,.2,1);
-            pointer-events: none;
-        }
-        .case-content.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
-        .case-content.to-up   { opacity: 0; transform: translateY(-16px); }
-        .case-content.to-down { opacity: 0; transform: translateY(16px); }
-        .case-content.from-up   { opacity: 0; transform: translateY(-16px); }
-        .case-content.from-down { opacity: 0; transform: translateY(16px); }
-        /* Hide title/accent/label here to keep only description bottom-left */
-        .case-content .case-title,
-        .case-content .case-accent,
-        .case-content .case-label,
-        .case-content .case-subtitle,
-        .case-content .case-links,
-        .case-content .case-preview { display: none; }
-        .case-content .case-desc { display: none; }
-        @keyframes slideInFromUp { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInFromDown { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-        .case-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.2rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 1.2rem;
-            letter-spacing: 0.01em;
-        }
-        .case-desc {
-            font-family: 'Lato', sans-serif;
-            font-size: 1.1rem;
-            color: #bbb;
-            font-weight: 300;
-            margin-bottom: 1.8rem;
-        }
-        .case-label {
-            font-family: 'Cormorant Garamond', serif;
+        
+        .services-title {
             font-size: 2.5rem;
-            color: #fff;
-            letter-spacing: 0.08em;
-            font-weight: 400;
-            margin-bottom: 0.5rem;
-        }
-        .case-accent {
-            font-family: 'Lato', sans-serif;
-            font-size: 1.1rem;
-            color: #fff;
-            background: #fff2;
-            padding: 0.3em 1.2em;
-            border-radius: 2em;
-            display: inline-block;
-            margin-bottom: 1.2rem;
-            letter-spacing: 0.12em;
-        }
-        /* CASES VERTICAL SCROLLER */
-        .cases-vertical {
-            position: relative;
-            width: 100vw;
-            height: auto;
-            overflow: visible;
-        }
-        .case-slide {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            scroll-snap-align: start;
-            background-repeat: no-repeat;
-            background-size: 50% 100%, 50% 100%;
-            background-position: left center, right center;
-            filter: grayscale(1) contrast(1.1);
-        }
-        .carousel-arrows {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 32px;
-            z-index: 3;
-            pointer-events: none;
-        }
-        .carousel-arrow {
-            background: rgba(10,10,10,0.7);
-            border: none;
-            color: #fff;
-            font-size: 2.2rem;
-            width: 56px; height: 56px;
-            border-radius: 50%;
-            cursor: pointer;
-            pointer-events: all;
-            display: flex; align-items: center; justify-content: center;
-            transition: background 0.4s cubic-bezier(.4,0,.2,1);
-        }
-        .carousel-arrow:hover {
-            background: #fff;
-            color: #0a0a0a;
-        }
-        .carousel-dots {
-            position: absolute;
-            bottom: 32px;
-            left: 0; right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            z-index: 4;
-        }
-        .carousel-dot {
-            width: 10px; height: 10px;
-            border-radius: 50%;
-            background: #fff3;
-            border: none;
-            transition: background 0.3s cubic-bezier(.4,0,.2,1);
-            cursor: pointer;
-        }
-        .carousel-dot.active {
-            background: #fff;
-        }
-        /* Sliding Visit Card */
-        .visit-card { display: none; }
-        .visit-card.animate { animation: slideAcrossX 1.4s cubic-bezier(.4,0,.2,1) forwards; }
-        @keyframes slideAcrossX {
-            0% { transform: translate(-60vw, -50%); }
-            100% { transform: translate(60vw, -50%); }
-        }
-        .visit-card .vc-accent {
-            font-family: 'Lato', sans-serif;
-            font-size: 0.9rem;
-            color: #fff;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            background: #ffffff1a;
-            display: inline-block;
-            padding: 0.2em 0.9em;
-            border-radius: 2em;
-            margin-bottom: 0.9rem;
-        }
-        .visit-card .vc-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1.8rem, 3.2vw, 2.6rem);
-            font-weight: 600;
-            line-height: 1.05;
-            letter-spacing: 0.01em;
-            margin-bottom: 0.4rem;
-        }
-        .visit-card .vc-label {
-            font-family: 'Lato', sans-serif;
-            font-size: 0.95rem;
-            color: #ddd;
-            letter-spacing: 0.18em;
-        }
-        /* Center Card (static in center) */
-        .center-card {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: clamp(320px, 44vw, 720px);
-            padding: 28px 28px 32px 28px;
-            background: #fff;
-            color: #000;
-            border: 1px solid #eaeaea;
-            box-shadow: 0 24px 80px rgba(0,0,0,0.35);
-            z-index: 4;
-            pointer-events: auto;
+            font-weight: 300;
             text-align: center;
-            opacity: 0;
-            transition: opacity 0.4s cubic-bezier(.4,0,.2,1);
+            margin-bottom: 4rem;
+            letter-spacing: -0.02em;
         }
-        .center-card.show { opacity: 1; }
-        .center-card .cc-sub {
-            font-family: 'Lato', sans-serif;
-            font-size: 0.95rem;
-            color: #333;
-            margin-bottom: 16px;
-            line-height: 1.4;
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
         }
-        .center-card .cc-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.2rem, 4vw, 3.2rem);
-            font-weight: 600;
-            letter-spacing: 0.01em;
-            margin-bottom: 14px;
+        
+        .service-card {
+            background: #fff;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
         }
-        .center-card .cc-links {
-            font-family: 'Lato', sans-serif;
-            font-size: 0.95rem;
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .service-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .service-card li {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+        
+        .service-card li::before {
+            content: '—';
+            margin-right: 0.5rem;
             color: #000;
-            opacity: 0.7;
-            margin-bottom: 18px;
         }
-        .center-card .cc-links a { color: inherit; text-decoration: none; border-bottom: 1px solid transparent; }
-        .center-card .cc-links a:hover { border-bottom-color: #000; }
-        .center-card .cc-media {
-            width: 100%;
-            height: clamp(160px, 28vw, 340px);
-            overflow: hidden;
-            border: 1px solid #eaeaea;
+        
+        /* Clients Section */
+        .clients {
+            background: #fff;
+            padding: 6rem 2rem;
+            scroll-snap-align: start;
         }
-        .center-card .cc-media img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(0) contrast(1.05);
+        
+        .clients-container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        /* Rising transition line overlay */
-        .cases-overlay {
-            position: fixed;
-            left: 0; right: 0; bottom: 0;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 5;
-            opacity: 0;
-            transition: opacity 0.35s cubic-bezier(.4,0,.2,1);
+        
+        .clients-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 4rem;
+            letter-spacing: -0.02em;
         }
-        .cases-overlay.show { opacity: 1; }
-        .cases-overlay .reveal-line {
-            position: absolute;
-            bottom: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 0;
-            background: linear-gradient(to top, #fff, #ffffff99 40%, transparent 100%);
-            box-shadow: 0 0 18px rgba(255,255,255,0.18);
+        
+        .clients-category {
+            margin-bottom: 4rem;
         }
-        @media (max-width: 900px) {
-            .cases-overlay .reveal-line { width: 1px; }
+        
+        .clients-category h3 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
-        /* DESIGNERS SECTION */
-        .designers-section { padding: 120px 0; }
-        .designers-container {
-            width: 100vw; max-width: 1200px; margin: 0 auto; padding: 0 5vw;
-            display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: start;
+        
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
-        .designers-media { width: 100%; height: clamp(360px, 62vh, 680px); overflow: hidden; border: 1px solid #1a1a1a; }
-        .designers-media img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.15) contrast(1.05); }
-        .designers-kicker { font-family:'Cormorant Garamond',serif; font-weight:600; font-size:1.6rem; opacity:0.8; margin-bottom: 12px; }
-        .designers-title { font-family:'Cormorant Garamond',serif; font-weight:600; font-size:2rem; margin-bottom:18px; letter-spacing:0.01em; }
-        .designers-desc { font-family:'Lato',sans-serif; color:#bbb; font-size:1rem; font-weight:300; line-height:1.7; margin-bottom: 22px; }
-        .info-table { margin-top: 16px; border-top:1px solid #222; }
-        .info-row { display:flex; justify-content:space-between; gap:24px; padding:14px 0; border-bottom:1px solid #222; }
-        .info-row .left { color:#bbb; font-family:'Lato',sans-serif; font-size:0.98rem; }
-        .info-row .right { color:#ddd; font-family:'Lato',sans-serif; font-size:0.98rem; text-align:right; }
-        .designers-cta { margin-top:20px; width:100%; padding:22px 18px; background:#111; color:#bbb; border:1px solid #222; text-align:center; font-family:'Cormorant Garamond',serif; font-size:1.4rem; letter-spacing:0.01em; }
-        .designers-cta[disabled] { opacity:0.85; }
-        @media (max-width: 900px) {
-            .designers-container { grid-template-columns: 1fr; gap: 28px; }
+        
+        .client-card {
+            background: #f8f8f8;
+            padding: 2rem;
+            transition: transform 0.3s ease;
         }
-        /* FOOTER */
-        .site-footer { padding: 80px 0 36px 0; border-top: 1px solid #1a1a1a; background:#0a0a0a; color:#bbb; }
-        .footer-inner { width:100vw; max-width:1200px; margin:0 auto; padding:0 5vw; }
-        .footer-brand { font-family:'Cormorant Garamond',serif; font-weight:600; font-size:3rem; letter-spacing:0.01em; margin-bottom:28px; }
-        .footer-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items:start; }
-        .footer-col { font-family:'Lato',sans-serif; font-size:1rem; line-height:1.7; }
-        .footer-links { margin-top:18px; font-family:'Cormorant Garamond',serif; font-size:1.4rem; }
-        .footer-links a { color:#ddd; text-decoration:none; margin-right:18px; }
-        .footer-meta { display:flex; justify-content:space-between; align-items:center; margin-top:36px; font-family:'Lato',sans-serif; font-size:0.95rem; }
-        .to-top { color:#ddd; text-decoration:none; }
-        @media (max-width: 900px) {
-            .footer-grid { grid-template-columns: 1fr; gap: 20px; }
-            .footer-meta { flex-direction: row; gap: 16px; }
+        
+        .client-card:hover {
+            transform: translateY(-3px);
         }
-        /* BOTTOM COMBINED SECTION */
-        .footer-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:36px; }
-        .footer-top .footer-links { margin:0; }
-        .footer-contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; margin: 18px 0 28px 0; }
-        .footer-contact-grid .contact-title { font-size:3rem; letter-spacing:0.01em; margin-bottom: 2rem; }
-        .footer-contact-grid .contact-col { padding:0 0; }
-        .footer-contact-grid form { width:100%; max-width:420px; display:flex; flex-direction:column; align-items:stretch; background:rgba(10,10,10,0.92); padding:32px 28px; border-radius:0; border:1px solid #1a1a1a; margin-left:auto; }
-        .footer-contact-grid input,
-        .footer-contact-grid select,
-        .footer-contact-grid textarea,
-        .footer-contact-grid button { width:100%; margin-bottom:14px; }
-        @media (max-width: 900px) {
-            .footer-contact-grid { grid-template-columns:1fr; gap:28px; }
-            .footer-contact-grid form { margin-left:0; }
+        
+        .client-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #000;
         }
-        @media (max-width: 900px) {
-            .hero-center-content, .case-content { padding: 30px 10px; }
-            .case-content { left: 20px; bottom: 20px; max-width: 84vw; }
-            .hero-title { font-size: 2.2rem; }
-            .section-title { font-size: 2rem; }
-            .hero-navigation {
-                top: 20px;
-                right: 20px;
+        
+        .client-desc {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav, .logo {
+                top: 1rem;
             }
-            .nav-links {
+            
+            .nav {
+                right: 1rem;
+                flex-direction: column;
                 gap: 1rem;
-                font-size: 0.85rem;
+            }
+            
+            .logo {
+                left: 1rem;
+            }
+            
+            .hero-content {
+                padding: 3rem 2rem;
+                margin: 0 1rem;
+            }
+            
+            .hero-logo {
+                font-size: 2.5rem;
+            }
+            
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+            
+            .about-title {
+                font-size: 2rem;
+            }
+            
+            .about-sidebar {
+                display: none;
+            }
+            
+            .case-item {
+                height: 100vh;
+                margin-bottom: 0;
+            }
+            
+            .case-card {
+                padding: 2.5rem 2rem;
+                margin: 0 1rem;
+                max-width: 90%;
+            }
+            
+            .case-title {
+                font-size: 2.2rem;
+            }
+            
+            .case-image img {
+                height: 180px;
+            }
+            
+            .case-nav {
+                right: 1rem;
+                gap: 1rem;
+            }
+            
+            .case-nav-dot {
+                width: 12px;
+                height: 12px;
+            }
+            
+            .case-nav-dot::before {
+                width: 5px;
+                height: 5px;
+            }
+            
+            .cases-title {
+                padding: 4rem 1rem 2rem;
+                font-size: 2rem;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin-top: 2rem;
             }
         }
         
-        @media (max-width: 600px) {
-            .hero-navigation {
-                top: 15px;
-                right: 15px;
+        @media (max-width: 480px) {
+            .case-card {
+                padding: 2rem 1.5rem;
+                margin: 0 0.5rem;
             }
-            .nav-links {
-                gap: 0.8rem;
-                font-size: 0.8rem;
-                flex-direction: column;
-                align-items: flex-end;
+            
+            .case-title {
+                font-size: 1.8rem;
             }
-        }
-        /* Hide static heading inside full-screen cases section */
-        #cases > .section-title { display: none; }
-        /* Per-case overlay description */
-        #cases { position: relative; }
-        .case-overlay {
-            position: absolute;
-            left: 3.2vw;
-            bottom: 10vh;
-            max-width: 480px;
-            z-index: 3;
-            color: #e5e5e5;
-            pointer-events: none;
-        }
-        .case-overlay .overlay-text {
-            font-family: 'Lato', sans-serif;
-            font-size: 1rem;
-            font-weight: 300;
-            line-height: 1.55;
-            text-shadow: 0 1px 20px rgba(0,0,0,0.35);
-        }
-        .case-overlay .overlay-kicker {
-            margin-top: 8px;
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 600;
-            font-size: 1.8rem;
-            letter-spacing: 0.01em;
-            color: #fff;
-            opacity: 0.96;
-        }
-        .case-index {
-            position: fixed;
-            right: 2.4vw;
-            bottom: 10vh;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.1rem;
-            color: #ddd;
-            opacity: 0.85;
-            z-index: 4;
-        }
-        @media (max-width: 900px) {
-            .case-overlay { left: 5vw; right: 5vw; bottom: 10vh; max-width: none; }
-            .case-overlay .overlay-text { font-size: 0.95rem; line-height: 1.5; }
-            .case-overlay .overlay-kicker { font-size: 1.6rem; }
-            .case-index { display: none; }
+            
+            .case-subtitle {
+                font-size: 0.7rem;
+            }
+            
+            .case-image img {
+                height: 150px;
+            }
+            
+            .hero-content {
+                padding: 2rem 1.5rem;
+                margin: 0 0.5rem;
+            }
+            
+            .hero-logo {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <section class="hero-container fade-in-up">
-        <div class="hero-background-photos">
-            <div class="hero-photo hero-photo-left"></div>
-            <div class="hero-photo hero-photo-right"></div>
+    <!-- Logo -->
+    <a href="#hero" class="logo">empire</a>
+    
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#hero">главная</a>
+        <a href="#about">об основателе</a>
+        <a href="#services">услуги</a>
+        <a href="#cases">кейсы</a>
+        <a href="#clients">клиенты</a>
+        <a href="#contact">контакты</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <div class="hero-bg-left"></div>
+            <div class="hero-bg-right"></div>
         </div>
-        <div class="hero-center-content">
-            <div class="hero-title font-lux">Empire</div>
-            <div class="hero-desc font-lato">PR и медиасопровождение артистов и инфлюенсеров. Создаем истории, которые запоминаются и работают на результат.</div>
-            <div class="hero-actions">
-                <a href="#contact" class="ghost-btn">Связаться</a>
-                <a href="#cases" class="ghost-btn">Кейсы</a>
+        
+        <div class="hero-content">
+            <h1 class="hero-logo">empire</h1>
+            <p class="hero-subtitle">Агентство Анны Чернавских<br>Свет прожекторов на вас</p>
+            <h2 class="hero-title">для тех, о ком говорят</h2>
+            <p class="hero-description">для тех, кто готов быть в центре внимания — осмысленно, громко, с эффектом, который работает на результат. для тех, кто хочет, чтобы о нём не просто узнали — а чтобы его история осталась в памяти и в медиаполе надолго</p>
+            
+            <div class="hero-cta" style="margin-top: 2rem;">
+                <a href="https://wa.me/79067700703?text=Хотел%20бы%20поработать%20с%20вами%20и%20выйти%20на%20новый%20медиа-уровень" target="_blank" class="cta-btn">выйти на новый медиа-уровень</a>
             </div>
         </div>
-        <nav class="hero-navigation">
-            <div class="nav-links">
-                <a href="#about">курс</a>
-                <a href="#about">обо мне</a>
-                <a href="#clients">портфолио</a>
-                <a href="#cases">прайс</a>
-                <a href="#designers">дизайнерам</a>
-                <a href="#contact">контакты</a>
-            </div>
-        </nav>
     </section>
-    <section class="section fade-in-up" id="about" style="padding-top: 120px; padding-bottom: 120px;">
+
+    <!-- About Section -->
+    <section class="about" id="about">
         <div class="about-container">
-            <div class="about-left">
-                <div class="about-title">( about me )</div>
-                <div class="about-text">
-                    <p>5 лет разрабатываю дизайн брендам со всего мира, мои работы — отражение моих знаний и видения, имеют награды на дизайн‑площадках Behance/Dprofile (28 наград). За моей спиной множество обучений, высшее образование дизайнера, десятки реализованных проектов, а ещё я обучаю с нуля.</p>
-                    <p>Я ценю аутентичность людей и брендов, верю в уникальность и непохожесть каждого из них, моя задача отразить это визуально, сделать так, чтобы внешнее соответствовало внутреннему.</p>
-                    <p>Я за подлинность, непохожесть, идеи и смыслы, которые можно отразить в дизайне, который будет о вас и раскроет именно вашу историю.</p>
-                    <p>Услуги, на которых я специализируюсь: разработка логотипов, айдентики, визуала социальных сетей. Я расскажу вашу историю и историю вашего бренда людям, чтобы навсегда остаться в их сердце.</p>
+            <div class="about-content">
+                <h2 class="about-title">( about me )</h2>
+                
+                <p class="about-text">основатель и руководитель агентства empire. более 10 лет опыта в сфере pr и медиасопровождения звёзд мирового уровня</p>
+                
+                <p class="about-text">работает с ведущими академическими деятелями: денис мацуев, юрий башмет, николай луганский. с западными артистами: enrique iglesias, maroon 5, the cardigans, tom hardy</p>
+                
+                <div class="about-quote">
+                    "я люблю воплощать мечты людей в реальность"
+                </div>
+                
+                <div class="about-services">
+                    <p>полноценное pr-сопровождение артистов, блогеров и инфлюенсеров. пропишем стратегию, выстроим коммуникацию со сми и создадим нужный инфоповод для максимального медийного эффекта</p>
                 </div>
             </div>
-            <div class="about-right">
-                <div class="about-photo">
-                    <img src="https://images.unsplash.com/photo-1516642499105-492ff3ac5215?auto=format&fit=crop&w=1200&q=80" alt="portrait" />
-                </div>
-            </div>
-            <div class="about-vert-links"><a href="#">behance</a> / <a href="#">dprofile</a> / <a href="#">inst*</a></div>
+            
+            <div class="about-image"></div>
+        </div>
+        
+        <div class="about-sidebar">
+            instagram / telegram / email
         </div>
     </section>
-    <section class="section" id="cases" style="padding:0;">
-        <div class="section-title font-lux" style="margin-bottom: 0;">Кейсы</div>
-        <!-- case overlay is injected per slide by JS -->
-        <div class="cases-vertical" id="cases-vertical">
-            <div class="center-card" id="center-card" aria-hidden="true">
-                <div class="cc-sub">Айдентика для украшений ручной работы — Bergammo</div>
-                <div class="cc-title">bergammo</div>
-                <div class="cc-links"><a href="#">behance</a> / <a href="#">dprofile</a></div>
-                <div class="cc-media">
-                    <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80" alt="preview"/>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="services-container">
+            <h2 class="services-title">услуги</h2>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>пиар</h3>
+                    <ul>
+                        <li>Полноценное PR-сопровождение</li>
+                        <li>Проектный PR</li>
+                        <li>Консультации</li>
+                    </ul>
                 </div>
-            </div>
-            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1600&q=80'),url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1600&q=80')">
-                <div class="case-content">
-                    <div class="case-title font-lux">Indilight</div>
-                    <div class="case-accent">Fashion Lighting</div>
-                    <div class="case-desc font-lato">PR-сопровождение бренда освещения</div>
-                    <div class="case-label">LIGHT</div>
-                    <div class="case-subtitle" hidden>Айдентика для украшений ручной работы — Bergammo</div>
-                    <div class="case-links" hidden>behance / dprofile</div>
-                    <div class="case-preview" hidden>https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80</div>
+                
+                <div class="service-card">
+                    <h3>гест-менеджер</h3>
+                    <ul>
+                        <li>Организация присутствия селебрити</li>
+                        <li>Создание креативных концепций для мероприятий и кампаний</li>
+                    </ul>
                 </div>
-            </section>
-            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80'),url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80')">
-                <div class="case-content">
-                    <div class="case-title font-lux" style="font-style:italic;">Tom Hardy</div>
-                    <div class="case-accent" style="background:#fff1; color:#fff;">Celebrity Event</div>
-                    <div class="case-desc font-lato">Организация мероприятий с участием звезды</div>
-                    <div class="case-label" style="font-size:2.2rem;letter-spacing:0.18em;">STAR</div>
-                    <div class="case-subtitle" hidden>Фандрайзинг-ивент с участием звезды</div>
-                    <div class="case-links" hidden>press / tv</div>
-                    <div class="case-preview" hidden>https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80</div>
+                
+                <div class="service-card">
+                    <h3>реклама</h3>
+                    <ul>
+                        <li>Разработка креативных концепций</li>
+                        <li>Подбор амбассадора или инфлюенсера</li>
+                        <li>Работа директором по рекламе артиста</li>
+                    </ul>
                 </div>
-            </section>
-            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1600&q=80'),url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1600&q=80')">
-                <div class="case-content">
-                    <div class="case-title font-lux" style="letter-spacing:0.18em;">Карина Нигай</div>
-                    <div class="case-accent" style="background:#fff2;color:#fff;">Fashion Influencer</div>
-                    <div class="case-desc font-lato">PR-сопровождение fashion-инфлюенсера</div>
-                    <div class="case-label" style="font-family:'Lato',sans-serif;font-weight:700;">FASHION</div>
-                    <div class="case-subtitle" hidden>Медиа-кампания и коллаборации</div>
-                    <div class="case-links" hidden>instagram / press</div>
-                    <div class="case-preview" hidden>https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80</div>
+                
+                <div class="service-card">
+                    <h3>ивент</h3>
+                    <ul>
+                        <li>Организация мероприятий</li>
+                        <li>Создание креативной концепции</li>
+                        <li>Возможность участия западных артистов и звёзд классической сцены</li>
+                    </ul>
                 </div>
-            </section>
-            <section class="case-slide" style="background-image:url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1600&q=80'),url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1600&q=80')">
-                <div class="case-content">
-                    <div class="case-title font-lux" style="font-weight:400;">Аврора</div>
-                    <div class="case-accent" style="background:#fff1;color:#fff;">Media Personality</div>
-                    <div class="case-desc font-lato">PR-сопровождение телеведущей</div>
-                    <div class="case-label" style="font-size:2.1rem;letter-spacing:0.12em;">MEDIA</div>
-                    <div class="case-subtitle" hidden>Личные медиа и эфиры</div>
-                    <div class="case-links" hidden>youtube / tv</div>
-                    <div class="case-preview" hidden>https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80</div>
-                </div>
-            </section>
-            <div class="visit-card" id="visit-card" aria-hidden="true">
-                <div class="vc-accent">Case</div>
-                <div class="vc-title">Название</div>
-                <div class="vc-label">TAG</div>
             </div>
         </div>
     </section>
-    <div class="cases-overlay" id="cases-overlay" aria-hidden="true">
-        <div class="reveal-line" id="reveal-line"></div>
-    </div>
-    <section class="designers-section fade-in-up" id="designers">
-        <div class="designers-container">
-            <div class="designers-media">
-                <img src="https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?auto=format&fit=crop&w=1400&q=80" alt="poster" />
-            </div>
-            <div class="designers-info">
-                <div class="designers-kicker">( new )</div>
-                <div class="designers-title">Мини‑курс по типографике: туро шрифт</div>
-                <div class="designers-desc">Типографика — основа всех дизайн‑проектов. Курс поможет погрузиться в искусство типографики. Программа охватывает ключевые аспекты шрифтового дизайна. Вы сможете вывести ваши дизайн‑проекты на новый уровень и чувствовать себя увереннее при работе с версткой текста и другими тонкостями типографики.</div>
-                <div class="info-table">
-                    <div class="info-row"><div class="left">Для кого:</div><div class="right">Дизайнеры с опытом / небольшим опытом</div></div>
-                    <div class="info-row"><div class="left">Из чего состоит курс:</div><div class="right">10 видео уроков с домашними заданиями</div></div>
-                    <div class="info-row"><div class="left">Длительность обучения:</div><div class="right">Без привязки к дедлайнам</div></div>
-                    <div class="info-row"><div class="left">Обратная связь:</div><div class="right">Без обратной связи, свободное прохождение</div></div>
-                    <div class="info-row"><div class="left">Результат обучения:</div><div class="right">Повышение навыков, разработанные макеты</div></div>
+
+    <!-- Cases Section -->
+    <section class="cases-section" id="cases">
+        <div class="cases-container">
+            <h2 class="cases-title">кейсы</h2>
+            
+            <!-- Case 1: Индилайт -->
+            <div class="case-item case-indilight">
+                <div class="case-background">
+                    <div class="case-bg-left"></div>
+                    <div class="case-bg-right"></div>
                 </div>
-                <button class="designers-cta" disabled>Скоро</button>
+                <div class="case-content">
+                    <div class="case-card">
+                        <div class="case-header">
+                            <p class="case-subtitle">pr-сопровождение бренда освещения</p>
+                            <h3 class="case-title">индилайт</h3>
+                            <p class="case-links">behance / dprofile</p>
+                        </div>
+                        <div class="case-image">
+                            <img src="img/IMG_4025%20(2).WEBP" alt="Индилайт" loading="lazy">
+                        </div>
+                        <div class="case-footer">
+                            <p>press / media</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Case 2: Tom Hardy -->
+            <div class="case-item case-tomhardy">
+                <div class="case-background">
+                    <div class="case-bg-left"></div>
+                    <div class="case-bg-right"></div>
+                </div>
+                <div class="case-content">
+                    <div class="case-card">
+                        <div class="case-header">
+                            <p class="case-subtitle">гест-менеджмент голливудской звезды</p>
+                            <h3 class="case-title">tom hardy</h3>
+                            <p class="case-links">behance / dprofile</p>
+                        </div>
+                        <div class="case-image">
+                            <img src="img/IMG_4024%20(2).JPG" alt="Tom Hardy" loading="lazy">
+                        </div>
+                        <div class="case-footer">
+                            <p>guest management / international</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Case 3: Карина Нигай -->
+            <div class="case-item case-karina">
+                <div class="case-background">
+                    <div class="case-bg-left"></div>
+                    <div class="case-bg-right"></div>
+                </div>
+                <div class="case-content">
+                    <div class="case-card">
+                        <div class="case-header">
+                            <p class="case-subtitle">pr-сопровождение медийной личности</p>
+                            <h3 class="case-title">карина нигай</h3>
+                            <p class="case-links">behance / dprofile</p>
+                        </div>
+                        <div class="case-image">
+                            <img src="img/IMG_2716%20(2).JPG" alt="Карина Нигай" loading="lazy">
+                        </div>
+                        <div class="case-footer">
+                            <p>tv / fashion / influencer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Case 4: Игорь Верник -->
+            <div class="case-item case-verник">
+                <div class="case-background">
+                    <div class="case-bg-left"></div>
+                    <div class="case-bg-right"></div>
+                </div>
+                <div class="case-content">
+                    <div class="case-card">
+                        <div class="case-header">
+                            <p class="case-subtitle">pr-сопровождение артиста</p>
+                            <h3 class="case-title">игорь верник</h3>
+                            <p class="case-links">behance / dprofile</p>
+                        </div>
+                        <div class="case-image">
+                            <img src="img/IMG_2711%20(2).JPG" alt="Игорь Верник" loading="lazy">
+                        </div>
+                        <div class="case-footer">
+                            <p>theater / cinema / poetry</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Case 5: Ирина Слуцкая -->
+            <div class="case-item case-slutskaya">
+                <div class="case-background">
+                    <div class="case-bg-left"></div>
+                    <div class="case-bg-right"></div>
+                </div>
+                <div class="case-content">
+                    <div class="case-card">
+                        <div class="case-header">
+                            <p class="case-subtitle">pr-сопровождение спортсмена</p>
+                            <h3 class="case-title">ирина слуцкая</h3>
+                            <p class="case-links">behance / dprofile</p>
+                        </div>
+                        <div class="case-image">
+                            <img src="img/IMG_4026%20(2).JPG" alt="Ирина Слуцкая" loading="lazy">
+                        </div>
+                        <div class="case-footer">
+                            <p>sports / motivation / tv</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Case navigation dots -->
+        <div class="case-nav">
+            <div class="case-nav-dot active" data-case="indilight"></div>
+            <div class="case-nav-dot" data-case="tomhardy"></div>
+            <div class="case-nav-dot" data-case="karina"></div>
+            <div class="case-nav-dot" data-case="verник"></div>
+            <div class="case-nav-dot" data-case="slutskaya"></div>
+        </div>
+    </section>
+    
+
+
+    <!-- Clients Section -->
+    <section class="clients" id="clients">
+        <div class="clients-container">
+            <h2 class="clients-title">клиенты</h2>
+            
+            <!-- PR Clients -->
+            <div class="clients-category">
+                <h3>клиенты по PR</h3>
+                <div class="clients-grid">
+                    <div class="client-card">
+                        <h4 class="client-name">Игорь Верник</h4>
+                        <p class="client-desc">актёр театра и кино, телеведущий, автор поэтического проекта «Брошенные тексты»</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Аврора</h4>
+                        <p class="client-desc">телеведущая, мотивационный спикер, бьюти-эксперт и легенда муз.тв</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Карина Нигай</h4>
+                        <p class="client-desc">телеведущая, fashion-инфлюенсер, автор шоу «Сплетница»</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Ассоль</h4>
+                        <p class="client-desc">телеведущая, блогер и автор шоу «О чем (не) говорят женщины»</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Ирина Слуцкая</h4>
+                        <p class="client-desc">Заслуженный мастер спорта России, первая и единственная в истории 7-ми кратная чемпионка Европы, 2-х кратная чемпионка мира, дважды призер Олимпийских игр по фигурному катанию. Телеведущая и мотивационный спикер.</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Зина Овштейн</h4>
+                        <p class="client-desc">кулинар-кондитер, предприниматель, владелица сети ресторанов и кофеен Bonneville</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Григорий Верник</h4>
+                        <p class="client-desc">актер театра и кино. Снялся в таких проектах как: «Цикады», «Игры», «Кентавр» и др.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Media Faces -->
+            <div class="clients-category">
+                <h3>медийные лица для рекламы и мероприятий</h3>
+                <div class="clients-grid">
+                    <div class="client-card">
+                        <h4 class="client-name">Арина Алекс</h4>
+                        <p class="client-desc">эксперт по видеоконтенту в социальных сетях, инфлюенсер. Основала самую большую школу в СНГ по видео контенту</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Мария Кожевникова</h4>
+                        <p class="client-desc">актриса, общественный деятель</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Вика Дайнеко</h4>
+                        <p class="client-desc">певица, актриса</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Стас Костюшкин</h4>
+                        <p class="client-desc">певец, поэт, телеведущий</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Игорь Лантратов</h4>
+                        <p class="client-desc">телеведущий, режиссёр и диктор рекламы</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Полина Аскери</h4>
+                        <p class="client-desc">галерист, коллекционер и активный популяризатор современного искусства</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Юлия Ковальчук</h4>
+                        <p class="client-desc">певица и телеведущая</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Алексей Чумаков</h4>
+                        <p class="client-desc">певец, композитор и телеведущий</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Ирина Чеснокова</h4>
+                        <p class="client-desc">актриса, комик, ведущая YouTube-шоу «Бар в большом городе»</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Снежина Кулова</h4>
+                        <p class="client-desc">телеведущая, продюсер</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">ST (Александр Степанов)</h4>
+                        <p class="client-desc">автор, исполнитель</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Мария Кравченко</h4>
+                        <p class="client-desc">актриса театра и кино, певица, участница проекта «Comedy Woman»</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-    <footer class="site-footer" id="contact">
-        <div class="footer-inner">
-            <div class="footer-top">
-                <div class="footer-brand">resayme</div>
-                <div class="footer-links">
-                    <a href="https://t.me/agencyempire" target="_blank">( tg )</a>
-                    <a href="https://instagram.com/agencyempire" target="_blank">( inst* )</a>
-                    <a href="mailto:pr@empireagency.ru">( e‑mail )</a>
-                    <a href="#">( dprofile )</a>
-                    <a href="#">( behance )</a>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <h2 class="footer-title">контакты</h2>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h3 class="contact-card-title">связаться</h3>
+                    <div class="footer-contact">
+                        +7 (906) 770-07-03 — Анна Чернавских<br>
+                        pr@empireagency.ru<br>
+                        IG: @agencyempire
+                    </div>
                 </div>
-                <a class="to-top" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'})">наверх ↑</a>
-            </div>
-            <div class="footer-contact-grid">
-                <div class="contact-col">
-                    <div class="contact-title font-lux">Контакты</div>
-                    <div style="font-family:'Lato',sans-serif;font-size:1.2rem;color:#bbb;margin-bottom:2rem;max-width:420px;">
-                    +7 (906) 770-07-03<br>pr@empireagency.ru<br><br>
-                    Москва, Россия
+
+                <div class="contact-card">
+                    <h3 class="contact-card-title">мессенджеры</h3>
+                    <div class="footer-links">
+                        <a href="https://wa.me/79067700703?text=Хотел%20бы%20поработать%20с%20вами" target="_blank">whatsapp</a>
+                        <a href="https://t.me/agencyempire" target="_blank">telegram</a>
+                        <a href="mailto:pr@empireagency.ru">email</a>
+                    </div>
                 </div>
-                    <div style="font-family:'Lato',sans-serif;font-size:1.05rem;color:#bbb;opacity:0.8;max-width:420px;">
-                    WhatsApp / Telegram / Instagram<br>
-                    <a href="https://wa.me/79067700703" target="_blank" style="color:#fff;text-decoration:none;margin:0 0.5em;">wa.me/79067700703</a>
-                    <a href="https://t.me/agencyempire" target="_blank" style="color:#fff;text-decoration:none;margin:0 0.5em;">@agencyempire</a>
-                    <a href="https://instagram.com/agencyempire" target="_blank" style="color:#fff;text-decoration:none;margin:0 0.5em;">Instagram</a>
-                </div>
-            </div>
-                <div class="contact-col">
-                    <form class="contact-form" id="contact-form">
-                        <div class="contact-title font-lux" style="font-size:2rem;margin-bottom:1.5rem;letter-spacing:0.01em;">Оставить заявку</div>
-                        <input type="text" id="name" name="name" required placeholder="Имя и Фамилия">
-                        <input type="tel" id="phone" name="phone" required placeholder="Номер телефона">
-                        <select id="consultation" name="consultation" required>
-                        <option value="">Консультация для</option>
-                                <option value="person">Персоны</option>
-                                <option value="brand">Бренда</option>
-                            </select>
-                        <textarea id="message" name="message" rows="4" placeholder="Сообщение"></textarea>
-                        <button type="submit" style="margin-top:4px;">Отправить заявку</button>
+
+                <div class="contact-card">
+                    <h3 class="contact-card-title">заявка на консультацию</h3>
+                    <form class="contact-form">
+                        <input type="text" placeholder="Имя и фамилия" required>
+                        <select required>
+                            <option value="">Консультация для</option>
+                            <option value="person">Персоны</option>
+                            <option value="brand">Бренда</option>
+                        </select>
+                        <input type="tel" placeholder="Способ связи (телефон)" required>
+                        <button type="submit" class="cta-btn cta-btn--white">отправить заявку</button>
                     </form>
                 </div>
             </div>
-            <div class="footer-grid">
-                <div class="footer-col">
-                    ОГРН 324670000028912<br/>
-                    resayme@icloud.com
+
+            <div class="footer-note" style="margin: 2rem 0; padding: 1rem 0; border-top: 1px solid #333; font-size: 0.9rem; color: #666;">
+                <p style="margin-bottom: 1rem;">полноценное pr-сопровождение артистов, блогеров и инфлюенсеров. пропишем стратегию, выстроим коммуникацию со сми и создадим нужный инфоповод</p>
+            </div>
+
+            <div class="footer-bottom" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>© 2025 Empire Agency</div>
+                <div class="footer-bottom-links" style="font-size: 0.8rem;">
+                    <a href="#hero" style="color: #666; text-decoration: none; margin: 0 0.5rem;">главная</a> |
+                    <a href="#about" style="color: #666; text-decoration: none; margin: 0 0.5rem;">об основателе</a> |
+                    <a href="#services" style="color: #666; text-decoration: none; margin: 0 0.5rem;">услуги</a> |
+                    <a href="#cases" style="color: #666; text-decoration: none; margin: 0 0.5rem;">кейсы</a> |
+                    <a href="#clients" style="color: #666; text-decoration: none; margin: 0 0.5rem;">клиенты</a> |
+                    <a href="#contact" style="color: #666; text-decoration: none; margin: 0 0.5rem;">контакты</a>
                 </div>
-                <div class="footer-col" style="text-align:right;">
-                    ИП Семёнова Диана Сергеевна<br/>
-                    ИНН 671302692110
+                <div class="footer-bottom-social">
+                    <a href="https://wa.me/79067700703" target="_blank" style="color: #666; text-decoration: none; margin: 0 0.5rem;">whatsapp</a>
+                    <a href="https://instagram.com/agencyempire" target="_blank" style="color: #666; text-decoration: none; margin: 0 0.5rem;">instagram</a>
                 </div>
             </div>
         </div>
     </footer>
+
     <script>
-        // Fade-in-up on scroll
-        function fadeInOnScroll() {
-            document.querySelectorAll('.fade-in-up').forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight - 60) {
-                    el.classList.add('visible');
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
                 }
             });
-        }
-        window.addEventListener('scroll', fadeInOnScroll);
-        window.addEventListener('load', fadeInOnScroll);
-        // Hero photo spread effect
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const heroPhotos = document.querySelectorAll('.hero-photo');
-            const heroSection = document.querySelector('.hero-container');
-            const heroHeight = heroSection.offsetHeight;
-            if (scrolled > heroHeight * 0.3) {
-                heroPhotos.forEach(photo => photo.classList.add('spreading'));
-            } else {
-                heroPhotos.forEach(photo => photo.classList.remove('spreading'));
-            }
         });
-        // Cases vertical scroll-snap logic
-        const vertical = document.getElementById('cases-vertical');
-        const projectsIntro = document.getElementById('projects-intro');
-        const slides = Array.from(document.querySelectorAll('.case-slide'));
-        const caseContents = Array.from(document.querySelectorAll('.case-slide .case-content'));
-        const visitCard = document.getElementById('visit-card');
-        const vcAccent = visitCard.querySelector('.vc-accent');
-        const vcTitle = visitCard.querySelector('.vc-title');
-        const vcLabel = visitCard.querySelector('.vc-label');
-        const centerCard = document.getElementById('center-card');
-        const ccAccent = centerCard.querySelector('.cc-accent');
-        const ccTitle = centerCard.querySelector('.cc-title');
-        const ccLabel = centerCard.querySelector('.cc-label');
-        let currentIndex = 0;
-        // floating case index indicator
-        const caseIndexEl = document.createElement('div');
-        caseIndexEl.className = 'case-index';
-        document.body.appendChild(caseIndexEl);
-        function renderCaseIndex() {
-            caseIndexEl.textContent = `(${currentIndex + 1})`;
-        }
-        function readCaseData(idx) {
-            const root = caseContents[idx];
-            const title = (root.querySelector('.case-title')?.textContent || '').trim();
-            const accent = (root.querySelector('.case-accent')?.textContent || '').trim();
-            const label = (root.querySelector('.case-label')?.textContent || '').trim();
-            const sub = (root.querySelector('.case-subtitle')?.textContent || '').trim();
-            const links = (root.querySelector('.case-links')?.textContent || '').trim();
-            const preview = (root.querySelector('.case-preview')?.textContent || '').trim();
-            return { title, accent, label, sub, links, preview };
-        }
-        function renderVisitCard(data) {
-            vcAccent.textContent = data.accent || '';
-            vcTitle.textContent = data.title || '';
-            vcLabel.textContent = data.label || '';
-        }
-        function renderCenterCard(data) {
-            // map: sub -> cc-sub, title -> cc-title, links -> cc-links, preview -> cc-media img
-            centerCard.querySelector('.cc-sub').textContent = data.sub || '';
-            ccTitle.textContent = data.title || '';
-            const linksEl = centerCard.querySelector('.cc-links');
-            linksEl.textContent = '';
-            if (data.links) {
-                linksEl.textContent = data.links;
-            }
-            const img = centerCard.querySelector('.cc-media img');
-            if (img && data.preview) img.src = data.preview;
-        }
-        // Build per-slide overlay content reusing the intro copy
-        const perSlideOverlay = {
-            text: 'Моё портфолио является отражением моего видения и навыков. Содержит множество проектов, разработанных для брендов со всего мира. Здесь собраны некоторые кейсы, подробнее с каждым из них и со многими другими вы можете ознакомиться на площадках: behance / dprofile / inst*',
-            kicker: '( projects )'
-        };
-        function ensureOverlayForSlide(slideEl) {
-            let overlay = slideEl.querySelector('.case-overlay');
-            if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.className = 'case-overlay';
-                overlay.innerHTML = `<div class="overlay-text"></div><div class="overlay-kicker"></div>`;
-                slideEl.appendChild(overlay);
-            }
-            overlay.querySelector('.overlay-text').textContent = perSlideOverlay.text;
-            overlay.querySelector('.overlay-kicker').textContent = perSlideOverlay.kicker;
-        }
-        function animateVisitCard() {
-            visitCard.classList.remove('animate');
-            void visitCard.offsetWidth;
-            visitCard.classList.add('animate');
-        }
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const idx = slides.indexOf(entry.target);
-                if (idx === -1) return;
-                if (entry.isIntersecting && entry.intersectionRatio > 0.55) {
-                    // activate content
-                    ensureOverlayForSlide(entry.target);
-                    caseContents.forEach((c, i) => c.classList.toggle('active', i === idx));
-                    // update visit card
-                    const data = readCaseData(idx);
-                    renderVisitCard(data);
-                    renderCenterCard(data);
-                    animateVisitCard();
-                    currentIndex = idx;
-                    renderCaseIndex();
+
+        // Parallax effect for hero background (smoothed and synchronized)
+        (() => {
+            const hero = document.querySelector('.hero');
+            const leftBg = document.querySelector('.hero-bg-left');
+            const rightBg = document.querySelector('.hero-bg-right');
+            if (!hero || !leftBg || !rightBg) return;
+
+            let lastScrollY = 0;
+            let isTicking = false;
+            const speed = 0.35;
+
+            const update = () => {
+                const heroHeight = hero.offsetHeight;
+                if (lastScrollY < heroHeight) {
+                    const translate = lastScrollY * speed;
+                    leftBg.style.transform = `translate3d(0, ${translate}px, 0)`;
+                    rightBg.style.transform = `translate3d(0, ${translate}px, 0)`;
                 }
-            });
-        }, { threshold: [0.55] });
-        slides.forEach(slide => {
-            ensureOverlayForSlide(slide);
-            observer.observe(slide);
-        });
-        // init first state
-        caseContents.forEach((c, i) => c.classList.toggle('active', i === 0));
-        const initialData = readCaseData(0);
-        renderVisitCard(initialData);
-        renderCenterCard(initialData);
-        renderCaseIndex();
-        // center card should appear only when cases are in view
-        // Reveal line overlay logic
-        const casesSection = document.getElementById('cases');
-        const casesOverlay = document.getElementById('cases-overlay');
-        const revealLine = document.getElementById('reveal-line');
-        function clamp01(v){ return Math.max(0, Math.min(1, v)); }
-        const casesInViewObserver = new IntersectionObserver(([entry]) => {
-            const inView = entry.isIntersecting && entry.intersectionRatio > 0.05;
-            casesOverlay.classList.toggle('show', inView);
-            centerCard.classList.toggle('show', inView);
-            caseIndexEl.style.display = inView ? 'block' : 'none';
-            if (!inView) {
-                revealLine.style.height = '0px';
-            }
-        }, { threshold: 0.05 });
-        casesInViewObserver.observe(casesSection);
-        // Show intro only during cases
-        // We no longer use a single intro; each slide has its own overlay
-        function updateRevealLine() {
-            if (!casesOverlay.classList.contains('show')) return;
-            const nextIndex = Math.min(currentIndex + 1, slides.length - 1);
-            if (nextIndex === currentIndex) {
-                revealLine.style.height = '0px';
-                return;
-            }
-            const nextRect = slides[nextIndex].getBoundingClientRect();
-            const vh = window.innerHeight || 1;
-            const progress = clamp01(1 - (nextRect.top / vh));
-            const maxHeight = Math.round(vh * 0.75);
-            revealLine.style.height = Math.round(progress * maxHeight) + 'px';
-            // subtle parallax on center card based on progress
-            const translateY = -50 - (progress * 4);
-            centerCard.style.transform = `translate(-50%, ${translateY}%)`;
-        }
-        window.addEventListener('scroll', updateRevealLine, { passive: true });
-        window.addEventListener('load', updateRevealLine);
-        updateRevealLine();
-        // Contact form
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
+                isTicking = false;
+            };
+
+            window.addEventListener('scroll', () => {
+                lastScrollY = window.pageYOffset || window.scrollY || 0;
+                if (!isTicking) {
+                    window.requestAnimationFrame(update);
+                    isTicking = true;
+                }
+            }, { passive: true });
+        })();
+        
+        // Form handler
+        document.querySelector('footer form').addEventListener('submit', function(e) {
             e.preventDefault();
             alert('Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.');
             this.reset();
+        });
+
+        // Case navigation dots
+        const caseNavDots = document.querySelectorAll('.case-nav-dot');
+        const caseItems = document.querySelectorAll('.case-item');
+
+        caseNavDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const targetCase = dot.dataset.case;
+                caseItems.forEach(item => {
+                    if (item.classList.contains(targetCase)) {
+                        item.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+
+        // Update active dot on scroll
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY + window.innerHeight / 2;
+            
+            caseItems.forEach((item, index) => {
+                const itemTop = item.offsetTop;
+                const itemBottom = itemTop + item.offsetHeight;
+                
+                if (scrollPosition >= itemTop && scrollPosition < itemBottom) {
+                    caseNavDots.forEach(dot => dot.classList.remove('active'));
+                    caseNavDots[index].classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scroll behavior for cases
+        document.querySelectorAll('.nav a[href="#cases"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector('#cases').scrollIntoView({ behavior: 'smooth' });
+            });
         });
     </script>
 </body>
