@@ -17,7 +17,7 @@
         
         html {
             scroll-behavior: smooth;
-            scroll-snap-type: y proximity;
+            scroll-snap-type: y mandatory;
         }
         
         body {
@@ -194,9 +194,6 @@
             color: #fff;
         }
         
-        /* Utility: show only on mobile */
-        .mobile-only { display: none; }
-        
         .about-services {
             font-size: 0.9rem;
             color: #999;
@@ -235,7 +232,6 @@
         .cases-container {
             max-width: 100%;
             margin: 0;
-            position: relative;
         }
         
         .cases-title {
@@ -256,8 +252,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            scroll-snap-align: center;
-            scroll-snap-stop: always;
+            scroll-snap-align: start;
         }
         
         .case-background {
@@ -276,8 +271,7 @@
             background-size: cover;
             background-position: center;
             filter: grayscale(0.8) brightness(0.7);
-            transition: transform 600ms ease, filter 600ms ease;
-            will-change: transform, filter;
+            transition: all 0.8s ease;
         }
         
         .case-bg-left {
@@ -292,30 +286,6 @@
         .case-item:hover .case-bg-right {
             filter: grayscale(0.5) brightness(0.8);
         }
-
-        /* Active case enhances background subtly */
-        .case-item.is-active .case-bg-left,
-        .case-item.is-active .case-bg-right {
-            filter: grayscale(0.3) brightness(0.9);
-            transform: scale(1.03);
-        }
-
-        /* One-card overlay mode */
-        .cases-overlay {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            /* Avoid pushing content down: occupy space visually, not in flow */
-            margin-bottom: -100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-            z-index: 5;
-        }
-        .cases-overlay .case-card { pointer-events: auto; }
-        /* Hide original per-item cards, keep backgrounds */
-        .case-item .case-card { opacity: 0; visibility: hidden; }
         
         .case-content {
             position: relative;
@@ -325,61 +295,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            perspective: 1200px;
         }
         
         .case-card {
             background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(20px);
             padding: 4rem 3rem;
             border-radius: 0;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
             max-width: 550px;
             text-align: center;
-            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            transition: all 0.4s ease;
             border: 1px solid rgba(0, 0, 0, 0.08);
-            position: relative;
-            transform-style: preserve-3d;
-            transform-origin: center;
-            will-change: transform;
-        }
-
-        /* Ensure overlay card never exceeds viewport height; scroll inside if content is taller */
-        .cases-overlay .case-card {
-            max-height: calc(100vh - 8rem);
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
         }
         
         .case-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 35px 100px rgba(0, 0, 0, 0.2);
         }
-
-        /* 3D tilt layers for a subtle parallax inside the card */
-        .case-card .case-header { transform: translateZ(24px); will-change: transform; }
-        .case-card .case-image { transform: translateZ(16px); will-change: transform; }
-        .case-card .case-footer { transform: translateZ(12px); will-change: transform; }
-
-        /* Light glare that follows the cursor */
-        .case-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            background: radial-gradient(600px circle at var(--px, 50%) var(--py, 50%), rgba(255,255,255,0.22), rgba(255,255,255,0) 45%);
-            mix-blend-mode: overlay;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .case-card.is-hovered::after { opacity: 1; }
-
-        /* Stronger shadow while tilting */
-        .case-card.is-hovered { box-shadow: 0 35px 80px rgba(0, 0, 0, 0.18); }
         
         .case-header {
             margin-bottom: 2.5rem;
@@ -583,13 +516,6 @@
             padding-top: 2rem;
             border-top: 1px solid #333;
         }
-
-        /* Invert top chrome (logo/nav) on dark sections */
-        body.is-on-dark .logo,
-        body.is-on-dark .nav a {
-            color: #fff;
-        }
-        body.is-on-dark .nav a:hover { opacity: 0.75; }
         
         /* Contact Section refinements */
         .contact-grid {
@@ -702,18 +628,14 @@
         }
         
         .service-card {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            background: #fff;
             padding: 2.5rem 2rem;
             text-align: center;
-            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            transition: transform 0.3s ease;
         }
         
         .service-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+            transform: translateY(-5px);
         }
         
         .service-card h3 {
@@ -783,25 +705,19 @@
         }
         
         .client-card {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-            padding: 2.5rem 2rem;
-            border-radius: 0;
-            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            background: #f8f8f8;
+            padding: 2rem;
+            transition: transform 0.3s ease;
         }
         
         .client-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+            transform: translateY(-3px);
         }
         
         .client-name {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 500;
-            letter-spacing: -0.01em;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.5rem;
             color: #000;
         }
         
@@ -811,12 +727,13 @@
             line-height: 1.6;
             margin: 0;
         }
-
+        
         /* Media Faces (Premium showcase) */
         .media-faces h3 {
             color: #111;
             letter-spacing: 0.14em;
         }
+        
         .media-faces h3::after {
             content: '';
             display: block;
@@ -826,11 +743,13 @@
             background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0));
             opacity: 0.35;
         }
+        
         .media-faces .clients-grid {
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 2.5rem;
             perspective: 1000px;
         }
+        
         .media-faces .client-card {
             position: relative;
             background: #fff;
@@ -839,9 +758,8 @@
             padding: 0;
             transform-style: preserve-3d;
             transition: transform 0.45s ease, box-shadow 0.45s ease;
-            border: none;
-            box-shadow: none;
         }
+        
         /* Gradient border */
         .media-faces .client-card::before {
             content: '';
@@ -850,12 +768,12 @@
             padding: 1px;
             border-radius: inherit;
             background: linear-gradient(135deg, rgba(255,215,128,0.45), rgba(255,255,255,0) 40%, rgba(0,0,0,0.18) 100%);
-            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
             -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             pointer-events: none;
         }
+        
         /* Sheen on hover */
         .media-faces .client-card::after {
             content: '';
@@ -870,10 +788,12 @@
             pointer-events: none;
         }
         .media-faces .client-card:hover::after { left: 140%; }
+        
         .media-faces .client-card:hover {
             transform: translateY(-6px) scale(1.01);
             box-shadow: 0 18px 36px rgba(0, 0, 0, 0.10);
         }
+        
         .media-faces .client-image {
             aspect-ratio: 1 / 1;
             overflow: hidden;
@@ -887,6 +807,7 @@
             opacity: 0.0;
             transition: opacity 0.45s ease;
         }
+        
         .media-faces .client-image img {
             width: 100%;
             height: 100%;
@@ -897,15 +818,19 @@
             transition: transform 0.6s ease, filter 0.4s ease, object-position 0.4s ease;
             will-change: transform, object-position;
         }
+        
         .media-faces .client-card:hover .client-image img {
             transform: scale(calc(var(--img-scale, 1.04) * 1.06));
             filter: none;
         }
+        
         .media-faces .client-content {
             position: static;
             padding: 1rem 1.25rem 1.25rem;
             background: #fff;
         }
+        .media-faces .client-card:hover .client-content { transform: none; }
+        
         .media-faces .client-name {
             font-size: 0.95rem;
             font-weight: 600;
@@ -914,19 +839,21 @@
             margin: 0 0 0.35rem;
             color: #111;
         }
+        
         .media-faces .client-desc {
             color: #111;
             font-size: 0.9rem;
             line-height: 1.55;
             margin: 0;
         }
-
+        
         @media (max-width: 1024px) {
             .media-faces .clients-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 2rem;
             }
         }
+        
         @media (max-width: 640px) {
             .media-faces .clients-grid {
                 grid-template-columns: 1fr;
@@ -936,8 +863,6 @@
         
         /* Responsive */
         @media (max-width: 768px) {
-            html { scroll-snap-type: none; }
-            .mobile-only { display: inline; }
             .nav, .logo {
                 top: 1rem;
             }
@@ -988,10 +913,6 @@
                 margin: 0 1rem;
                 max-width: 90%;
             }
-
-            .cases-overlay .case-card {
-                max-height: calc(100vh - 6rem);
-            }
             
             .case-title {
                 font-size: 2.2rem;
@@ -1033,10 +954,6 @@
                 padding: 2rem 1.5rem;
                 margin: 0 0.5rem;
             }
-
-            .cases-overlay .case-card {
-                max-height: calc(100vh - 4rem);
-            }
             
             .case-title {
                 font-size: 1.8rem;
@@ -1058,16 +975,6 @@
             .hero-logo {
                 font-size: 2rem;
             }
-        }
-
-        /* Respect reduced motion preferences */
-        @media (prefers-reduced-motion: reduce) {
-            .case-card,
-            .case-card:hover {
-                transition: none !important;
-                transform: none !important;
-            }
-            .case-card::after { display: none; }
         }
     </style>
 </head>
@@ -1098,7 +1005,7 @@
             <h1 class="hero-logo">EMPIRE</h1>
             <p class="hero-subtitle">Агентство Анны Чернавских</p>
             <h2 class="hero-title">для тех, о ком говорят</h2>
-            <p class="hero-description">Полноценное PR-сопровождение артистов, блогеров и инфлюенсеров, подбор рекламных лиц для брендов, гест-менеджмент, ивенты и креативные кампании. Пропишем стратегию, выстроим коммуникацию со СМИ и создадим нужный инфоповод.</p>
+            <p class="hero-description">для тех, кто готов быть в центре внимания — осмысленно, громко, с эффектом, который работает на результат. для тех, кто хочет, чтобы о нём не просто узнали — а чтобы его история осталась в памяти и в медиаполе надолго</p>
             
             <div class="hero-cta" style="margin-top: 2rem;">
                 <a href="https://wa.me/79067700703?text=Хотел%20бы%20поработать%20с%20вами%20и%20выйти%20на%20новый%20медиа-уровень" target="_blank" class="cta-btn">выйти на новый медиа-уровень</a>
@@ -1116,7 +1023,7 @@
 
                 <p class="about-text">Анна работает не только в сфере PR, но и в концертной деятельности с ведущими академическими деятелями: Денис Мацуев, Юрий Башмет, Николай Луганский.</p>
 
-                <p class="about-text">С западными артистами: Enrique Iglesias, Maroon 5, The Cardigans, Tom Hardy.<br class="mobile-only"> С российскими артистами: Алексей Чумаков, Юлия Ковальчук, Саша ST, Стас Костюшкин, Виктория Дайнеко.</p>
+                <p class="about-text">С западными артистами: Enrique Iglesias, Maroon 5, The Cardigans, Tom Hardy. С российскими артистами: Алексей Чумаков, Юлия Ковальчук, Саша ST, Стас Костюшкин, Виктория Дайнеко.</p>
 
                 <div class="about-quote">
                     «Я люблю воплощать мечты людей в реальность!»
@@ -1245,13 +1152,11 @@
                     </div>
                     
                     <div class="client-card">
-                        <div class="client-image">
-                            <img src="/static/clients/ГВерник.JPG" alt="Григорий Верник" loading="lazy">
-                        </div>
-                        <div class="client-content">
-                            <h4 class="client-name">Григорий Верник</h4>
-                            <p class="client-desc">актер театра и кино. Снялся в таких проектах как: «Цикады», «Игры», «Кентавр» и др.</p>
-                        </div>
+                        <h4 class="client-name">Григорий Верник</h4>
+                            <div class="client-image">
+                                <img src="/static/clients/ГВерник.JPG" alt="Григорий Верник" loading="lazy">
+                            </div>
+                        <p class="client-desc">актер театра и кино. Снялся в таких проектах как: «Цикады», «Игры», «Кентавр» и др.</p>
                     </div>
                 </div>
             </div>
@@ -1388,7 +1293,6 @@
     <section class="cases-section" id="cases">
         <div class="cases-container">
             <h2 class="cases-title">кейсы</h2>
-            <div class="cases-overlay"></div>
             
             <!-- Case 1: Индилайт -->
             <div class="case-item case-indilight">
@@ -1404,7 +1308,7 @@
                             <p class="case-links">behance / dprofile</p>
                         </div>
                         <div class="case-image">
-                            <img src="/static/img/IMG_4025%20(2).WEBP" alt="Индилайт" loading="lazy">
+            <img src="/static/img/IMG_4025%20(2).WEBP" alt="Индилайт" loading="lazy">
                         </div>
                         <div class="case-footer">
                             <p>press / media</p>
@@ -1427,7 +1331,7 @@
                             <p class="case-links">behance / dprofile</p>
                         </div>
                         <div class="case-image">
-                            <img src="/static/img/IMG_4024%20(2).JPG" alt="Tom Hardy" loading="lazy">
+            <img src="/static/img/IMG_4024%20(2).JPG" alt="Tom Hardy" loading="lazy">
                         </div>
                         <div class="case-footer">
                             <p>guest management / international</p>
@@ -1450,7 +1354,7 @@
                             <p class="case-links">behance / dprofile</p>
                         </div>
                         <div class="case-image">
-                            <img src="/static/img/IMG_2716%20(2).JPG" alt="Карина Нигай" loading="lazy">
+            <img src="/static/img/IMG_2716%20(2).JPG" alt="Карина Нигай" loading="lazy">
                         </div>
                         <div class="case-footer">
                             <p>tv / fashion / influencer</p>
@@ -1579,193 +1483,6 @@
             }, { passive: true });
         })();
         
-        // Interactive 3D tilt + glare for case cards (desktop pointers only)
-        (() => {
-            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            const hasFinePointer = window.matchMedia('(pointer:fine)').matches;
-            if (reduceMotion || !hasFinePointer) return;
-
-            const cards = document.querySelectorAll('.case-card');
-            const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
-            cards.forEach(card => {
-                const maxTiltDeg = 6;
-                let rafId = null;
-                let currentX = 0, currentY = 0;
-                let targetX = 0, targetY = 0;
-
-                const getRect = () => card.getBoundingClientRect();
-
-                const animate = () => {
-                    currentX += (targetX - currentX) * 0.18;
-                    currentY += (targetY - currentY) * 0.18;
-                    const baseTranslate = card.classList.contains('is-hovered') ? 'translateY(-8px) ' : '';
-                    card.style.transform = `${baseTranslate}rotateX(${currentY}deg) rotateY(${currentX}deg)`;
-
-                    if (Math.abs(targetX - currentX) > 0.01 || Math.abs(targetY - currentY) > 0.01) {
-                        rafId = requestAnimationFrame(animate);
-                    } else {
-                        rafId = null;
-                    }
-                };
-
-                const onMove = (e) => {
-                    const rect = getRect();
-                    const px = (e.clientX - rect.left) / rect.width;  // 0..1
-                    const py = (e.clientY - rect.top) / rect.height; // 0..1
-
-                    targetX = clamp((px - 0.5) * 2 * maxTiltDeg, -maxTiltDeg, maxTiltDeg);
-                    targetY = clamp(-(py - 0.5) * 2 * maxTiltDeg, -maxTiltDeg, maxTiltDeg);
-
-                    card.style.setProperty('--px', `${e.clientX - rect.left}px`);
-                    card.style.setProperty('--py', `${e.clientY - rect.top}px`);
-
-                    if (rafId == null) rafId = requestAnimationFrame(animate);
-                };
-
-                const onEnter = () => {
-                    card.classList.add('is-hovered');
-                };
-
-                const onLeave = () => {
-                    card.classList.remove('is-hovered');
-                    targetX = 0; targetY = 0;
-                    if (rafId == null) rafId = requestAnimationFrame(animate);
-                };
-
-                // passive listeners to avoid blocking scroll
-                card.addEventListener('pointermove', onMove, { passive: true });
-                card.addEventListener('pointerenter', onEnter);
-                card.addEventListener('pointerleave', onLeave);
-            });
-        })();
-
-        // Preload case images early to avoid image swap lag
-        (() => {
-            const caseImgs = Array.from(document.querySelectorAll('.case-item .case-image img'));
-            const urls = Array.from(new Set(caseImgs.map(img => img.getAttribute('src')).filter(Boolean)));
-            urls.forEach(url => { const im = new Image(); im.decoding = 'async'; im.src = url; });
-        })();
-
-        // One-card overlay that updates with the current case in view
-        (() => {
-            const overlayHost = document.querySelector('.cases-overlay');
-            const caseItems = Array.from(document.querySelectorAll('.case-item'));
-            if (!overlayHost || caseItems.length === 0) return;
-
-            // Clone the first card as a template
-            const templateCard = caseItems[0].querySelector('.case-card');
-            if (!templateCard) return;
-            const overlayCard = templateCard.cloneNode(true);
-            overlayCard.classList.remove('reveal');
-            overlayHost.appendChild(overlayCard);
-
-            const headerEl = overlayCard.querySelector('.case-header');
-            const titleEl = overlayCard.querySelector('.case-title');
-            const subtitleEl = overlayCard.querySelector('.case-subtitle');
-            const linksEl = overlayCard.querySelector('.case-links');
-            const imageEl = overlayCard.querySelector('.case-image img');
-            const footerEl = overlayCard.querySelector('.case-footer p');
-
-            if (imageEl) {
-                imageEl.setAttribute('fetchpriority', 'high');
-                imageEl.decoding = 'async';
-            }
-
-            // Map case-item -> data extracted from its own card
-            const readCaseData = (caseItem) => {
-                const card = caseItem.querySelector('.case-card');
-                if (!card) return null;
-                const d = {
-                    subtitle: card.querySelector('.case-subtitle')?.textContent?.trim() || '',
-                    title: card.querySelector('.case-title')?.textContent?.trim() || '',
-                    links: card.querySelector('.case-links')?.textContent?.trim() || '',
-                    imageSrc: card.querySelector('.case-image img')?.getAttribute('src') || '',
-                    imageAlt: card.querySelector('.case-image img')?.getAttribute('alt') || '',
-                    footer: card.querySelector('.case-footer p')?.textContent?.trim() || ''
-                };
-                return d;
-            };
-
-            const caseDataList = caseItems.map(readCaseData);
-
-			let activeIndex = -1;
-			let isAnimating = false;
-			let currentActiveEl = null;
-			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			const supportsWAAPI = typeof overlayCard.animate === 'function';
-            const warm = (url) => { if (!url) return; const im = new Image(); im.decoding = 'async'; im.src = url; };
-			const changeCardContent = (data, idx, direction = 'forward') => {
-                if (!data) return;
-				if (isAnimating) return;
-				isAnimating = true;
-				const performUpdate = () => {
-					if (subtitleEl) subtitleEl.textContent = data.subtitle;
-					if (titleEl) titleEl.textContent = data.title;
-					if (linksEl) linksEl.textContent = data.links;
-					if (imageEl && data.imageSrc) {
-						imageEl.src = data.imageSrc;
-						if (data.imageAlt) imageEl.alt = data.imageAlt;
-					}
-					if (footerEl) footerEl.textContent = data.footer;
-					// Preload neighbors to make next swap instant
-					if (typeof idx === 'number') {
-						const next = caseDataList[idx + 1];
-						const prev = caseDataList[idx - 1];
-						warm(next?.imageSrc);
-						warm(prev?.imageSrc);
-					}
-				};
-
-				if (reduceMotion || !supportsWAAPI) {
-					// Fallback simple fade
-					overlayCard.style.transition = 'opacity 180ms ease';
-					overlayCard.style.opacity = '0';
-					setTimeout(() => {
-						performUpdate();
-						overlayCard.style.opacity = '1';
-						setTimeout(() => { isAnimating = false; }, 190);
-					}, 180);
-					return;
-				}
-
-				const offset = direction === 'forward' ? 14 : -14;
-				const out = overlayCard.animate([
-					{ opacity: 1, transform: 'translateY(0) scale(1)' },
-					{ opacity: 0, transform: `translateY(${offset * -1}px) scale(0.98)` }
-				], { duration: 220, easing: 'cubic-bezier(.2,.6,.2,1)', fill: 'forwards' });
-				out.finished.then(() => {
-					performUpdate();
-					overlayCard.animate([
-						{ opacity: 0, transform: `translateY(${offset}px) scale(0.98)` },
-						{ opacity: 1, transform: 'translateY(0) scale(1)' }
-					], { duration: 240, easing: 'cubic-bezier(.2,.6,.2,1)', fill: 'forwards' }).finished.then(() => {
-						isAnimating = false;
-					});
-				});
-            };
-
-            // Observe which case is centered
-			const io = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-						const idx = caseItems.indexOf(entry.target);
-						if (idx !== -1 && idx !== activeIndex) {
-							const direction = activeIndex === -1 ? 'forward' : (idx > activeIndex ? 'forward' : 'backward');
-							// Toggle active class for background emphasis
-							if (currentActiveEl) currentActiveEl.classList.remove('is-active');
-							entry.target.classList.add('is-active');
-							currentActiveEl = entry.target;
-							activeIndex = idx;
-							changeCardContent(caseDataList[idx], idx, direction);
-						}
-                    }
-                });
-			}, { root: null, threshold: 0.35 });
-
-            caseItems.forEach(item => io.observe(item));
-        })();
-
         // Form handler
         document.querySelector('footer form').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1791,33 +1508,6 @@
             // Fallback if IntersectionObserver is not supported
             revealEls.forEach(el => el.classList.add('in-view'));
         }
-
-        // Toggle white top bar (logo/nav) on dark sections (#hero and #about)
-        (() => {
-            const sections = [
-                document.querySelector('#hero'),
-                document.querySelector('#about')
-            ].filter(Boolean);
-            if (!sections.length || !('IntersectionObserver' in window)) return;
-
-            const ratios = new Map();
-            const update = () => {
-                const anyDarkInView = Array.from(ratios.values()).some(r => r >= 0.4);
-                document.body.classList.toggle('is-on-dark', anyDarkInView);
-            };
-
-            const io = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    ratios.set(entry.target, entry.intersectionRatio);
-                });
-                update();
-            }, { threshold: [0, 0.25, 0.4, 0.6, 0.75, 1] });
-
-            sections.forEach(s => io.observe(s));
-
-            // Initial pass in case the observer fires late
-            update();
-        })();
     </script>
     <script>
         // Normalize faces in media-faces by nudging object-position based on image natural focus
