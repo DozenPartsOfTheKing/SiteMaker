@@ -27,6 +27,20 @@ async def health_check():
     """Health check endpoint"""
     return {"status": "healthy", "message": "Empire Agency is running! 🚀"}
 
+@app.get("/whoami")
+async def whoami(request: Request):
+    """Debug endpoint to verify external access and see your IP from the server perspective"""
+    client_ip = request.client.host if request.client else None
+    return {
+        "client_ip": client_ip,
+        "user_agent": request.headers.get("user-agent"),
+    }
+
+@app.get("/client", response_class=HTMLResponse)
+async def client_page(request: Request):
+    """Alternate entry page so you can quickly open via http://<server-ip>:<port>/client"""
+    return FileResponse("static/app.html")
+
 @app.get("/api/info")
 async def api_info():
     """API information endpoint"""
@@ -42,10 +56,15 @@ async def api_info():
     }
 
 if __name__ == "__main__":
+    host = os.getenv("HOST", "0.0.0.0")
+    # Allow overriding port via PORT or APP_PORT env var
+    port = int(os.getenv("PORT", os.getenv("APP_PORT", "3001")))
+    # Enable auto-reload by default for local runs; set RELOAD=false on server
+    reload = os.getenv("RELOAD", "true").lower() == "true"
     uvicorn.run(
         "main:app",
-        host="0.0.0.0",
-        port=3001,
-        reload=True,
+        host=host,
+        port=port,
+        reload=reload,
         log_level="info"
     )
