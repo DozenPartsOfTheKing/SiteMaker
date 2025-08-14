@@ -194,6 +194,9 @@
             color: #fff;
         }
         
+        /* Utility: show only on mobile */
+        .mobile-only { display: none; }
+        
         .about-services {
             font-size: 0.9rem;
             color: #999;
@@ -795,6 +798,7 @@
         /* Responsive */
         @media (max-width: 768px) {
             html { scroll-snap-type: none; }
+            .mobile-only { display: inline; }
             .nav, .logo {
                 top: 1rem;
             }
@@ -965,7 +969,7 @@
 
                 <p class="about-text">Анна работает не только в сфере PR, но и в концертной деятельности с ведущими академическими деятелями: Денис Мацуев, Юрий Башмет, Николай Луганский.</p>
 
-                <p class="about-text">С западными артистами: Enrique Iglesias, Maroon 5, The Cardigans, Tom Hardy. С российскими артистами: Алексей Чумаков, Юлия Ковальчук, Саша ST, Стас Костюшкин, Виктория Дайнеко.</p>
+                <p class="about-text">С западными артистами: Enrique Iglesias, Maroon 5, The Cardigans, Tom Hardy.<br class="mobile-only"> С российскими артистами: Алексей Чумаков, Юлия Ковальчук, Саша ST, Стас Костюшкин, Виктория Дайнеко.</p>
 
                 <div class="about-quote">
                     «Я люблю воплощать мечты людей в реальность!»
