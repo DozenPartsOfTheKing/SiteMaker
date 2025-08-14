@@ -88,7 +88,7 @@
             width: 50%;
             height: 100%;
             background: #e8e8e8;
-            background-image: url('aboutme/first.JPEG');
+            background-image: url('/static/aboutme/first.JPEG');
             background-size: cover;
             background-position: center;
             filter: grayscale(1);
@@ -99,12 +99,12 @@
         }
         
         .hero-bg-right {
-            background-image: url('aboutme/first.JPEG');
+            background-image: url('/static/aboutme/first.JPEG');
         }
         
         /* Make left hero image the same as right */
         .hero-bg-left {
-            background-image: url('aboutme/first.JPEG');
+            background-image: url('/static/aboutme/first.JPEG');
         }
         
         .hero-content {
@@ -206,7 +206,7 @@
             max-height: 600px;
             aspect-ratio: 3 / 4;
             background: #222;
-            background-image: url('aboutme/aboutme.JPEG');
+            background-image: url('/static/aboutme/aboutme.JPEG');
             background-size: cover;
             background-position: center top;
             filter: grayscale(0.8);
@@ -399,27 +399,27 @@
         /* Case-specific backgrounds */
         .case-indilight .case-bg-left,
         .case-indilight .case-bg-right {
-            background-image: url('img/IMG_4025%20(2).WEBP');
+            background-image: url('/static/img/IMG_4025%20(2).WEBP');
         }
 
         .case-tomhardy .case-bg-left,
         .case-tomhardy .case-bg-right {
-            background-image: url('img/IMG_4024%20(2).JPG');
+            background-image: url('/static/img/IMG_4024%20(2).JPG');
         }
 
         .case-karina .case-bg-left,
         .case-karina .case-bg-right {
-            background-image: url('img/IMG_2716%20(2).JPG');
+            background-image: url('/static/img/IMG_2716%20(2).JPG');
         }
 
         .case-verник .case-bg-left,
         .case-verник .case-bg-right {
-            background-image: url('img/IMG_2711%20(2).JPG');
+            background-image: url('/static/img/IMG_2711%20(2).JPG');
         }
 
         .case-slutskaya .case-bg-left,
         .case-slutskaya .case-bg-right {
-            background-image: url('img/IMG_4026%20(2).JPG');
+            background-image: url('/static/img/IMG_4026%20(2).JPG');
         }
         
         
@@ -728,6 +728,139 @@
             margin: 0;
         }
         
+        /* Media Faces (Premium showcase) */
+        .media-faces h3 {
+            color: #111;
+            letter-spacing: 0.14em;
+        }
+        
+        .media-faces h3::after {
+            content: '';
+            display: block;
+            width: 72px;
+            height: 1px;
+            margin: 1rem auto 0;
+            background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0));
+            opacity: 0.35;
+        }
+        
+        .media-faces .clients-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 2.5rem;
+            perspective: 1000px;
+        }
+        
+        .media-faces .client-card {
+            position: relative;
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            padding: 0;
+            transform-style: preserve-3d;
+            transition: transform 0.45s ease, box-shadow 0.45s ease;
+        }
+        
+        /* Gradient border */
+        .media-faces .client-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255,215,128,0.45), rgba(255,255,255,0) 40%, rgba(0,0,0,0.18) 100%);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        /* Sheen on hover */
+        .media-faces .client-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(75deg, rgba(255,255,255,0) 10%, rgba(255,255,255,0.18) 45%, rgba(255,255,255,0) 90%);
+            transform: skewX(-12deg);
+            transition: transform 0.8s ease, left 0.8s ease;
+            pointer-events: none;
+        }
+        .media-faces .client-card:hover::after { left: 140%; }
+        
+        .media-faces .client-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.10);
+        }
+        
+        .media-faces .client-image {
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            position: relative;
+        }
+        .media-faces .client-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 55%);
+            opacity: 0.0;
+            transition: opacity 0.45s ease;
+        }
+        
+        .media-faces .client-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+            transform: scale(var(--img-scale, 1.04));
+            filter: grayscale(10%) contrast(1.05) saturate(0.95);
+            transition: transform 0.6s ease, filter 0.4s ease, object-position 0.4s ease;
+            will-change: transform, object-position;
+        }
+        
+        .media-faces .client-card:hover .client-image img {
+            transform: scale(calc(var(--img-scale, 1.04) * 1.06));
+            filter: none;
+        }
+        
+        .media-faces .client-content {
+            position: static;
+            padding: 1rem 1.25rem 1.25rem;
+            background: #fff;
+        }
+        .media-faces .client-card:hover .client-content { transform: none; }
+        
+        .media-faces .client-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 0 0 0.35rem;
+            color: #111;
+        }
+        
+        .media-faces .client-desc {
+            color: #111;
+            font-size: 0.9rem;
+            line-height: 1.55;
+            margin: 0;
+        }
+        
+        @media (max-width: 1024px) {
+            .media-faces .clients-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 2rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .media-faces .clients-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .nav, .logo {
@@ -955,61 +1088,73 @@
             <h2 class="clients-title">клиенты</h2>
             
             <!-- PR Clients -->
-            <div class="clients-category">
+            <div class="clients-category media-faces">
                 <h3>клиенты по PR</h3>
                 <div class="clients-grid reveal reveal-cascade">
                     <div class="client-card">
-                        <h4 class="client-name">Игорь Верник</h4>
-                            <div class="client-image">
-                                <img src="clients/Верник.JPG" alt="Игорь Верник" loading="lazy">
-                            </div>
-                        <p class="client-desc">актёр театра и кино, телеведущий, автор поэтического проекта «Брошенные тексты»</p>
+                        <div class="client-image">
+                            <img src="/static/clients/Верник.JPG" alt="Игорь Верник" loading="lazy">
+                        </div>
+                        <div class="client-content">
+                            <h4 class="client-name">Игорь Верник</h4>
+                            <p class="client-desc">актёр театра и кино, телеведущий, автор поэтического проекта «Брошенные тексты»</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Аврора</h4>
-                            <div class="client-image">
-                                <img src="clients/Аврора.JPG" alt="Аврора" loading="lazy">
-                            </div>
-                        <p class="client-desc">телеведущая, мотивационный спикер, бьюти-эксперт и легенда муз.тв</p>
+                        <div class="client-image">
+                            <img src="/static/clients/Аврора.JPG" alt="Аврора" loading="lazy">
+                        </div>
+                        <div class="client-content">
+                            <h4 class="client-name">Аврора</h4>
+                            <p class="client-desc">телеведущая, мотивационный спикер, бьюти-эксперт и легенда муз.тв</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Карина Нигай</h4>
-                            <div class="client-image">
-                                <img src="clients/Нигай.JPG" alt="Карина Нигай" loading="lazy">
-                            </div>
-                        <p class="client-desc">телеведущая, fashion-инфлюенсер, автор шоу «Сплетница»</p>
+                        <div class="client-image">
+                            <img src="/static/clients/Нигай.JPG" alt="Карина Нигай" loading="lazy">
+                        </div>
+                        <div class="client-content">
+                            <h4 class="client-name">Карина Нигай</h4>
+                            <p class="client-desc">телеведущая, fashion-инфлюенсер, автор шоу «Сплетница»</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Ассоль</h4>
-                            <div class="client-image">
-                                <img src="clients/Асоль.JPG" alt="Ассоль" loading="lazy">
-                            </div>
-                        <p class="client-desc">телеведущая, блогер и автор шоу «О чем (не) говорят женщины»</p>
+                        <div class="client-image">
+                            <img src="/static/clients/Асоль.JPG" alt="Ассоль" loading="lazy">
+                        </div>
+                        <div class="client-content">
+                            <h4 class="client-name">Ассоль</h4>
+                            <p class="client-desc">телеведущая, блогер и автор шоу «О чем (не) говорят женщины»</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Ирина Слуцкая</h4>
-                            <div class="client-image">
-                                <img src="clients/Слуцкая.JPG" alt="Ирина Слуцкая" loading="lazy">
-                            </div>
-                        <p class="client-desc">Заслуженный мастер спорта России, первая и единственная в истории 7-ми кратная чемпионка Европы, 2-х кратная чемпионка мира, дважды призер Олимпийских игр по фигурному катанию. Телеведущая и мотивационный спикер.</p>
+                        <div class="client-image">
+                            <img src="/static/clients/Слуцкая.JPG" alt="Ирина Слуцкая" loading="lazy">
+                        </div>
+                        <div class="client-content">
+                            <h4 class="client-name">Ирина Слуцкая</h4>
+                            <p class="client-desc">Заслуженный мастер спорта России, первая и единственная в истории 7-ми кратная чемпионка Европы, 2-х кратная чемпионка мира, дважды призер Олимпийских игр по фигурному катанию. Телеведущая и мотивационный спикер.</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Зина Овштейн</h4>
-                            <div class="client-image">
-                                <img src="clients/Овштейн.JPG" alt="Зина Овштейн" loading="lazy">
-                            </div>
-                        <p class="client-desc">кулинар-кондитер, предприниматель, владелица сети ресторанов и кофеен Bonneville</p>
+                        <div class="client-image">
+                            <img src="/static/clients/Овштейн.JPG" alt="Зина Овштейн" loading="lazy">
+                        </div>
+                        <div class="client-content">
+                            <h4 class="client-name">Зина Овштейн</h4>
+                            <p class="client-desc">кулинар-кондитер, предприниматель, владелица сети ресторанов и кофеен Bonneville</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
                         <h4 class="client-name">Григорий Верник</h4>
                             <div class="client-image">
-                                <img src="clients/ГВерник.JPG" alt="Григорий Верник" loading="lazy">
+                                <img src="/static/clients/ГВерник.JPG" alt="Григорий Верник" loading="lazy">
                             </div>
                         <p class="client-desc">актер театра и кино. Снялся в таких проектах как: «Цикады», «Игры», «Кентавр» и др.</p>
                     </div>
@@ -1017,103 +1162,127 @@
             </div>
             
             <!-- Media Faces -->
-            <div class="clients-category">
+            <div class="clients-category media-faces">
                 <h3>медийные лица для рекламы и мероприятий</h3>
                 <div class="clients-grid reveal reveal-cascade">
                     <div class="client-card">
-                        <h4 class="client-name">Арина Алекс</h4>
                         <div class="client-image">
-                            <img src="mediap/alex.WEBP" alt="Арина Алекс" loading="lazy">
+                            <img src="/static/mediap/alex.WEBP" alt="Арина Алекс" loading="lazy">
                         </div>
-                        <p class="client-desc">эксперт по видеоконтенту в социальных сетях, инфлюенсер. Основала самую большую школу в СНГ по видео контенту</p>
+                        <div class="client-content">
+                            <h4 class="client-name">Арина Алекс</h4>
+                            <p class="client-desc">эксперт по видеоконтенту в социальных сетях, инфлюенсер. Основала самую большую школу в СНГ по видео контенту</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Мария Кожевникова</h4>
                         <div class="client-image">
-                            <img src="mediap/kozevnicova.jpg" alt="Мария Кожевникова" loading="lazy">
+                            <img src="/static/mediap/kozevnicova.jpg" alt="Мария Кожевникова" loading="lazy">
                         </div>
-                        <p class="client-desc">актриса, общественный деятель</p>
+                        <div class="client-content">
+                            <h4 class="client-name">Мария Кожевникова</h4>
+                            <p class="client-desc">актриса, общественный деятель</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Вика Дайнеко</h4>
                         <div class="client-image">
-                            <img src="mediap/dayneiko.PNG" alt="Вика Дайнеко" loading="lazy">
+                            <img src="/static/mediap/dayneiko.PNG" alt="Вика Дайнеко" loading="lazy">
                         </div>
-                        <p class="client-desc">певица, актриса</p>
+                        <div class="client-content">
+                            <h4 class="client-name">Вика Дайнеко</h4>
+                            <p class="client-desc">певица, актриса</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Стас Костюшкин</h4>
                         <div class="client-image">
-                            <img src="mediap/kostushkin.JPG" alt="Стас Костюшкин" loading="lazy">
+                            <img src="/static/mediap/kostushkin.JPG" alt="Стас Костюшкин" loading="lazy">
                         </div>
-                        <p class="client-desc">певец, поэт, телеведущий</p>
+                        <div class="client-content">
+                            <h4 class="client-name">Стас Костюшкин</h4>
+                            <p class="client-desc">певец, поэт, телеведущий</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Игорь Лантратов</h4>
                         <div class="client-image">
-                            <img src="mediap/lantarov.jpg" alt="Игорь Лантратов" loading="lazy">
+                            <img src="/static/mediap/lantarov.jpg" alt="Игорь Лантратов" loading="lazy">
                         </div>
-                        <p class="client-desc">телеведущий, режиссёр и диктор рекламы</p>
+                        <div class="client-content">
+                            <h4 class="client-name">Игорь Лантратов</h4>
+                            <p class="client-desc">телеведущий, режиссёр и диктор рекламы</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Полина Аскери</h4>
                         <div class="client-image">
-                            <img src="mediap/askeri.JPG" alt="Полина Аскери" loading="lazy">
+                            <img src="/static/mediap/askeri.JPG" alt="Полина Аскери" loading="lazy">
                         </div>
-                        <p class="client-desc">галерист, коллекционер и активный популяризатор современного искусства</p>
+                        <div class="client-content">
+                            <h4 class="client-name">Полина Аскери</h4>
+                            <p class="client-desc">галерист, коллекционер и активный популяризатор современного искусства</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Юлия Ковальчук</h4>
                         <div class="client-image">
-                            <img src="mediap/kovalchuk.JPG" alt="Юлия Ковальчук" loading="lazy">
+                            <img src="/static/mediap/kovalchuk.JPG" alt="Юлия Ковальчук" loading="lazy">
                         </div>
-                        <p class="client-desc">певица и телеведущая</p>
+                        <div class="client-content">
+                            <h4 class="client-name">Юлия Ковальчук</h4>
+                            <p class="client-desc">певица и телеведущая</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Алексей Чумаков</h4>
                         <div class="client-image">
-                            <img src="mediap/chumakov.JPG" alt="Алексей Чумаков" loading="lazy">
+                            <img src="/static/mediap/chumakov.JPG" alt="Алексей Чумаков" loading="lazy">
                         </div>
-                        <p class="client-desc">певец, композитор и телеведущий</p>
+                        <div class="client-content">
+                            <h4 class="client-name">Алексей Чумаков</h4>
+                            <p class="client-desc">певец, композитор и телеведущий</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Ирина Чеснокова</h4>
                         <div class="client-image">
-                            <img src="mediap/checnakova.jpg" alt="Ирина Чеснокова" loading="lazy">
+                            <img src="/static/mediap/checnakova.jpg" alt="Ирина Чеснокова" loading="lazy">
                         </div>
-                        <p class="client-desc">актриса, комик, ведущая YouTube-шоу «Бар в большом городе»</p>
+                        <div class="client-content">
+                            <h4 class="client-name">Ирина Чеснокова</h4>
+                            <p class="client-desc">актриса, комик, ведущая YouTube-шоу «Бар в большом городе»</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Снежина Кулова</h4>
                         <div class="client-image">
-                            <img src="mediap/kulova.JPG" alt="Снежина Кулова" loading="lazy">
+                            <img src="/static/mediap/kulova.JPG" alt="Снежина Кулова" loading="lazy">
                         </div>
-                        <p class="client-desc">телеведущая, продюсер</p>
+                        <div class="client-content">
+                            <h4 class="client-name">Снежина Кулова</h4>
+                            <p class="client-desc">телеведущая, продюсер</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">ST (Александр Степанов)</h4>
                         <div class="client-image">
-                            <img src="mediap/sashaST.JPG" alt="ST (Александр Степанов)" loading="lazy">
+                            <img src="/static/mediap/sashaST.JPG" alt="ST (Александр Степанов)" loading="lazy">
                         </div>
-                        <p class="client-desc">автор, исполнитель</p>
+                        <div class="client-content">
+                            <h4 class="client-name">ST (Александр Степанов)</h4>
+                            <p class="client-desc">автор, исполнитель</p>
+                        </div>
                     </div>
                     
                     <div class="client-card">
-                        <h4 class="client-name">Мария Кравченко</h4>
                         <div class="client-image">
-                            <img src="mediap/kravchenko.PNG" alt="Мария Кравченко" loading="lazy">
+                            <img src="/static/mediap/kravchenko.PNG" alt="Мария Кравченко" loading="lazy">
                         </div>
-                        <p class="client-desc">актриса театра и кино, певица, участница проекта «Comedy Woman»</p>
+                        <div class="client-content">
+                            <h4 class="client-name">Мария Кравченко</h4>
+                            <p class="client-desc">актриса театра и кино, певица, участница проекта «Comedy Woman»</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1139,7 +1308,7 @@
                             <p class="case-links">behance / dprofile</p>
                         </div>
                         <div class="case-image">
-                            <img src="img/IMG_4025%20(2).WEBP" alt="Индилайт" loading="lazy">
+            <img src="/static/img/IMG_4025%20(2).WEBP" alt="Индилайт" loading="lazy">
                         </div>
                         <div class="case-footer">
                             <p>press / media</p>
@@ -1162,7 +1331,7 @@
                             <p class="case-links">behance / dprofile</p>
                         </div>
                         <div class="case-image">
-                            <img src="img/IMG_4024%20(2).JPG" alt="Tom Hardy" loading="lazy">
+            <img src="/static/img/IMG_4024%20(2).JPG" alt="Tom Hardy" loading="lazy">
                         </div>
                         <div class="case-footer">
                             <p>guest management / international</p>
@@ -1185,7 +1354,7 @@
                             <p class="case-links">behance / dprofile</p>
                         </div>
                         <div class="case-image">
-                            <img src="img/IMG_2716%20(2).JPG" alt="Карина Нигай" loading="lazy">
+            <img src="/static/img/IMG_2716%20(2).JPG" alt="Карина Нигай" loading="lazy">
                         </div>
                         <div class="case-footer">
                             <p>tv / fashion / influencer</p>
@@ -1339,6 +1508,33 @@
             // Fallback if IntersectionObserver is not supported
             revealEls.forEach(el => el.classList.add('in-view'));
         }
+    </script>
+    <script>
+        // Normalize faces in media-faces by nudging object-position based on image natural focus
+        // Heuristic: center-crop with slight upward bias for portraits
+        (function() {
+            const cards = document.querySelectorAll('.media-faces .client-image img');
+            if (!cards.length) return;
+            cards.forEach(img => {
+                if (img.complete) adjust(img);
+                else img.addEventListener('load', () => adjust(img), { once: true });
+            });
+            function adjust(img) {
+                try {
+                    const w = img.naturalWidth;
+                    const h = img.naturalHeight;
+                    if (!w || !h) return;
+                    // Aim for top third for faces; slight upward bias
+                    const verticalBias = 42; // percent
+                    img.style.objectPosition = `50% ${verticalBias}%`;
+                    // Scale a bit more if source is very wide to ensure head size consistency
+                    const aspect = w / h;
+                    const baseScale = 1.04;
+                    const extra = aspect > 1.2 ? Math.min(0.16, (aspect - 1.2) * 0.25) : 0;
+                    img.style.setProperty('--img-scale', (baseScale + extra).toString());
+                } catch (e) { /* noop */ }
+            }
+        })();
     </script>
 </body>
 </html>
