@@ -17,7 +17,7 @@
         
         html {
             scroll-behavior: smooth;
-            scroll-snap-type: y mandatory;
+            scroll-snap-type: y proximity;
         }
         
         body {
@@ -232,6 +232,7 @@
         .cases-container {
             max-width: 100%;
             margin: 0;
+            position: relative;
         }
         
         .cases-title {
@@ -252,7 +253,8 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            scroll-snap-align: start;
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
         }
         
         .case-background {
@@ -271,7 +273,8 @@
             background-size: cover;
             background-position: center;
             filter: grayscale(0.8) brightness(0.7);
-            transition: all 0.8s ease;
+            transition: transform 600ms ease, filter 600ms ease;
+            will-change: transform, filter;
         }
         
         .case-bg-left {
@@ -286,6 +289,30 @@
         .case-item:hover .case-bg-right {
             filter: grayscale(0.5) brightness(0.8);
         }
+
+        /* Active case enhances background subtly */
+        .case-item.is-active .case-bg-left,
+        .case-item.is-active .case-bg-right {
+            filter: grayscale(0.3) brightness(0.9);
+            transform: scale(1.03);
+        }
+
+        /* One-card overlay mode */
+        .cases-overlay {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            /* Avoid pushing content down: occupy space visually, not in flow */
+            margin-bottom: -100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .cases-overlay .case-card { pointer-events: auto; }
+        /* Hide original per-item cards, keep backgrounds */
+        .case-item .case-card { opacity: 0; visibility: hidden; }
         
         .case-content {
             position: relative;
@@ -295,6 +322,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            perspective: 1200px;
         }
         
         .case-card {
@@ -307,12 +335,38 @@
             text-align: center;
             transition: transform 0.35s ease, box-shadow 0.35s ease;
             border: 1px solid rgba(0, 0, 0, 0.08);
+            position: relative;
+            transform-style: preserve-3d;
+            transform-origin: center;
+            will-change: transform;
         }
         
         .case-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
         }
+
+        /* 3D tilt layers for a subtle parallax inside the card */
+        .case-card .case-header { transform: translateZ(24px); will-change: transform; }
+        .case-card .case-image { transform: translateZ(16px); will-change: transform; }
+        .case-card .case-footer { transform: translateZ(12px); will-change: transform; }
+
+        /* Light glare that follows the cursor */
+        .case-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(600px circle at var(--px, 50%) var(--py, 50%), rgba(255,255,255,0.22), rgba(255,255,255,0) 45%);
+            mix-blend-mode: overlay;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .case-card.is-hovered::after { opacity: 1; }
+
+        /* Stronger shadow while tilting */
+        .case-card.is-hovered { box-shadow: 0 35px 80px rgba(0, 0, 0, 0.18); }
         
         .case-header {
             margin-bottom: 2.5rem;
@@ -740,6 +794,7 @@
         
         /* Responsive */
         @media (max-width: 768px) {
+            html { scroll-snap-type: none; }
             .nav, .logo {
                 top: 1rem;
             }
@@ -852,6 +907,16 @@
             .hero-logo {
                 font-size: 2rem;
             }
+        }
+
+        /* Respect reduced motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            .case-card,
+            .case-card:hover {
+                transition: none !important;
+                transform: none !important;
+            }
+            .case-card::after { display: none; }
         }
     </style>
 </head>
@@ -1134,6 +1199,7 @@
     <section class="cases-section" id="cases">
         <div class="cases-container">
             <h2 class="cases-title">кейсы</h2>
+            <div class="cases-overlay"></div>
             
             <!-- Case 1: Индилайт -->
             <div class="case-item case-indilight">
@@ -1324,6 +1390,193 @@
             }, { passive: true });
         })();
         
+        // Interactive 3D tilt + glare for case cards (desktop pointers only)
+        (() => {
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const hasFinePointer = window.matchMedia('(pointer:fine)').matches;
+            if (reduceMotion || !hasFinePointer) return;
+
+            const cards = document.querySelectorAll('.case-card');
+            const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+            cards.forEach(card => {
+                const maxTiltDeg = 6;
+                let rafId = null;
+                let currentX = 0, currentY = 0;
+                let targetX = 0, targetY = 0;
+
+                const getRect = () => card.getBoundingClientRect();
+
+                const animate = () => {
+                    currentX += (targetX - currentX) * 0.18;
+                    currentY += (targetY - currentY) * 0.18;
+                    const baseTranslate = card.classList.contains('is-hovered') ? 'translateY(-8px) ' : '';
+                    card.style.transform = `${baseTranslate}rotateX(${currentY}deg) rotateY(${currentX}deg)`;
+
+                    if (Math.abs(targetX - currentX) > 0.01 || Math.abs(targetY - currentY) > 0.01) {
+                        rafId = requestAnimationFrame(animate);
+                    } else {
+                        rafId = null;
+                    }
+                };
+
+                const onMove = (e) => {
+                    const rect = getRect();
+                    const px = (e.clientX - rect.left) / rect.width;  // 0..1
+                    const py = (e.clientY - rect.top) / rect.height; // 0..1
+
+                    targetX = clamp((px - 0.5) * 2 * maxTiltDeg, -maxTiltDeg, maxTiltDeg);
+                    targetY = clamp(-(py - 0.5) * 2 * maxTiltDeg, -maxTiltDeg, maxTiltDeg);
+
+                    card.style.setProperty('--px', `${e.clientX - rect.left}px`);
+                    card.style.setProperty('--py', `${e.clientY - rect.top}px`);
+
+                    if (rafId == null) rafId = requestAnimationFrame(animate);
+                };
+
+                const onEnter = () => {
+                    card.classList.add('is-hovered');
+                };
+
+                const onLeave = () => {
+                    card.classList.remove('is-hovered');
+                    targetX = 0; targetY = 0;
+                    if (rafId == null) rafId = requestAnimationFrame(animate);
+                };
+
+                // passive listeners to avoid blocking scroll
+                card.addEventListener('pointermove', onMove, { passive: true });
+                card.addEventListener('pointerenter', onEnter);
+                card.addEventListener('pointerleave', onLeave);
+            });
+        })();
+
+        // Preload case images early to avoid image swap lag
+        (() => {
+            const caseImgs = Array.from(document.querySelectorAll('.case-item .case-image img'));
+            const urls = Array.from(new Set(caseImgs.map(img => img.getAttribute('src')).filter(Boolean)));
+            urls.forEach(url => { const im = new Image(); im.decoding = 'async'; im.src = url; });
+        })();
+
+        // One-card overlay that updates with the current case in view
+        (() => {
+            const overlayHost = document.querySelector('.cases-overlay');
+            const caseItems = Array.from(document.querySelectorAll('.case-item'));
+            if (!overlayHost || caseItems.length === 0) return;
+
+            // Clone the first card as a template
+            const templateCard = caseItems[0].querySelector('.case-card');
+            if (!templateCard) return;
+            const overlayCard = templateCard.cloneNode(true);
+            overlayCard.classList.remove('reveal');
+            overlayHost.appendChild(overlayCard);
+
+            const headerEl = overlayCard.querySelector('.case-header');
+            const titleEl = overlayCard.querySelector('.case-title');
+            const subtitleEl = overlayCard.querySelector('.case-subtitle');
+            const linksEl = overlayCard.querySelector('.case-links');
+            const imageEl = overlayCard.querySelector('.case-image img');
+            const footerEl = overlayCard.querySelector('.case-footer p');
+
+            if (imageEl) {
+                imageEl.setAttribute('fetchpriority', 'high');
+                imageEl.decoding = 'async';
+            }
+
+            // Map case-item -> data extracted from its own card
+            const readCaseData = (caseItem) => {
+                const card = caseItem.querySelector('.case-card');
+                if (!card) return null;
+                const d = {
+                    subtitle: card.querySelector('.case-subtitle')?.textContent?.trim() || '',
+                    title: card.querySelector('.case-title')?.textContent?.trim() || '',
+                    links: card.querySelector('.case-links')?.textContent?.trim() || '',
+                    imageSrc: card.querySelector('.case-image img')?.getAttribute('src') || '',
+                    imageAlt: card.querySelector('.case-image img')?.getAttribute('alt') || '',
+                    footer: card.querySelector('.case-footer p')?.textContent?.trim() || ''
+                };
+                return d;
+            };
+
+            const caseDataList = caseItems.map(readCaseData);
+
+			let activeIndex = -1;
+			let isAnimating = false;
+			let currentActiveEl = null;
+			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			const supportsWAAPI = typeof overlayCard.animate === 'function';
+            const warm = (url) => { if (!url) return; const im = new Image(); im.decoding = 'async'; im.src = url; };
+			const changeCardContent = (data, idx, direction = 'forward') => {
+                if (!data) return;
+				if (isAnimating) return;
+				isAnimating = true;
+				const performUpdate = () => {
+					if (subtitleEl) subtitleEl.textContent = data.subtitle;
+					if (titleEl) titleEl.textContent = data.title;
+					if (linksEl) linksEl.textContent = data.links;
+					if (imageEl && data.imageSrc) {
+						imageEl.src = data.imageSrc;
+						if (data.imageAlt) imageEl.alt = data.imageAlt;
+					}
+					if (footerEl) footerEl.textContent = data.footer;
+					// Preload neighbors to make next swap instant
+					if (typeof idx === 'number') {
+						const next = caseDataList[idx + 1];
+						const prev = caseDataList[idx - 1];
+						warm(next?.imageSrc);
+						warm(prev?.imageSrc);
+					}
+				};
+
+				if (reduceMotion || !supportsWAAPI) {
+					// Fallback simple fade
+					overlayCard.style.transition = 'opacity 180ms ease';
+					overlayCard.style.opacity = '0';
+					setTimeout(() => {
+						performUpdate();
+						overlayCard.style.opacity = '1';
+						setTimeout(() => { isAnimating = false; }, 190);
+					}, 180);
+					return;
+				}
+
+				const offset = direction === 'forward' ? 14 : -14;
+				const out = overlayCard.animate([
+					{ opacity: 1, transform: 'translateY(0) scale(1)' },
+					{ opacity: 0, transform: `translateY(${offset * -1}px) scale(0.98)` }
+				], { duration: 220, easing: 'cubic-bezier(.2,.6,.2,1)', fill: 'forwards' });
+				out.finished.then(() => {
+					performUpdate();
+					overlayCard.animate([
+						{ opacity: 0, transform: `translateY(${offset}px) scale(0.98)` },
+						{ opacity: 1, transform: 'translateY(0) scale(1)' }
+					], { duration: 240, easing: 'cubic-bezier(.2,.6,.2,1)', fill: 'forwards' }).finished.then(() => {
+						isAnimating = false;
+					});
+				});
+            };
+
+            // Observe which case is centered
+			const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+						const idx = caseItems.indexOf(entry.target);
+						if (idx !== -1 && idx !== activeIndex) {
+							const direction = activeIndex === -1 ? 'forward' : (idx > activeIndex ? 'forward' : 'backward');
+							// Toggle active class for background emphasis
+							if (currentActiveEl) currentActiveEl.classList.remove('is-active');
+							entry.target.classList.add('is-active');
+							currentActiveEl = entry.target;
+							activeIndex = idx;
+							changeCardContent(caseDataList[idx], idx, direction);
+						}
+                    }
+                });
+			}, { root: null, threshold: 0.35 });
+
+            caseItems.forEach(item => io.observe(item));
+        })();
+
         // Form handler
         document.querySelector('footer form').addEventListener('submit', function(e) {
             e.preventDefault();
