@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Empire Agency - Агентство Анны Чернавских. PR и медиасопровождение артистов и инфлюенсеров">
+    <meta name="description" content="Агентство Empire Анны Чернавских. PR и медиасопровождение артистов и инфлюенсеров, подбор рекламных лиц для брендов, гест-менеджмент, ивенты и креативные кампании.">
     <title>Empire Agency - Anna Chernavskikh</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -339,7 +339,8 @@
             letter-spacing: 0.05em;
         }
         
-        .case-image {
+        .case-image,
+        .client-image {
             margin: 2.5rem 0;
             border-radius: 0;
             overflow: hidden;
@@ -347,7 +348,8 @@
             border: 1px solid rgba(0, 0, 0, 0.08);
         }
         
-        .case-image img {
+        .case-image img,
+        .client-image img {
             width: 100%;
             height: 220px;
             object-fit: cover;
@@ -355,6 +357,10 @@
         }
         
         .case-card:hover .case-image img {
+            transform: scale(1.03);
+        }
+
+        .client-card:hover .client-image img {
             transform: scale(1.03);
         }
         
@@ -611,7 +617,7 @@
         
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 3rem;
         }
         
@@ -754,6 +760,9 @@
             .about-sidebar {
                 display: none;
             }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
             
             .case-item {
                 height: 100vh;
@@ -832,7 +841,7 @@
 </head>
 <body>
     <!-- Logo -->
-    <a href="#hero" class="logo">empire</a>
+    <a href="#hero" class="logo">EMPIRE</a>
     
     <!-- Navigation -->
     <nav class="nav">
@@ -852,8 +861,8 @@
         </div>
         
         <div class="hero-content">
-            <h1 class="hero-logo">empire</h1>
-            <p class="hero-subtitle">Агентство Анны Чернавских<br>Свет прожекторов на вас</p>
+            <h1 class="hero-logo">EMPIRE</h1>
+            <p class="hero-subtitle">Агентство Анны Чернавских</p>
             <h2 class="hero-title">для тех, о ком говорят</h2>
             <p class="hero-description">для тех, кто готов быть в центре внимания — осмысленно, громко, с эффектом, который работает на результат. для тех, кто хочет, чтобы о нём не просто узнали — а чтобы его история осталась в памяти и в медиаполе надолго</p>
             
@@ -867,18 +876,16 @@
     <section class="about" id="about">
         <div class="about-container">
             <div class="about-content">
-                <h2 class="about-title">( about me )</h2>
-                
-                <p class="about-text">основатель и руководитель агентства empire. более 10 лет опыта в сфере pr и медиасопровождения звёзд мирового уровня</p>
-                
-                <p class="about-text">работает с ведущими академическими деятелями: денис мацуев, юрий башмет, николай луганский. с западными артистами: enrique iglesias, maroon 5, the cardigans, tom hardy</p>
-                
+                <h2 class="about-title">About Me</h2>
+
+                <p class="about-text">Анна Чернавских — основатель и руководитель агентства Empire, PR‑директор артистов.</p>
+
+                <p class="about-text">Анна работает не только в сфере PR, но и в концертной деятельности с ведущими академическими деятелями: Денис Мацуев, Юрий Башмет, Николай Луганский.</p>
+
+                <p class="about-text">С западными артистами: Enrique Iglesias, Maroon 5, The Cardigans, Tom Hardy. С российскими артистами: Алексей Чумаков, Юлия Ковальчук, Саша ST, Стас Костюшкин, Виктория Дайнеко.</p>
+
                 <div class="about-quote">
-                    "я люблю воплощать мечты людей в реальность"
-                </div>
-                
-                <div class="about-services">
-                    <p>полноценное pr-сопровождение артистов, блогеров и инфлюенсеров. пропишем стратегию, выстроим коммуникацию со сми и создадим нужный инфоповод для максимального медийного эффекта</p>
+                    «Я люблю воплощать мечты людей в реальность!»
                 </div>
             </div>
             
@@ -929,6 +936,141 @@
                         <li>Создание креативной концепции</li>
                         <li>Возможность участия западных артистов и звёзд классической сцены</li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Section -->
+    <section class="clients" id="clients">
+        <div class="clients-container">
+            <h2 class="clients-title">клиенты</h2>
+            
+            <!-- PR Clients -->
+            <div class="clients-category">
+                <h3>клиенты по PR</h3>
+                <div class="clients-grid">
+                    <div class="client-card">
+                        <h4 class="client-name">Игорь Верник</h4>
+                            <div class="client-image">
+                                <img src="clients/Верник.JPG" alt="Игорь Верник" loading="lazy">
+                            </div>
+                        <p class="client-desc">актёр театра и кино, телеведущий, автор поэтического проекта «Брошенные тексты»</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Аврора</h4>
+                            <div class="client-image">
+                                <img src="clients/Аврора.JPG" alt="Аврора" loading="lazy">
+                            </div>
+                        <p class="client-desc">телеведущая, мотивационный спикер, бьюти-эксперт и легенда муз.тв</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Карина Нигай</h4>
+                            <div class="client-image">
+                                <img src="clients/Нигай.JPG" alt="Карина Нигай" loading="lazy">
+                            </div>
+                        <p class="client-desc">телеведущая, fashion-инфлюенсер, автор шоу «Сплетница»</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Ассоль</h4>
+                            <div class="client-image">
+                                <img src="clients/Асоль.JPG" alt="Ассоль" loading="lazy">
+                            </div>
+                        <p class="client-desc">телеведущая, блогер и автор шоу «О чем (не) говорят женщины»</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Ирина Слуцкая</h4>
+                            <div class="client-image">
+                                <img src="clients/Слуцкая.JPG" alt="Ирина Слуцкая" loading="lazy">
+                            </div>
+                        <p class="client-desc">Заслуженный мастер спорта России, первая и единственная в истории 7-ми кратная чемпионка Европы, 2-х кратная чемпионка мира, дважды призер Олимпийских игр по фигурному катанию. Телеведущая и мотивационный спикер.</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Зина Овштейн</h4>
+                            <div class="client-image">
+                                <img src="clients/Овштейн.JPG" alt="Зина Овштейн" loading="lazy">
+                            </div>
+                        <p class="client-desc">кулинар-кондитер, предприниматель, владелица сети ресторанов и кофеен Bonneville</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Григорий Верник</h4>
+                            <div class="client-image">
+                                <img src="clients/ГВерник.JPG" alt="Григорий Верник" loading="lazy">
+                            </div>
+                        <p class="client-desc">актер театра и кино. Снялся в таких проектах как: «Цикады», «Игры», «Кентавр» и др.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Media Faces -->
+            <div class="clients-category">
+                <h3>медийные лица для рекламы и мероприятий</h3>
+                <div class="clients-grid">
+                    <div class="client-card">
+                        <h4 class="client-name">Арина Алекс</h4>
+                        <p class="client-desc">эксперт по видеоконтенту в социальных сетях, инфлюенсер. Основала самую большую школу в СНГ по видео контенту</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Мария Кожевникова</h4>
+                        <p class="client-desc">актриса, общественный деятель</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Вика Дайнеко</h4>
+                        <p class="client-desc">певица, актриса</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Стас Костюшкин</h4>
+                        <p class="client-desc">певец, поэт, телеведущий</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Игорь Лантратов</h4>
+                        <p class="client-desc">телеведущий, режиссёр и диктор рекламы</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Полина Аскери</h4>
+                        <p class="client-desc">галерист, коллекционер и активный популяризатор современного искусства</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Юлия Ковальчук</h4>
+                        <p class="client-desc">певица и телеведущая</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Алексей Чумаков</h4>
+                        <p class="client-desc">певец, композитор и телеведущий</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Ирина Чеснокова</h4>
+                        <p class="client-desc">актриса, комик, ведущая YouTube-шоу «Бар в большом городе»</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Снежина Кулова</h4>
+                        <p class="client-desc">телеведущая, продюсер</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">ST (Александр Степанов)</h4>
+                        <p class="client-desc">автор, исполнитель</p>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4 class="client-name">Мария Кравченко</h4>
+                        <p class="client-desc">актриса театра и кино, певица, участница проекта «Comedy Woman»</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1008,51 +1150,6 @@
                 </div>
             </div>
             
-            <!-- Case 4: Игорь Верник -->
-            <div class="case-item case-verник">
-                <div class="case-background">
-                    <div class="case-bg-left"></div>
-                    <div class="case-bg-right"></div>
-                </div>
-                <div class="case-content">
-                    <div class="case-card">
-                        <div class="case-header">
-                            <p class="case-subtitle">pr-сопровождение артиста</p>
-                            <h3 class="case-title">игорь верник</h3>
-                            <p class="case-links">behance / dprofile</p>
-                        </div>
-                        <div class="case-image">
-                            <img src="img/IMG_2711%20(2).JPG" alt="Игорь Верник" loading="lazy">
-                        </div>
-                        <div class="case-footer">
-                            <p>theater / cinema / poetry</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Case 5: Ирина Слуцкая -->
-            <div class="case-item case-slutskaya">
-                <div class="case-background">
-                    <div class="case-bg-left"></div>
-                    <div class="case-bg-right"></div>
-                </div>
-                <div class="case-content">
-                    <div class="case-card">
-                        <div class="case-header">
-                            <p class="case-subtitle">pr-сопровождение спортсмена</p>
-                            <h3 class="case-title">ирина слуцкая</h3>
-                            <p class="case-links">behance / dprofile</p>
-                        </div>
-                        <div class="case-image">
-                            <img src="img/IMG_4026%20(2).JPG" alt="Ирина Слуцкая" loading="lazy">
-                        </div>
-                        <div class="case-footer">
-                            <p>sports / motivation / tv</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         
         <!-- Case navigation dots -->
@@ -1060,126 +1157,11 @@
             <div class="case-nav-dot active" data-case="indilight"></div>
             <div class="case-nav-dot" data-case="tomhardy"></div>
             <div class="case-nav-dot" data-case="karina"></div>
-            <div class="case-nav-dot" data-case="verник"></div>
-            <div class="case-nav-dot" data-case="slutskaya"></div>
         </div>
     </section>
     
 
-
-    <!-- Clients Section -->
-    <section class="clients" id="clients">
-        <div class="clients-container">
-            <h2 class="clients-title">клиенты</h2>
-            
-            <!-- PR Clients -->
-            <div class="clients-category">
-                <h3>клиенты по PR</h3>
-                <div class="clients-grid">
-                    <div class="client-card">
-                        <h4 class="client-name">Игорь Верник</h4>
-                        <p class="client-desc">актёр театра и кино, телеведущий, автор поэтического проекта «Брошенные тексты»</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Аврора</h4>
-                        <p class="client-desc">телеведущая, мотивационный спикер, бьюти-эксперт и легенда муз.тв</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Карина Нигай</h4>
-                        <p class="client-desc">телеведущая, fashion-инфлюенсер, автор шоу «Сплетница»</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Ассоль</h4>
-                        <p class="client-desc">телеведущая, блогер и автор шоу «О чем (не) говорят женщины»</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Ирина Слуцкая</h4>
-                        <p class="client-desc">Заслуженный мастер спорта России, первая и единственная в истории 7-ми кратная чемпионка Европы, 2-х кратная чемпионка мира, дважды призер Олимпийских игр по фигурному катанию. Телеведущая и мотивационный спикер.</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Зина Овштейн</h4>
-                        <p class="client-desc">кулинар-кондитер, предприниматель, владелица сети ресторанов и кофеен Bonneville</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Григорий Верник</h4>
-                        <p class="client-desc">актер театра и кино. Снялся в таких проектах как: «Цикады», «Игры», «Кентавр» и др.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Media Faces -->
-            <div class="clients-category">
-                <h3>медийные лица для рекламы и мероприятий</h3>
-                <div class="clients-grid">
-                    <div class="client-card">
-                        <h4 class="client-name">Арина Алекс</h4>
-                        <p class="client-desc">эксперт по видеоконтенту в социальных сетях, инфлюенсер. Основала самую большую школу в СНГ по видео контенту</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Мария Кожевникова</h4>
-                        <p class="client-desc">актриса, общественный деятель</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Вика Дайнеко</h4>
-                        <p class="client-desc">певица, актриса</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Стас Костюшкин</h4>
-                        <p class="client-desc">певец, поэт, телеведущий</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Игорь Лантратов</h4>
-                        <p class="client-desc">телеведущий, режиссёр и диктор рекламы</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Полина Аскери</h4>
-                        <p class="client-desc">галерист, коллекционер и активный популяризатор современного искусства</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Юлия Ковальчук</h4>
-                        <p class="client-desc">певица и телеведущая</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Алексей Чумаков</h4>
-                        <p class="client-desc">певец, композитор и телеведущий</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Ирина Чеснокова</h4>
-                        <p class="client-desc">актриса, комик, ведущая YouTube-шоу «Бар в большом городе»</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Снежина Кулова</h4>
-                        <p class="client-desc">телеведущая, продюсер</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">ST (Александр Степанов)</h4>
-                        <p class="client-desc">автор, исполнитель</p>
-                    </div>
-                    
-                    <div class="client-card">
-                        <h4 class="client-name">Мария Кравченко</h4>
-                        <p class="client-desc">актриса театра и кино, певица, участница проекта «Comedy Woman»</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     <!-- Footer -->
     <footer class="footer" id="contact">
@@ -1220,9 +1202,7 @@
                 </div>
             </div>
 
-            <div class="footer-note" style="margin: 2rem 0; padding: 1rem 0; border-top: 1px solid #333; font-size: 0.9rem; color: #666;">
-                <p style="margin-bottom: 1rem;">полноценное pr-сопровождение артистов, блогеров и инфлюенсеров. пропишем стратегию, выстроим коммуникацию со сми и создадим нужный инфоповод</p>
-            </div>
+            
 
             <div class="footer-bottom" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                 <div>© 2025 Empire Agency</div>
