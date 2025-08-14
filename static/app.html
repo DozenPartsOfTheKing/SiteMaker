@@ -299,19 +299,19 @@
         
         .case-card {
             background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(12px);
             padding: 4rem 3rem;
             border-radius: 0;
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
             max-width: 550px;
             text-align: center;
-            transition: all 0.4s ease;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
             border: 1px solid rgba(0, 0, 0, 0.08);
         }
         
         .case-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 35px 100px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
         }
         
         .case-header {
@@ -628,14 +628,18 @@
         }
         
         .service-card {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
             padding: 2.5rem 2rem;
             text-align: center;
-            transition: transform 0.3s ease;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
         }
         
         .service-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-6px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
         }
         
         .service-card h3 {
@@ -705,19 +709,25 @@
         }
         
         .client-card {
-            background: #f8f8f8;
-            padding: 2rem;
-            transition: transform 0.3s ease;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem 2rem;
+            border-radius: 0;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
         }
         
         .client-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-6px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
         }
         
         .client-name {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 500;
-            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.6rem;
             color: #000;
         }
         
