@@ -312,10 +312,22 @@
             justify-content: center;
             pointer-events: none;
             z-index: 5;
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         .cases-overlay .case-card { pointer-events: auto; }
         /* Hide original per-item cards, keep backgrounds */
         .case-item .case-card { opacity: 0; visibility: hidden; }
+        
+        /* Ensure the last case item has enough space to prevent overlap with footer */
+        .case-item:last-child {
+            margin-bottom: 0;
+            position: relative;
+        }
+        
+        /* Remove extra space after the last case */
+        .cases-section {
+            position: relative;
+        }
         
         .case-content {
             position: relative;
@@ -531,58 +543,192 @@
         
         /* Footer */
         .footer {
-            background: #000;
+            background: linear-gradient(135deg, #000 0%, #0a0a0a 50%, #1a1a1a 100%);
             color: #fff;
-            padding: 4rem 2rem 2rem;
+            padding: 5rem 2rem 3rem;
             position: relative;
             z-index: 300;
             scroll-snap-align: start;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
+        
+        .footer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+            pointer-events: none;
         }
         
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
         
         .footer-title {
-            font-size: 2rem;
-            font-weight: 300;
-            margin-bottom: 2rem;
-            letter-spacing: -0.02em;
+            font-size: 3rem;
+            font-weight: 200;
+            margin-bottom: 4rem;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #fff 0%, #e0e0e0 50%, #ccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+        
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
         }
         
         .footer-contact {
             font-size: 1rem;
-            color: #ccc;
+            color: rgba(255, 255, 255, 0.8);
             line-height: 1.8;
             margin-bottom: 2rem;
         }
         
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+        }
+        
+        .contact-icon {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            min-width: 24px;
+        }
+        
         .footer-links {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
+            flex-direction: column;
+            gap: 1rem;
             margin-bottom: 2rem;
         }
         
         .footer-links a {
-            color: #999;
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            backdrop-filter: blur(10px);
         }
         
         .footer-links a:hover {
             color: #fff;
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .link-icon {
+            font-size: 1.1rem;
+            opacity: 0.8;
         }
         
         .footer-bottom {
             font-size: 0.8rem;
             color: #666;
             padding-top: 2rem;
-            border-top: 1px solid #333;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
+        
+        .footer-bottom-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            padding: 0 1rem;
+        }
+        
+        .footer-copyright {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+        }
+        
+        .footer-bottom-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid transparent;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            position: relative;
+        }
+        
+        .footer-bottom-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .footer-bottom-links a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .footer-bottom-links a:hover::before {
+            width: 60%;
+        }
+        
+
 
         /* Invert top chrome (logo/nav) on dark sections */
         body.is-on-dark .logo,
@@ -595,23 +741,75 @@
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 2.5rem;
+            gap: 3rem;
+            margin-top: 3rem;
         }
 
         .contact-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 3rem 2.5rem;
             text-align: left;
+            border-radius: 20px;
+            backdrop-filter: blur(30px);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            transition: left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .contact-card:hover::before {
+            left: 100%;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
         }
 
         .contact-card-title {
-            font-size: 1.2rem;
-            margin-bottom: 1.25rem;
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
             color: #fff;
-            font-weight: 500;
-            letter-spacing: 0.02em;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .contact-card-title::before {
+            content: '';
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            border-radius: 6px;
+            display: inline-block;
+        }
+        
+        .contact-card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.3));
+            border-radius: 1px;
         }
 
         .contact-card .footer-links {
@@ -620,26 +818,65 @@
 
         .contact-form {
             display: grid;
-            gap: 1rem;
+            gap: 1.5rem;
             max-width: 420px;
         }
 
         .contact-form input,
         .contact-form select {
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1.4rem 1.2rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #fff;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             outline: none;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-weight: 400;
+        }
+        
+        .contact-form input:focus,
+        .contact-form select:focus {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
         .contact-form input::placeholder {
-            color: #bbb;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 300;
         }
 
         .contact-form button {
             justify-self: start;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 1.2rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-form button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .contact-form button:hover::before {
+            left: 100%;
+        }
+        
+        .contact-form button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
         
         /* CTA Button */
@@ -1476,18 +1713,40 @@
                 <div class="contact-card reveal">
                     <h3 class="contact-card-title">связаться</h3>
                     <div class="footer-contact">
-                        +7 (906) 770-07-03 — Анна Чернавских<br>
-                        pr@empireagency.ru<br>
-                        IG: @agencyempire
+                        <div class="contact-item">
+                            <span class="contact-icon">📞</span>
+                            <span>+7 (906) 770-07-03 — Анна Чернавских</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">✉️</span>
+                            <span>pr@empireagency.ru</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">📱</span>
+                            <span>IG: @agencyempire</span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="contact-card reveal">
                     <h3 class="contact-card-title">мессенджеры</h3>
                     <div class="footer-links">
-                        <a href="https://wa.me/79067700703?text=Хотел%20бы%20поработать%20с%20вами" target="_blank">whatsapp</a>
-                        <a href="https://t.me/agencyempire" target="_blank">telegram</a>
-                        <a href="mailto:pr@empireagency.ru">email</a>
+                        <a href="https://wa.me/79067700703?text=Хотел%20бы%20поработать%20с%20вами" target="_blank">
+                            <span class="link-icon">💬</span>
+                            <span>whatsapp</span>
+                        </a>
+                        <a href="https://t.me/agencyempire" target="_blank">
+                            <span class="link-icon">📡</span>
+                            <span>telegram</span>
+                        </a>
+                        <a href="mailto:pr@empireagency.ru">
+                            <span class="link-icon">📧</span>
+                            <span>email</span>
+                        </a>
+                        <a href="https://instagram.com/agencyempire" target="_blank">
+                            <span class="link-icon">📸</span>
+                            <span>instagram</span>
+                        </a>
                     </div>
                 </div>
 
@@ -1508,19 +1767,17 @@
 
             
 
-            <div class="footer-bottom" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                <div>© 2025 Empire Agency</div>
-                <div class="footer-bottom-links" style="font-size: 0.8rem;">
-                    <a href="#hero" style="color: #666; text-decoration: none; margin: 0 0.5rem;">главная</a> |
-                    <a href="#about" style="color: #666; text-decoration: none; margin: 0 0.5rem;">об основателе</a> |
-                    <a href="#services" style="color: #666; text-decoration: none; margin: 0 0.5rem;">услуги</a> |
-                    <a href="#cases" style="color: #666; text-decoration: none; margin: 0 0.5rem;">кейсы</a> |
-                    <a href="#clients" style="color: #666; text-decoration: none; margin: 0 0.5rem;">клиенты</a> |
-                    <a href="#contact" style="color: #666; text-decoration: none; margin: 0 0.5rem;">контакты</a>
-                </div>
-                <div class="footer-bottom-social">
-                    <a href="https://wa.me/79067700703" target="_blank" style="color: #666; text-decoration: none; margin: 0 0.5rem;">whatsapp</a>
-                    <a href="https://instagram.com/agencyempire" target="_blank" style="color: #666; text-decoration: none; margin: 0 0.5rem;">instagram</a>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="footer-copyright">© 2025 Empire Agency</div>
+                    <div class="footer-bottom-links">
+                        <a href="#hero">главная</a>
+                        <a href="#about">об основателе</a>
+                        <a href="#services">услуги</a>
+                        <a href="#cases">кейсы</a>
+                        <a href="#clients">клиенты</a>
+                        <a href="#contact">контакты</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1659,6 +1916,9 @@
             const overlayCard = templateCard.cloneNode(true);
             overlayCard.classList.remove('reveal');
             overlayHost.appendChild(overlayCard);
+            
+            // Get footer element to check for overlap
+            const footer = document.querySelector('.footer');
 
             const headerEl = overlayCard.querySelector('.case-header');
             const titleEl = overlayCard.querySelector('.case-title');
@@ -1762,6 +2022,81 @@
                     }
                 });
 			}, { root: null, threshold: 0.35 });
+            
+            // Observe footer to hide overlay when it comes into view
+            if (footer) {
+                const footerIO = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Hide overlay when footer is visible
+                            overlayHost.style.opacity = '0';
+                            overlayHost.style.pointerEvents = 'none';
+                        } else {
+                            // Show overlay when footer is not visible
+                            overlayHost.style.opacity = '1';
+                            overlayHost.style.pointerEvents = 'auto';
+                        }
+                    });
+                }, { root: null, threshold: 0.1 });
+                
+                footerIO.observe(footer);
+            }
+            
+            // Also check if user is scrolling near the footer to smoothly hide overlay
+            let isNearFooter = false;
+            const checkFooterProximity = () => {
+                if (!footer) return;
+                
+                const footerRect = footer.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                
+                // Get the last case item to check its position
+                const lastCaseItem = caseItems[caseItems.length - 1];
+                if (!lastCaseItem) return;
+                
+                const lastCaseRect = lastCaseItem.getBoundingClientRect();
+                const lastCaseCenter = lastCaseRect.top + lastCaseRect.height / 2;
+                const viewportCenter = viewportHeight / 2;
+                
+                // Calculate distance from last case center to viewport center
+                const distanceFromCenter = Math.abs(lastCaseCenter - viewportCenter);
+                
+                // If footer is approaching viewport (within 80px), start fading overlay
+                if (footerRect.top < viewportHeight + 80) {
+                    if (!isNearFooter) {
+                        isNearFooter = true;
+                    }
+                    
+                    // Calculate opacity based on footer proximity
+                    const footerProximity = Math.max(0, (viewportHeight + 80 - footerRect.top) / 80);
+                    const opacity = Math.max(0.2, 1 - footerProximity);
+                    overlayHost.style.opacity = opacity.toString();
+                    
+                    // Move overlay down slightly as footer approaches
+                    const translateY = Math.min(15, footerProximity * 20);
+                    overlayHost.style.transform = `translateY(${translateY}px)`;
+                    
+                } else if (distanceFromCenter < 100) {
+                    // When near the center of the last case, keep overlay visible
+                    if (isNearFooter) {
+                        isNearFooter = false;
+                    }
+                    overlayHost.style.opacity = '1';
+                    overlayHost.style.transform = 'translateY(0)';
+                } else {
+                    // Normal case behavior
+                    if (isNearFooter) {
+                        isNearFooter = false;
+                    }
+                    overlayHost.style.opacity = '1';
+                    overlayHost.style.transform = 'translateY(0)';
+                }
+            };
+            
+            // Check on scroll
+            window.addEventListener('scroll', checkFooterProximity, { passive: true });
+            // Initial check
+            checkFooterProximity();
 
             caseItems.forEach(item => io.observe(item));
         })();
