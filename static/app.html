@@ -312,7 +312,8 @@
             justify-content: center;
             pointer-events: none;
             z-index: 5;
-            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 1;
         }
         .cases-overlay .case-card { pointer-events: auto; }
         /* Hide original per-item cards, keep backgrounds */
@@ -341,7 +342,7 @@
         }
         
         .case-card {
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(255, 255, 255, 1);
             backdrop-filter: blur(12px);
             padding: 4rem 3rem;
             border-radius: 0;
@@ -440,6 +441,7 @@
             width: 100%;
             height: 220px;
             object-fit: cover;
+            object-position: center 60%;
             transition: transform 0.4s ease;
         }
 
@@ -476,19 +478,25 @@
         }
         
         /* Case-specific backgrounds */
-        .case-indilight .case-bg-left,
+        .case-indilight .case-bg-left {
+            background-image: url('/static/cases/indilite/IMG_4221%20(2).JPG');
+        }
+        
         .case-indilight .case-bg-right {
-            background-image: url('/static/img/IMG_4025%20(2).WEBP');
+            background-image: url('/static/cases/indilite/IMG_4222%20(2).JPG');
         }
 
         .case-tomhardy .case-bg-left,
         .case-tomhardy .case-bg-right {
-            background-image: url('/static/img/IMG_4024%20(2).JPG');
+            background-image: url('/static/cases/venom/tomhkardyRussia_21.jpg');
         }
 
-        .case-karina .case-bg-left,
+        .case-karina .case-bg-left {
+            background-image: url('/static/cases/karina/421737028_331111575_144840738445292_3851443656871002742_n%20(3).jpg');
+        }
+        
         .case-karina .case-bg-right {
-            background-image: url('/static/img/IMG_2716%20(2).JPG');
+            background-image: url('/static/cases/karina/421737028_468427830_18469726447015544_9172006005903039589_n%20(3).jpg');
         }
 
         .case-verник .case-bg-left,
@@ -1641,7 +1649,7 @@
                             <p class="case-links">behance / dprofile</p>
                         </div>
                         <div class="case-image">
-                            <img src="/static/img/IMG_4025%20(2).WEBP" alt="Индилайт" loading="lazy">
+                            <img src="/static/cases/indilite/IMG_4222%20(2).JPG" alt="Индилайт" loading="lazy">
                         </div>
                         <div class="case-footer">
                             <p>press / media</p>
@@ -1664,7 +1672,7 @@
                             <p class="case-links">behance / dprofile</p>
                         </div>
                         <div class="case-image">
-                            <img src="/static/img/IMG_4024%20(2).JPG" alt="Tom Hardy" loading="lazy">
+                            <img src="/static/cases/venom/IMG_4223.JPG" alt="Tom Hardy" loading="lazy">
                         </div>
                         <div class="case-footer">
                             <p>guest management / international</p>
@@ -1687,7 +1695,7 @@
                             <p class="case-links">behance / dprofile</p>
                         </div>
                         <div class="case-image">
-                            <img src="/static/img/IMG_2716%20(2).JPG" alt="Карина Нигай" loading="lazy">
+                            <img src="/static/cases/karina/421737028_331111575_144840738445292_3851443656871002742_n%20(3).jpg" alt="Карина Нигай" loading="lazy">
                         </div>
                         <div class="case-footer">
                             <p>tv / fashion / influencer</p>
@@ -1975,6 +1983,9 @@
 						warm(next?.imageSrc);
 						warm(prev?.imageSrc);
 					}
+					// Reset card position when content changes
+					overlayHost.style.transform = 'translateY(0)';
+					overlayHost.style.opacity = '1';
 				};
 
 				if (reduceMotion || !supportsWAAPI) {
@@ -2023,80 +2034,39 @@
                 });
 			}, { root: null, threshold: 0.35 });
             
-            // Observe footer to hide overlay when it comes into view
-            if (footer) {
-                const footerIO = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            // Hide overlay when footer is visible
-                            overlayHost.style.opacity = '0';
-                            overlayHost.style.pointerEvents = 'none';
-                        } else {
-                            // Show overlay when footer is not visible
-                            overlayHost.style.opacity = '1';
-                            overlayHost.style.pointerEvents = 'auto';
-                        }
-                    });
-                }, { root: null, threshold: 0.1 });
-                
-                footerIO.observe(footer);
-            }
+
             
-            // Also check if user is scrolling near the footer to smoothly hide overlay
-            let isNearFooter = false;
-            const checkFooterProximity = () => {
+            // Simple logic: move card down faster than scroll and hide it, with reverse direction support
+            const updateCardPosition = () => {
                 if (!footer) return;
                 
                 const footerRect = footer.getBoundingClientRect();
                 const viewportHeight = window.innerHeight;
+                const scrollY = window.pageYOffset || window.scrollY || 0;
                 
-                // Get the last case item to check its position
-                const lastCaseItem = caseItems[caseItems.length - 1];
-                if (!lastCaseItem) return;
-                
-                const lastCaseRect = lastCaseItem.getBoundingClientRect();
-                const lastCaseCenter = lastCaseRect.top + lastCaseRect.height / 2;
-                const viewportCenter = viewportHeight / 2;
-                
-                // Calculate distance from last case center to viewport center
-                const distanceFromCenter = Math.abs(lastCaseCenter - viewportCenter);
-                
-                // If footer is approaching viewport (within 80px), start fading overlay
-                if (footerRect.top < viewportHeight + 80) {
-                    if (!isNearFooter) {
-                        isNearFooter = true;
+                // When footer approaches, move card down faster
+                if (footerRect.top < viewportHeight + 200) {
+                    const distance = viewportHeight + 200 - footerRect.top;
+                    const moveDown = distance * 1.5; // Move 1.5x faster than scroll
+                    overlayHost.style.transform = `translateY(${moveDown}px)`;
+                    
+                    // Hide when moved far enough
+                    if (moveDown > 300) {
+                        overlayHost.style.opacity = '0';
+                    } else {
+                        overlayHost.style.opacity = '1';
                     }
-                    
-                    // Calculate opacity based on footer proximity
-                    const footerProximity = Math.max(0, (viewportHeight + 80 - footerRect.top) / 80);
-                    const opacity = Math.max(0.2, 1 - footerProximity);
-                    overlayHost.style.opacity = opacity.toString();
-                    
-                    // Move overlay down slightly as footer approaches
-                    const translateY = Math.min(15, footerProximity * 20);
-                    overlayHost.style.transform = `translateY(${translateY}px)`;
-                    
-                } else if (distanceFromCenter < 100) {
-                    // When near the center of the last case, keep overlay visible
-                    if (isNearFooter) {
-                        isNearFooter = false;
-                    }
-                    overlayHost.style.opacity = '1';
-                    overlayHost.style.transform = 'translateY(0)';
                 } else {
-                    // Normal case behavior
-                    if (isNearFooter) {
-                        isNearFooter = false;
-                    }
-                    overlayHost.style.opacity = '1';
+                    // When scrolling back up, smoothly return card to position
                     overlayHost.style.transform = 'translateY(0)';
+                    overlayHost.style.opacity = '1';
                 }
             };
             
             // Check on scroll
-            window.addEventListener('scroll', checkFooterProximity, { passive: true });
+            window.addEventListener('scroll', updateCardPosition, { passive: true });
             // Initial check
-            checkFooterProximity();
+            updateCardPosition();
 
             caseItems.forEach(item => io.observe(item));
         })();
