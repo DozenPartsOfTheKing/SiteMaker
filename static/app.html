@@ -1595,7 +1595,7 @@
                 <div class="clients-grid reveal reveal-cascade">
                     <div class="client-card">
                         <div class="client-image">
-                            <img src="/static/mediap/alex.WEBP" alt="Арина Алекс" loading="lazy">
+                            <img src="/static/mediap/alex.JPG" alt="Арина Алекс" loading="lazy">
                         </div>
                         <div class="client-content">
                             <h4 class="client-name">Арина Алекс</h4>
@@ -1605,7 +1605,7 @@
                     
                     <div class="client-card">
                         <div class="client-image">
-                            <img src="/static/mediap/kozevnicova.jpg" alt="Мария Кожевникова" loading="lazy">
+                            <img src="/static/mediap/kozevnicova.JPG" alt="Мария Кожевникова" loading="lazy">
                         </div>
                         <div class="client-content">
                             <h4 class="client-name">Мария Кожевникова</h4>
@@ -1615,7 +1615,7 @@
                     
                     <div class="client-card">
                         <div class="client-image">
-                            <img src="/static/mediap/dayneiko.PNG" alt="Вика Дайнеко" loading="lazy">
+                            <img src="/static/mediap/dayneiko.JPG" alt="Вика Дайнеко" loading="lazy">
                         </div>
                         <div class="client-content">
                             <h4 class="client-name">Вика Дайнеко</h4>
@@ -1635,7 +1635,7 @@
                     
                     <div class="client-card">
                         <div class="client-image">
-                            <img src="/static/mediap/lantarov.jpg" alt="Игорь Лантратов" loading="lazy">
+                            <img src="/static/mediap/lantarov.JPG" alt="Игорь Лантратов" loading="lazy">
                         </div>
                         <div class="client-content">
                             <h4 class="client-name">Игорь Лантратов</h4>
@@ -1705,7 +1705,7 @@
                     
                     <div class="client-card">
                         <div class="client-image">
-                            <img src="/static/mediap/kravchenko.PNG" alt="Мария Кравченко" loading="lazy">
+                            <img src="/static/mediap/kravchenko.JPG" alt="Мария Кравченко" loading="lazy">
                         </div>
                         <div class="client-content">
                             <h4 class="client-name">Мария Кравченко</h4>
@@ -2072,7 +2072,8 @@
 						warm(prev?.imageSrc);
 					}
 					// Reset card position when content changes
-					overlayHost.style.transform = 'translateY(0)';
+					// Keep transform managed by scroll logic to avoid jitter
+					// Ensure visible during swaps (scroll logic may hide near footer)
 					overlayHost.style.opacity = '1';
 				};
 
