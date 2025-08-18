@@ -258,6 +258,8 @@
             overflow: hidden;
             scroll-snap-align: center;
             scroll-snap-stop: always;
+            padding: 0;
+            margin: 0;
         }
         
         .case-background {
@@ -303,8 +305,9 @@
         /* One-card overlay mode */
         .cases-overlay {
             position: sticky;
-            top: 0;
-            height: 100vh;
+            top: 50%;
+            transform: translateY(-50%);
+            height: auto;
             /* Avoid pushing content down: occupy space visually, not in flow */
             margin-bottom: -100vh;
             display: flex;
@@ -552,13 +555,13 @@
         
         /* Footer */
         .footer {
-            background: linear-gradient(135deg, #000 0%, #0a0a0a 50%, #1a1a1a 100%);
-            color: #fff;
-            padding: 5rem 2rem 3rem;
+            background: #f8f8f8;
+            color: #000;
+            padding: 6rem 2rem 4rem;
             position: relative;
             z-index: 300;
             scroll-snap-align: start;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
             overflow: hidden;
         }
         
@@ -569,7 +572,7 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.15), transparent);
         }
         
         .footer::after {
@@ -579,8 +582,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.02) 0%, transparent 50%);
             pointer-events: none;
         }
         
@@ -594,13 +597,10 @@
         
         .footer-title {
             font-size: 3rem;
-            font-weight: 200;
+            font-weight: 300;
             margin-bottom: 4rem;
-            letter-spacing: -0.03em;
-            background: linear-gradient(135deg, #fff 0%, #e0e0e0 50%, #ccc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            letter-spacing: -0.02em;
+            color: #000;
             position: relative;
         }
         
@@ -612,12 +612,12 @@
             transform: translateX(-50%);
             width: 80px;
             height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.3), transparent);
         }
         
         .footer-contact {
             font-size: 1rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: #000;
             line-height: 1.8;
             margin-bottom: 2rem;
         }
@@ -644,14 +644,14 @@
         }
         
         .footer-links a {
-            color: rgba(255, 255, 255, 0.7);
+            color: #000;
             text-decoration: none;
             font-size: 0.95rem;
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             padding: 0.8rem 1.2rem;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.03);
             display: flex;
             align-items: center;
             gap: 0.8rem;
@@ -659,11 +659,11 @@
         }
         
         .footer-links a:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.2);
+            color: #000;
+            background: rgba(0, 0, 0, 0.08);
+            border-color: rgba(0, 0, 0, 0.15);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
         
         .link-icon {
@@ -675,7 +675,7 @@
             font-size: 0.8rem;
             color: #666;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
         }
         
         .footer-bottom-content {
@@ -688,7 +688,7 @@
         }
         
         .footer-copyright {
-            color: rgba(255, 255, 255, 0.7);
+            color: #000;
             font-weight: 400;
             font-size: 0.9rem;
             letter-spacing: 0.02em;
@@ -702,7 +702,7 @@
         }
         
         .footer-bottom-links a {
-            color: rgba(255, 255, 255, 0.6);
+            color: #000;
             text-decoration: none;
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             padding: 0.5rem 1rem;
@@ -721,15 +721,15 @@
             left: 50%;
             width: 0;
             height: 1px;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(0, 0, 0, 0.6);
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
         
         .footer-bottom-links a:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.15);
+            color: #000;
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
         }
         
@@ -792,7 +792,7 @@
         .contact-card-title {
             font-size: 1.4rem;
             margin-bottom: 2rem;
-            color: #fff;
+            color: #000;
             font-weight: 600;
             letter-spacing: 0.03em;
             position: relative;
@@ -805,7 +805,7 @@
             content: '';
             width: 24px;
             height: 24px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.08));
             border-radius: 6px;
             display: inline-block;
         }
@@ -817,7 +817,7 @@
             left: 0;
             width: 50px;
             height: 2px;
-            background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.3));
+            background: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.3));
             border-radius: 1px;
         }
 
@@ -2136,7 +2136,7 @@
                 if (footerRect.top < viewportHeight + 50) {
                     const distance = viewportHeight + 50 - footerRect.top;
                     const moveDown = distance * 2; // Move 2x faster than scroll
-                    overlayHost.style.transform = `translateY(${moveDown}px)`;
+                    overlayHost.style.transform = `translateY(calc(-50% + ${moveDown}px))`;
                     
                     // Hide when moved far enough
                     if (moveDown > 200) {
@@ -2146,7 +2146,7 @@
                     }
                 } else {
                     // Keep card centered for all cases
-                    overlayHost.style.transform = 'translateY(0)';
+                    overlayHost.style.transform = 'translateY(-50%)';
                     overlayHost.style.opacity = '1';
                 }
             };
