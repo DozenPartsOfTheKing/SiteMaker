@@ -228,7 +228,7 @@
         
         /* Cases Section */
         .cases-section {
-            background: #f8f8f8;
+            background: #000;
             scroll-snap-type: y mandatory;
         }
         
@@ -246,6 +246,7 @@
             letter-spacing: -0.02em;
             padding: 6rem 2rem 2rem;
             scroll-snap-align: start;
+            color: #fff;
         }
         
         .case-item {
@@ -263,12 +264,16 @@
         }
         
         .case-background {
+            display: none; /* hide full-screen photo background for cleaner text-first layout */
+        }
+        /* Dark veil for better legibility on top of backgrounds */
+        .case-item::before {
+            content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.28);
+            z-index: 1;
+            pointer-events: none;
         }
         
         .case-bg-left,
@@ -303,24 +308,9 @@
         }
 
         /* One-card overlay mode */
-        .cases-overlay {
-            position: sticky;
-            top: 50%;
-            transform: translateY(-50%);
-            height: auto;
-            /* Avoid pushing content down: occupy space visually, not in flow */
-            margin-bottom: -100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-            z-index: 5;
-            transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            opacity: 1;
-        }
-        .cases-overlay .case-card { pointer-events: auto; }
-        /* Hide original per-item cards, keep backgrounds */
-        .case-item .case-card { opacity: 0; visibility: hidden; }
+        /* Remove overlay mode in favor of inline details */
+        .cases-overlay { display: none; }
+        .case-item .case-card { display: none; }
         
         /* Ensure the last case item has enough space to prevent overlap with footer */
         .case-item:last-child {
@@ -344,6 +334,131 @@
             perspective: 1200px;
         }
         
+        /* New per-case layout without card */
+        .case-details {
+            max-width: 1280px;
+            width: 100%;
+            padding: 2.5rem 2rem;
+            display: grid;
+            grid-template-columns: 0.8fr 1.6fr;
+            gap: 3.25rem;
+            align-items: start;
+            color: #fff;
+            text-align: left;
+        }
+        /* Place media column to the right; text spans left column */
+        .case-details > .case-meta { grid-column: 1; }
+        .case-details > .case-body { grid-column: 1; }
+        .case-details > .case-media { grid-column: 2; grid-row: 1 / span 2; }
+        .case-details .case-meta { align-self: start; }
+        .case-details .case-subtitle { color: rgba(255,255,255,0.75); margin-bottom: 1rem; letter-spacing: 0.12em; }
+        .case-details .case-title { color: #fff; margin-bottom: 0.75rem; }
+        .case-details .case-links { color: rgba(255,255,255,0.75); margin-bottom: 1.25rem; }
+        .case-details .case-body { color: rgba(255,255,255,0.9); }
+        .case-details .case-body h4 { color: rgba(255,255,255,0.9); }
+        .case-details .case-footer { grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,0.14); margin-top: 1.5rem; padding-top: 1rem; }
+        /* Media block styling */
+        .case-media {
+            align-self: center;
+            width: 100%;
+            min-height: clamp(480px, 76vh, 880px);
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 28px 70px rgba(0,0,0,0.55);
+        }
+        .case-media img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.02);
+            transition: transform 0.5s ease, filter 0.5s ease;
+            filter: grayscale(8%) contrast(1.02) saturate(0.96);
+        }
+        .case-media:hover img { transform: scale(1.05); filter: none; }
+
+        /* Collage grid for multi-photo showcase */
+        .case-collage {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(12, 1fr);
+            grid-auto-rows: 1fr;
+            height: 100%;
+            gap: 8px;
+            padding: 10px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        }
+        .case-collage .tile {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #000;
+        }
+        .case-collage .tile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.03);
+            transition: transform .5s ease, filter .5s ease;
+            filter: grayscale(6%) contrast(1.03) saturate(.98);
+        }
+        .case-collage .tile:hover img { transform: scale(1.07); filter: none; }
+        /* Slightly different crop/feel for duplicated tile */
+        .case-collage .tile--dupe img {
+            transform: scale(1.08);
+            object-position: center 30%;
+            filter: grayscale(10%) contrast(1.05) saturate(0.98);
+        }
+        /* Simple span utilities */
+        .w-2 { grid-column: span 2; }
+        .w-3 { grid-column: span 3; }
+        .w-4 { grid-column: span 4; }
+        .w-5 { grid-column: span 5; }
+        .w-6 { grid-column: span 6; }
+        .w-7 { grid-column: span 7; }
+        .w-8 { grid-column: span 8; }
+        .w-12 { grid-column: span 12; }
+        .h-2 { grid-row: span 2; }
+        .h-3 { grid-row: span 3; }
+        .h-4 { grid-row: span 4; }
+        .h-5 { grid-row: span 5; }
+        .h-6 { grid-row: span 6; }
+
+        @media (max-width: 1024px) {
+            .case-collage { grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(12, 1fr); }
+        }
+        @media (max-width: 640px) {
+            .case-collage { grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(12, 1fr); }
+        }
+
+        /* Hero collage (editorial: big left + two stacked right) */
+        .case-collage--hero {
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            grid-template-areas: 'a b' 'a d';
+            height: 100%;
+        }
+        /* One-image collage: single full-bleed tile */
+        .case-collage--one {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+            height: 100%;
+        }
+        /* Two-tile collage: big left + right spanning both rows */
+        .case-collage--two {
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            grid-template-areas: 'a b' 'a b';
+            height: 100%;
+        }
+        .case-collage--hero .tile--a, .case-collage--two .tile--a { grid-area: a; }
+        .case-collage--hero .tile--b, .case-collage--two .tile--b { grid-area: b; }
+        .case-collage--hero .tile--c { grid-area: c; }
+        .case-collage--hero .tile--d { grid-area: d; }
+        .case-collage--one .tile--a { grid-column: 1 / -1; grid-row: 1 / -1; }
+        
         .case-card {
             background: rgba(255, 255, 255, 1);
             backdrop-filter: blur(12px);
@@ -360,15 +475,15 @@
             will-change: transform;
         }
 
-        /* Ensure overlay card never exceeds viewport height; scroll inside if content is taller */
-        .cases-overlay .case-card {
-            max-height: calc(100vh - 8rem);
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
+        /* Details text layout tweaks */
+        .case-details .case-body {
+            column-width: 320px;
+            column-gap: 2rem;
         }
+        .case-details .case-body h4,
+        .case-details .case-body ul,
+        .case-details .case-body p { break-inside: avoid; }
+        .case-details .case-body h4 { margin: 0.5rem 0 0.35rem; }
         
         .case-card:hover {
             transform: translateY(-8px);
@@ -378,6 +493,7 @@
         /* 3D tilt layers for a subtle parallax inside the card */
         .case-card .case-header { transform: translateZ(24px); will-change: transform; }
         .case-card .case-image { transform: translateZ(16px); will-change: transform; }
+        .case-card .case-body { transform: translateZ(14px); will-change: transform; }
         .case-card .case-footer { transform: translateZ(12px); will-change: transform; }
 
         /* Light glare that follows the cursor */
@@ -479,6 +595,36 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             font-weight: 500;
+        }
+        
+        /* Case body text block */
+        .case-body {
+            text-align: left;
+            color: #444;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+        .case-body h4 {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin: 1rem 0 0.5rem;
+            font-weight: 600;
+        }
+        .case-body p {
+            color: #555;
+            margin: 0 0 0.75rem 0;
+        }
+        .case-body ul {
+            margin: 0.25rem 0 1rem 0;
+            padding-left: 1.1rem;
+        }
+        .case-body li {
+            margin: 0.25rem 0;
+            color: #555;
         }
         
         /* Case-specific backgrounds */
@@ -745,6 +891,8 @@
             color: #fff;
         }
         body.is-on-dark .nav a:hover { opacity: 0.75; }
+        /* Treat whole cases section as dark for top chrome */
+        #cases { color: #fff; }
         
         /* Contact Section refinements */
         .contact-grid {
@@ -1172,12 +1320,18 @@
                 grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 2rem;
             }
+            .case-details { grid-template-columns: 1fr; gap: 1.5rem; padding: 2rem 1.25rem; }
+            .case-details > .case-media { grid-column: 1; grid-row: auto; }
+            .case-details .case-title { font-size: 2rem; }
+            .case-details .case-body { column-count: 1; }
         }
         @media (max-width: 640px) {
             .media-faces .clients-grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
             }
+            .case-details { padding: 1.5rem 1rem; gap: 1rem; }
+            .case-details .case-title { font-size: 1.6rem; }
         }
         
         /* Responsive */
@@ -1268,9 +1422,8 @@
                 max-width: 95%;
             }
 
-            .cases-overlay .case-card {
-                max-height: calc(100vh - 4rem);
-            }
+            .cases-overlay .case-card { max-height: calc(100vh - 4rem); }
+            .cases-overlay .case-card.is-wide { max-width: 95%; max-height: calc(100vh - 2rem); }
             
             .case-title {
                 font-size: 2rem;
@@ -1332,9 +1485,8 @@
                 margin: 0 0.5rem;
             }
 
-            .cases-overlay .case-card {
-                max-height: calc(100vh - 3rem);
-            }
+            .cases-overlay .case-card { max-height: calc(100vh - 3rem); }
+            .cases-overlay .case-card.is-wide { max-width: 96%; max-height: calc(100vh - 1.5rem); }
             
             .case-title {
                 font-size: 1.6rem;
@@ -1615,7 +1767,7 @@
                     
                     <div class="client-card">
                         <div class="client-image">
-                            <img src="/static/mediap/dayneiko.JPG" alt="Вика Дайнеко" loading="lazy">
+                            <img src="/static/mediap/dayneiko.png" alt="Вика Дайнеко" loading="lazy">
                         </div>
                         <div class="client-content">
                             <h4 class="client-name">Вика Дайнеко</h4>
@@ -1721,73 +1873,101 @@
     <section class="cases-section" id="cases">
         <div class="cases-container">
             <h2 class="cases-title">кейсы</h2>
-            <div class="cases-overlay"></div>
             
             <!-- Case 1: Индилайт -->
-            <div class="case-item case-indilight">
+            <div class="case-item case-indilight" data-folder="indilite">
                 <div class="case-background">
                     <div class="case-bg-left"></div>
                     <div class="case-bg-right"></div>
                 </div>
                 <div class="case-content">
-                    <div class="case-card reveal">
-                        <div class="case-header">
+                    <div class="case-details reveal">
+                        <div class="case-meta">
                             <p class="case-subtitle">pr-сопровождение бренда освещения</p>
                             <h3 class="case-title">индилайт</h3>
                             <p class="case-links">behance / dprofile</p>
                         </div>
-                        <div class="case-image">
-                            <img src="/static/cases/indilite/IMG_4222%20(2).JPG" alt="Индилайт" loading="lazy">
+                        <div class="case-media">
+                            <div class="case-collage" data-collage></div>
                         </div>
-                        <div class="case-footer">
-                            <p>press / media</p>
+                        <div class="case-body">
+                            <h4>Задача</h4>
+                            <p>усилить узнаваемость бренда</p>
+                            <h4>Решение</h4>
+                            <p>сегментация аудитории и исследование продукта. Выявление трёх новых направлений продукта.</p>
+                            <ul>
+                                <li>Индейка стала смешной — благодаря Иде Галич и Марине Кравец</li>
+                                <li>Модной — благодаря Диларе и Карине Нигай</li>
+                                <li>Семейной — благодаря Нюше, Наталье Подольской, Юлии Ковальчук, Марии Кожевниковой</li>
+                            </ul>
                         </div>
+                        <div class="case-footer"><p>press / media</p></div>
                     </div>
                 </div>
             </div>
             
             <!-- Case 2: Tom Hardy -->
-            <div class="case-item case-tomhardy">
+            <div class="case-item case-tomhardy" data-folder="venom">
                 <div class="case-background">
                     <div class="case-bg-left"></div>
                     <div class="case-bg-right"></div>
                 </div>
                 <div class="case-content">
-                    <div class="case-card reveal">
-                        <div class="case-header">
+                    <div class="case-details reveal">
+                        <div class="case-meta">
                             <p class="case-subtitle">гест-менеджмент голливудской звезды</p>
                             <h3 class="case-title">tom hardy</h3>
                             <p class="case-links">behance / dprofile</p>
                         </div>
-                        <div class="case-image">
-                            <img src="/static/cases/venom/IMG_4223.JPG" alt="Tom Hardy" loading="lazy">
+                        <div class="case-media">
+                            <div class="case-collage" data-collage></div>
                         </div>
-                        <div class="case-footer">
-                            <p>guest management / international</p>
+                        <div class="case-body">
+                            <h4>Задача</h4>
+                            <p>провести нестандартный фотокол презентацию в честь премьеры фильма «Веном».</p>
+                            <h4>Решение</h4>
+                            <p>большой амфитеатр парка «Зарядье» с видом на Красную площадь и Кремль + эксклюзивное интервью для Первого канала.</p>
                         </div>
+                        <div class="case-footer"><p>guest management / international</p></div>
                     </div>
                 </div>
             </div>
             
             <!-- Case 3: Карина Нигай -->
-            <div class="case-item case-karina">
+            <div class="case-item case-karina" data-folder="karina">
                 <div class="case-background">
                     <div class="case-bg-left"></div>
                     <div class="case-bg-right"></div>
                 </div>
                 <div class="case-content">
-                    <div class="case-card reveal">
-                        <div class="case-header">
+                    <div class="case-details reveal">
+                        <div class="case-meta">
                             <p class="case-subtitle">pr-сопровождение медийной личности</p>
                             <h3 class="case-title">карина нигай</h3>
                             <p class="case-links">behance / dprofile</p>
                         </div>
-                        <div class="case-image">
-                            <img src="/static/cases/karina/421737028_331111575_144840738445292_3851443656871002742_n%20(3).jpg" alt="Карина Нигай" loading="lazy">
+                        <div class="case-media">
+                            <div class="case-collage" data-collage></div>
                         </div>
-                        <div class="case-footer">
-                            <p>tv / fashion / influencer</p>
+                        <div class="case-body">
+                            <h4>Задача</h4>
+                            <p>вывести в медиа и усилить присутствие в топ‑СМИ и глянце.</p>
+                            <h4>Телевидение</h4>
+                            <p>«Бьюти Батл» (ТНТ), финал «Звёзды в Африке».</p>
+                            <h4>Проекты</h4>
+                            <p>шоу «Сплетница», бренд Fare L'amore.</p>
+                            <h4>Интервью/YouTube</h4>
+                            <p>«Алена, блин!», «Дерзкая готовка».</p>
+                            <h4>Музыка</h4>
+                            <p>«Бонсай» — открытие Voice Beauty Awards.</p>
+                            <h4>Премии</h4>
+                            <p>«Инфлюенсер года» (Voice), топ‑25 стильных.</p>
+                            <h4>Коллаборации</h4>
+                            <p>RUSHEV × NIGAY: наружная реклама на крупнейшем digital‑экране.</p>
+                            <h4>Обложки</h4>
+                            <p>VOICE SHOPPING, HELLO!, OK!, THE GIRL.</p>
                         </div>
+                        <div class="case-footer"><p>tv / fashion / influencer</p></div>
                     </div>
                 </div>
             </div>
@@ -1932,265 +2112,47 @@
             }, { passive: true });
         })();
         
-        // Interactive 3D tilt + glare for case cards (desktop pointers only)
-        (() => {
-            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            const hasFinePointer = window.matchMedia('(pointer:fine)').matches;
-            if (reduceMotion || !hasFinePointer) return;
-
-            const cards = document.querySelectorAll('.case-card');
-            const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
-            cards.forEach(card => {
-                const maxTiltDeg = 6;
-                let rafId = null;
-                let currentX = 0, currentY = 0;
-                let targetX = 0, targetY = 0;
-
-                const getRect = () => card.getBoundingClientRect();
-
-                const animate = () => {
-                    currentX += (targetX - currentX) * 0.18;
-                    currentY += (targetY - currentY) * 0.18;
-                    const baseTranslate = card.classList.contains('is-hovered') ? 'translateY(-8px) ' : '';
-                    card.style.transform = `${baseTranslate}rotateX(${currentY}deg) rotateY(${currentX}deg)`;
-
-                    if (Math.abs(targetX - currentX) > 0.01 || Math.abs(targetY - currentY) > 0.01) {
-                        rafId = requestAnimationFrame(animate);
-                    } else {
-                        rafId = null;
-                    }
-                };
-
-                const onMove = (e) => {
-                    const rect = getRect();
-                    const px = (e.clientX - rect.left) / rect.width;  // 0..1
-                    const py = (e.clientY - rect.top) / rect.height; // 0..1
-
-                    targetX = clamp((px - 0.5) * 2 * maxTiltDeg, -maxTiltDeg, maxTiltDeg);
-                    targetY = clamp(-(py - 0.5) * 2 * maxTiltDeg, -maxTiltDeg, maxTiltDeg);
-
-                    card.style.setProperty('--px', `${e.clientX - rect.left}px`);
-                    card.style.setProperty('--py', `${e.clientY - rect.top}px`);
-
-                    if (rafId == null) rafId = requestAnimationFrame(animate);
-                };
-
-                const onEnter = () => {
-                    card.classList.add('is-hovered');
-                };
-
-                const onLeave = () => {
-                    card.classList.remove('is-hovered');
-                    targetX = 0; targetY = 0;
-                    if (rafId == null) rafId = requestAnimationFrame(animate);
-                };
-
-                // passive listeners to avoid blocking scroll
-                card.addEventListener('pointermove', onMove, { passive: true });
-                card.addEventListener('pointerenter', onEnter);
-                card.addEventListener('pointerleave', onLeave);
-            });
-        })();
-
-        // Preload case images early to avoid image swap lag
-        (() => {
-            const caseImgs = Array.from(document.querySelectorAll('.case-item .case-image img'));
-            const urls = Array.from(new Set(caseImgs.map(img => img.getAttribute('src')).filter(Boolean)));
-            urls.forEach(url => { const im = new Image(); im.decoding = 'async'; im.src = url; });
-        })();
-
-        // One-card overlay that updates with the current case in view
-        (() => {
-            const overlayHost = document.querySelector('.cases-overlay');
-            const caseItems = Array.from(document.querySelectorAll('.case-item'));
-            if (!overlayHost || caseItems.length === 0) return;
-
-            // Clone the first card as a template
-            const templateCard = caseItems[0].querySelector('.case-card');
-            if (!templateCard) return;
-            const overlayCard = templateCard.cloneNode(true);
-            overlayCard.classList.remove('reveal');
-            overlayHost.appendChild(overlayCard);
-            
-            // Get footer element to check for overlap
-            const footer = document.querySelector('.footer');
-
-            const headerEl = overlayCard.querySelector('.case-header');
-            const titleEl = overlayCard.querySelector('.case-title');
-            const subtitleEl = overlayCard.querySelector('.case-subtitle');
-            const linksEl = overlayCard.querySelector('.case-links');
-            const imageEl = overlayCard.querySelector('.case-image img');
-            const footerEl = overlayCard.querySelector('.case-footer p');
-
-            if (imageEl) {
-                imageEl.setAttribute('fetchpriority', 'high');
-                imageEl.decoding = 'async';
-            }
-
-            // Map case-item -> data extracted from its own card
-            const readCaseData = (caseItem) => {
-                const card = caseItem.querySelector('.case-card');
-                if (!card) return null;
-                const d = {
-                    subtitle: card.querySelector('.case-subtitle')?.textContent?.trim() || '',
-                    title: card.querySelector('.case-title')?.textContent?.trim() || '',
-                    links: card.querySelector('.case-links')?.textContent?.trim() || '',
-                    imageSrc: card.querySelector('.case-image img')?.getAttribute('src') || '',
-                    imageAlt: card.querySelector('.case-image img')?.getAttribute('alt') || '',
-                    footer: card.querySelector('.case-footer p')?.textContent?.trim() || ''
-                };
-                return d;
-            };
-
-            const caseDataList = caseItems.map(readCaseData);
-
-			let activeIndex = -1;
-			let isAnimating = false;
-			let currentActiveEl = null;
-			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			const supportsWAAPI = typeof overlayCard.animate === 'function';
-            const warm = (url) => { if (!url) return; const im = new Image(); im.decoding = 'async'; im.src = url; };
-			const changeCardContent = (data, idx, direction = 'forward') => {
-                if (!data) return;
-				if (isAnimating) return;
-				isAnimating = true;
-				const performUpdate = () => {
-					if (subtitleEl) subtitleEl.textContent = data.subtitle;
-					if (titleEl) titleEl.textContent = data.title;
-					if (linksEl) linksEl.textContent = data.links;
-					if (imageEl && data.imageSrc) {
-						imageEl.src = data.imageSrc;
-						if (data.imageAlt) imageEl.alt = data.imageAlt;
-					}
-					if (footerEl) footerEl.textContent = data.footer;
-					// Preload neighbors to make next swap instant
-					if (typeof idx === 'number') {
-						const next = caseDataList[idx + 1];
-						const prev = caseDataList[idx - 1];
-						warm(next?.imageSrc);
-						warm(prev?.imageSrc);
-					}
-					// Reset card position when content changes
-					// Keep transform managed by scroll logic to avoid jitter
-					// Ensure visible during swaps (scroll logic may hide near footer)
-					overlayHost.style.opacity = '1';
-				};
-
-				if (reduceMotion || !supportsWAAPI) {
-					// Fallback simple fade
-					overlayCard.style.transition = 'opacity 180ms ease';
-					overlayCard.style.opacity = '0';
-					setTimeout(() => {
-						performUpdate();
-						overlayCard.style.opacity = '1';
-						setTimeout(() => { isAnimating = false; }, 190);
-					}, 180);
-					return;
-				}
-
-				const offset = direction === 'forward' ? 14 : -14;
-				const out = overlayCard.animate([
-					{ opacity: 1, transform: 'translateY(0) scale(1)' },
-					{ opacity: 0, transform: `translateY(${offset * -1}px) scale(0.98)` }
-				], { duration: 220, easing: 'cubic-bezier(.2,.6,.2,1)', fill: 'forwards' });
-				out.finished.then(() => {
-					performUpdate();
-					overlayCard.animate([
-						{ opacity: 0, transform: `translateY(${offset}px) scale(0.98)` },
-						{ opacity: 1, transform: 'translateY(0) scale(1)' }
-					], { duration: 240, easing: 'cubic-bezier(.2,.6,.2,1)', fill: 'forwards' }).finished.then(() => {
-						isAnimating = false;
-					});
-				});
-            };
-
-            // Observe which case is centered
-			const io = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-						const idx = caseItems.indexOf(entry.target);
-						if (idx !== -1 && idx !== activeIndex) {
-							const direction = activeIndex === -1 ? 'forward' : (idx > activeIndex ? 'forward' : 'backward');
-							// Toggle active class for background emphasis
-							if (currentActiveEl) currentActiveEl.classList.remove('is-active');
-							entry.target.classList.add('is-active');
-							currentActiveEl = entry.target;
-							activeIndex = idx;
-							changeCardContent(caseDataList[idx], idx, direction);
-						}
-                    }
-                });
-			}, { root: null, threshold: 0.35 });
-            
-
-            
-            // Simple logic: move card down faster than scroll and hide it, with reverse direction support
-            const updateCardPosition = () => {
-                if (!footer) return;
-                
-                const footerRect = footer.getBoundingClientRect();
-                const viewportHeight = window.innerHeight;
-                const scrollY = window.pageYOffset || window.scrollY || 0;
-                
-                // Only move card when very close to footer to avoid interference with cases
-                if (footerRect.top < viewportHeight + 50) {
-                    const distance = viewportHeight + 50 - footerRect.top;
-                    const moveDown = distance * 2; // Move 2x faster than scroll
-                    overlayHost.style.transform = `translateY(calc(-50% + ${moveDown}px))`;
-                    
-                    // Hide when moved far enough
-                    if (moveDown > 200) {
-                        overlayHost.style.opacity = '0';
-                    } else {
-                        overlayHost.style.opacity = '1';
-                    }
-                } else {
-                    // Keep card centered for all cases
-                    overlayHost.style.transform = 'translateY(-50%)';
-                    overlayHost.style.opacity = '1';
-                }
-            };
-            
-            // Check on scroll
-            window.addEventListener('scroll', updateCardPosition, { passive: true });
-            // Initial check
-            updateCardPosition();
-
-            caseItems.forEach(item => io.observe(item));
-        })();
-
-        // Form handler
-        document.querySelector('footer form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.');
-            this.reset();
-        });
-
-        
-
-        // Reveal-on-scroll animations (minimal, professional)
-        const revealEls = document.querySelectorAll('.reveal');
-        if ('IntersectionObserver' in window) {
-            const io = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('in-view');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.18 });
-            revealEls.forEach(el => io.observe(el));
-        } else {
-            // Fallback if IntersectionObserver is not supported
-            revealEls.forEach(el => el.classList.add('in-view'));
-        }
+        // Removed: 3D tilt behavior (cards removed)
+        (() => {})();
+ 
+        // Removed: image preload (no images inside cases now)
+        (() => {})();
+ 
+        // Removed: overlay (cases render inline)
+        (() => {})();
+ 
+         // Form handler
+         document.querySelector('footer form').addEventListener('submit', function(e) {
+             e.preventDefault();
+             alert('Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.');
+             this.reset();
+         });
+ 
+         
+ 
+         // Reveal-on-scroll animations (minimal, professional)
+         const revealEls = document.querySelectorAll('.reveal');
+         if ('IntersectionObserver' in window) {
+             const io = new IntersectionObserver((entries, observer) => {
+                 entries.forEach(entry => {
+                     if (entry.isIntersecting) {
+                         entry.target.classList.add('in-view');
+                         observer.unobserve(entry.target);
+                     }
+                 });
+             }, { threshold: 0.18 });
+             revealEls.forEach(el => io.observe(el));
+         } else {
+             // Fallback if IntersectionObserver is not supported
+             revealEls.forEach(el => el.classList.add('in-view'));
+         }
 
         // Toggle white top bar (logo/nav) on dark sections (#hero and #about)
         (() => {
             const sections = [
                 document.querySelector('#hero'),
-                document.querySelector('#about')
+                document.querySelector('#about'),
+                document.querySelector('#cases')
             ].filter(Boolean);
             if (!sections.length || !('IntersectionObserver' in window)) return;
 
@@ -2211,6 +2173,111 @@
 
             // Initial pass in case the observer fires late
             update();
+        })();
+
+        // Dynamic cases collage builder
+        (async () => {
+            try {
+                const resp = await fetch(`/api/cases?t=${Date.now()}` , { cache: 'no-store' });
+                if (!resp.ok) throw new Error('bad status');
+                const data = await resp.json();
+                const map = (data && data.cases) || {};
+                const loadMeta = (src) => new Promise(resolve => {
+                    const img = new Image();
+                    img.loading = 'eager';
+                    img.onload = () => resolve({ src, w: img.naturalWidth || 1, h: img.naturalHeight || 1 });
+                    img.onerror = () => resolve({ src, w: 1, h: 1 });
+                    img.src = src;
+                });
+
+                const caseEls = document.querySelectorAll('.case-item[data-folder]');
+                for (const caseEl of caseEls) {
+                    const folder = caseEl.getAttribute('data-folder');
+                    const images = (map[folder] || []).slice(0, 6);
+                    const collage = caseEl.querySelector('[data-collage]');
+                    if (!collage) continue;
+
+                    collage.classList.remove('case-collage--one', 'case-collage--two', 'case-collage--hero');
+                    if (images.length <= 1) {
+                        collage.classList.add('case-collage--one');
+                        collage.innerHTML = images.length ? `<figure class="tile tile--a"><img src="${images[0]}" alt="" loading="lazy"></figure>` : '';
+                        continue;
+                    }
+                    if (images.length === 2) {
+                        // For folder "indilite" use two different photos: second photo repeats with a light crop in bottom-right
+                        const metas = await Promise.all(images.map(loadMeta));
+                        metas.sort((m1, m2) => (m2.w / m2.h) - (m1.w / m1.h));
+                        let left = metas[0]?.src || images[0];
+                        let right = metas[1]?.src || images[1];
+                        let dupe = left; // default duplication
+                        if (folder === 'indilite') {
+                            // make bottom-right use the other picture to avoid exact repetition
+                            dupe = right;
+                        }
+                        collage.classList.add('case-collage--hero');
+                        collage.innerHTML = `
+                            <figure class=\"tile tile--a\"><img src=\"${left}\" alt=\"\" loading=\"lazy\"></figure>
+                            <figure class=\"tile tile--b\"><img src=\"${right}\" alt=\"\" loading=\"lazy\"></figure>
+                            <figure class=\"tile tile--d tile--dupe\"><img src=\"${dupe}\" alt=\"\" loading=\"lazy\"></figure>
+                        `;
+                        continue;
+                    }
+                    // 3 or more → hero layout; pick the widest image for big slot
+                    const metas = await Promise.all(images.slice(0, 3).map(loadMeta));
+                    metas.sort((m1, m2) => (m2.w / m2.h) - (m1.w / m1.h));
+                    const a = metas[0]?.src || images[0];
+                    const b = metas[1]?.src || images[1];
+                    const d = metas[2]?.src || images[2];
+                    collage.classList.add('case-collage--hero');
+                    collage.innerHTML = `
+                        <figure class=\"tile tile--a\"><img src=\"${a}\" alt=\"\" loading=\"lazy\"></figure>
+                        <figure class=\"tile tile--b\"><img src=\"${b}\" alt=\"\" loading=\"lazy\"></figure>
+                        <figure class=\"tile tile--d\"><img src=\"${d}\" alt=\"\" loading=\"lazy\"></figure>
+                    `;
+                }
+            } catch (_) {
+                // Fallback to known static images if API is unavailable
+                const fallbacks = {
+                    indilite: [
+                        '/static/cases/indilite/IMG_4222%20(2).JPG',
+                        '/static/cases/indilite/IMG_4221%20(2).JPG'
+                    ],
+                    venom: [
+                        '/static/cases/venom/tomhkardyRussia_21.jpg',
+                        '/static/cases/venom/IMG_4223.JPG'
+                    ],
+                    karina: [
+                        '/static/cases/karina/image.png',
+                        '/static/cases/karina/421737028_331111575_144840738445292_3851443656871002742_n%20(3).jpg',
+                        '/static/cases/karina/421737028_468427830_18469726447015544_9172006005903039589_n%20(3).jpg'
+                    ]
+                };
+                document.querySelectorAll('.case-item[data-folder]').forEach(caseEl => {
+                    const folder = caseEl.getAttribute('data-folder');
+                    const images = fallbacks[folder] || [];
+                    const collage = caseEl.querySelector('[data-collage]');
+                    if (!collage) return;
+                    collage.classList.remove('case-collage--one', 'case-collage--two', 'case-collage--hero');
+                    if (images.length <= 1) {
+                        collage.classList.add('case-collage--one');
+                        collage.innerHTML = images.length ? `<figure class="tile tile--a"><img src="${images[0]}" alt="" loading="lazy"></figure>` : '';
+                    } else if (images.length === 2) {
+                        collage.classList.add('case-collage--hero');
+                        collage.innerHTML = `
+                            <figure class=\"tile tile--a\"><img src=\"${images[0]}\" alt=\"\" loading=\"lazy\"></figure>
+                            <figure class=\"tile tile--b\"><img src=\"${images[1]}\" alt=\"\" loading=\"lazy\"></figure>
+                            <figure class=\"tile tile--d tile--dupe\"><img src=\"${images[0]}\" alt=\"\" loading=\"lazy\"></figure>
+                        `;
+                    } else {
+                        collage.classList.add('case-collage--hero');
+                        collage.innerHTML = `
+                            <figure class=\"tile tile--a\"><img src=\"${images[0]}\" alt=\"\" loading=\"lazy\"></figure>
+                            <figure class=\"tile tile--b\"><img src=\"${images[1]}\" alt=\"\" loading=\"lazy\"></figure>
+                            <figure class=\"tile tile--d\"><img src=\"${images[2]}\" alt=\"\" loading=\"lazy\"></figure>
+                        `;
+                    }
+                });
+            }
         })();
     </script>
     <script>

@@ -4,6 +4,8 @@ from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 import uvicorn
 import os
+from typing import Dict, List
+from urllib.parse import quote
 
 app = FastAPI(
     title="Empire Agency",
@@ -55,10 +57,58 @@ async def api_info():
         }
     }
 
+
+def _list_case_images() -> Dict[str, List[str]]:
+    """Scan static/cases/* folders and return web paths for images per folder.
+
+    Keys are folder names. Values are URL paths beginning with /static/...
+    Only common image extensions are included. Files are sorted by name.
+    """
+    base_dir = os.path.join("static", "cases")
+    allowed_ext = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".JPG", ".JPEG", ".PNG", ".WEBP", ".GIF"}
+    result: Dict[str, List[str]] = {}
+    if not os.path.isdir(base_dir):
+        return result
+    for folder in sorted(os.listdir(base_dir)):
+        folder_path = os.path.join(base_dir, folder)
+        if not os.path.isdir(folder_path):
+            continue
+        images: List[str] = []
+        try:
+            for fname in sorted(os.listdir(folder_path)):
+                # skip hidden/system files like ._*, .DS_Store, Thumbs.db
+                if fname.startswith('.'):
+                    continue
+                low = fname.lower()
+                if low in {'.ds_store', 'thumbs.db'}:
+                    continue
+                fpath = os.path.join(folder_path, fname)
+                if not os.path.isfile(fpath):
+                    continue
+                _, ext = os.path.splitext(fname)
+                if ext in allowed_ext:
+                    web_path = f"/static/cases/{quote(folder)}/{quote(fname)}"
+                    images.append(web_path)
+        except Exception:
+            # ignore folder read errors
+            pass
+        result[folder] = images
+    return result
+
+
+@app.get("/api/cases")
+async def api_cases():
+    """Return available case images grouped by folder.
+
+    Example output:
+    { "cases": { "indilite": ["/static/cases/indilite/.."], "venom": [ ... ] } }
+    """
+    return {"cases": _list_case_images()}
+
 if __name__ == "__main__":
     host = os.getenv("HOST", "0.0.0.0")
     # Allow overriding port via PORT or APP_PORT env var
-    port = int(os.getenv("PORT", os.getenv("APP_PORT", "3001")))
+    port = int(os.getenv("PORT", os.getenv("APP_PORT", "8000")))
     # Enable auto-reload by default for local runs; set RELOAD=false on server
     reload = os.getenv("RELOAD", "true").lower() == "true"
     uvicorn.run(
