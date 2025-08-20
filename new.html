@@ -863,6 +863,12 @@
         
         /* Responsive */
         @media (max-width: 768px) {
+            /* Mobile performance and clarity tweaks */
+            .reveal { opacity: 1 !important; transform: none !important; }
+            .media-faces .client-image img { filter: none !important; transform: none !important; --img-scale: 1 !important; }
+            .client-image img { filter: none !important; }
+            .case-bg-left, .case-bg-right { filter: none !important; }
+            .hero-bg-left, .hero-bg-right { animation: none !important; }
             .nav, .logo {
                 top: 1rem;
             }
@@ -903,10 +909,7 @@
                 grid-template-columns: 1fr;
             }
             
-            .case-item {
-                height: 100vh;
-                margin-bottom: 0;
-            }
+            .case-item { height: auto; min-height: 0; margin-bottom: 0; padding: 2rem 0; }
             
             .case-card {
                 padding: 2.5rem 2rem;
@@ -1167,7 +1170,7 @@
                 <div class="clients-grid reveal reveal-cascade">
                     <div class="client-card">
                         <div class="client-image">
-                            <img src="/static/mediap/alex.WEBP" alt="Арина Алекс" loading="lazy">
+                            <img src="/static/mediap/alex.JPG" alt="Арина Алекс" loading="lazy" decoding="async">
                         </div>
                         <div class="client-content">
                             <h4 class="client-name">Арина Алекс</h4>
@@ -1177,7 +1180,7 @@
                     
                     <div class="client-card">
                         <div class="client-image">
-                            <img src="/static/mediap/kozevnicova.jpg" alt="Мария Кожевникова" loading="lazy">
+                            <img src="/static/mediap/kozevnicova.JPG" alt="Мария Кожевникова" loading="lazy" decoding="async">
                         </div>
                         <div class="client-content">
                             <h4 class="client-name">Мария Кожевникова</h4>
@@ -1187,7 +1190,7 @@
                     
                     <div class="client-card">
                         <div class="client-image">
-                            <img src="/static/mediap/dayneiko.PNG" alt="Вика Дайнеко" loading="lazy">
+                            <img src="/static/mediap/dayneiko.png" alt="Вика Дайнеко" loading="lazy" decoding="async">
                         </div>
                         <div class="client-content">
                             <h4 class="client-name">Вика Дайнеко</h4>
@@ -1207,7 +1210,7 @@
                     
                     <div class="client-card">
                         <div class="client-image">
-                            <img src="/static/mediap/lantarov.jpg" alt="Игорь Лантратов" loading="lazy">
+                            <img src="/static/mediap/lantarov.JPG" alt="Игорь Лантратов" loading="lazy" decoding="async">
                         </div>
                         <div class="client-content">
                             <h4 class="client-name">Игорь Лантратов</h4>
@@ -1277,7 +1280,7 @@
                     
                     <div class="client-card">
                         <div class="client-image">
-                            <img src="/static/mediap/kravchenko.PNG" alt="Мария Кравченко" loading="lazy">
+                            <img src="/static/mediap/kravchenko.JPG" alt="Мария Кравченко" loading="lazy" decoding="async">
                         </div>
                         <div class="client-content">
                             <h4 class="client-name">Мария Кравченко</h4>

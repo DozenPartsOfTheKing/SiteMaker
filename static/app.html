@@ -1381,6 +1381,13 @@
                 font-size: 0.9rem;
                 line-height: 1.6;
             }
+            /* Make reveal content visible immediately on mobile */
+            .reveal { opacity: 1 !important; transform: none !important; }
+            /* Disable heavy visual effects that may cause artifacts */
+            .media-faces .client-image img { filter: none !important; transform: none !important; --img-scale: 1 !important; }
+            .client-image img { filter: none; }
+            .case-bg-left, .case-bg-right { filter: none; }
+            .hero-bg-left, .hero-bg-right { animation: none; }
             
             .about-container {
                 grid-template-columns: 1fr;
@@ -1411,10 +1418,7 @@
                 margin: 0 1rem;
             }
             
-            .case-item {
-                height: 100vh;
-                margin-bottom: 0;
-            }
+            .case-item { height: auto; min-height: 0; margin-bottom: 0; padding: 2rem 0; }
             
             .case-card {
                 padding: 2rem 1.5rem;
@@ -1516,6 +1520,9 @@
             .hero-description {
                 font-size: 0.85rem;
             }
+            /* Further reduce effects on very small screens */
+            .media-faces .client-image { aspect-ratio: 1 / 1; }
+            .media-faces .client-image img { object-position: center 45%; }
             
             .services-grid {
                 gap: 1.5rem;
