@@ -1419,6 +1419,14 @@
             }
             
             .case-item { height: auto; min-height: 0; margin-bottom: 0; padding: 2rem 0; }
+            /* Remove dark veil since backgrounds are hidden on mobile */
+            .case-item::before { display: none; }
+            /* Tame media box height on mobile */
+            .case-media { aspect-ratio: 4 / 5; min-height: auto; border-radius: 14px; box-shadow: 0 12px 30px rgba(0,0,0,0.25); }
+            /* Simplify collage for mobile */
+            .case-collage { gap: 6px; padding: 6px; }
+            .case-collage--hero { grid-template-columns: 1fr; grid-template-rows: auto auto auto; grid-template-areas: 'a' 'b' 'd'; height: auto; }
+            .case-collage .tile img { transform: none; filter: none; object-position: center 50%; }
             
             .case-card {
                 padding: 2rem 1.5rem;
@@ -1547,6 +1555,8 @@
                 margin: 0 0.5rem;
             }
             
+            /* On very small screens square media works better */
+            .case-media { aspect-ratio: 1 / 1; }
             .footer-title {
                 font-size: 1.8rem;
             }
@@ -2189,9 +2199,11 @@
                 if (!resp.ok) throw new Error('bad status');
                 const data = await resp.json();
                 const map = (data && data.cases) || {};
+                const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+                const eagerAttr = isMobile ? 'eager' : 'lazy';
                 const loadMeta = (src) => new Promise(resolve => {
                     const img = new Image();
-                    img.loading = 'eager';
+                    img.loading = isMobile ? 'eager' : 'lazy';
                     img.onload = () => resolve({ src, w: img.naturalWidth || 1, h: img.naturalHeight || 1 });
                     img.onerror = () => resolve({ src, w: 1, h: 1 });
                     img.src = src;
@@ -2207,7 +2219,7 @@
                     collage.classList.remove('case-collage--one', 'case-collage--two', 'case-collage--hero');
                     if (images.length <= 1) {
                         collage.classList.add('case-collage--one');
-                        collage.innerHTML = images.length ? `<figure class="tile tile--a"><img src="${images[0]}" alt="" loading="lazy"></figure>` : '';
+                        collage.innerHTML = images.length ? `<figure class="tile tile--a"><img src="${images[0]}" alt="" loading="${eagerAttr}" decoding="async" fetchpriority="${isMobile ? 'high' : 'auto'}"></figure>` : '';
                         continue;
                     }
                     if (images.length === 2) {
@@ -2223,9 +2235,9 @@
                         }
                         collage.classList.add('case-collage--hero');
                         collage.innerHTML = `
-                            <figure class=\"tile tile--a\"><img src=\"${left}\" alt=\"\" loading=\"lazy\"></figure>
-                            <figure class=\"tile tile--b\"><img src=\"${right}\" alt=\"\" loading=\"lazy\"></figure>
-                            <figure class=\"tile tile--d tile--dupe\"><img src=\"${dupe}\" alt=\"\" loading=\"lazy\"></figure>
+                            <figure class=\"tile tile--a\"><img src=\"${left}\" alt=\"\" loading=\"${eagerAttr}\" decoding=\"async\" fetchpriority=\"${isMobile ? 'high' : 'auto'}\"></figure>
+                            <figure class=\"tile tile--b\"><img src=\"${right}\" alt=\"\" loading=\"lazy\" decoding=\"async\"></figure>
+                            <figure class=\"tile tile--d tile--dupe\"><img src=\"${dupe}\" alt=\"\" loading=\"lazy\" decoding=\"async\"></figure>
                         `;
                         continue;
                     }
@@ -2237,9 +2249,9 @@
                     const d = metas[2]?.src || images[2];
                     collage.classList.add('case-collage--hero');
                     collage.innerHTML = `
-                        <figure class=\"tile tile--a\"><img src=\"${a}\" alt=\"\" loading=\"lazy\"></figure>
-                        <figure class=\"tile tile--b\"><img src=\"${b}\" alt=\"\" loading=\"lazy\"></figure>
-                        <figure class=\"tile tile--d\"><img src=\"${d}\" alt=\"\" loading=\"lazy\"></figure>
+                        <figure class=\"tile tile--a\"><img src=\"${a}\" alt=\"\" loading=\"${eagerAttr}\" decoding=\"async\" fetchpriority=\"${isMobile ? 'high' : 'auto'}\"></figure>
+                        <figure class=\"tile tile--b\"><img src=\"${b}\" alt=\"\" loading=\"lazy\" decoding=\"async\"></figure>
+                        <figure class=\"tile tile--d\"><img src=\"${d}\" alt=\"\" loading=\"lazy\" decoding=\"async\"></figure>
                     `;
                 }
             } catch (_) {
@@ -2259,6 +2271,8 @@
                         '/static/cases/karina/421737028_468427830_18469726447015544_9172006005903039589_n%20(3).jpg'
                     ]
                 };
+                const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+                const eagerAttr = isMobile ? 'eager' : 'lazy';
                 document.querySelectorAll('.case-item[data-folder]').forEach(caseEl => {
                     const folder = caseEl.getAttribute('data-folder');
                     const images = fallbacks[folder] || [];
@@ -2267,24 +2281,46 @@
                     collage.classList.remove('case-collage--one', 'case-collage--two', 'case-collage--hero');
                     if (images.length <= 1) {
                         collage.classList.add('case-collage--one');
-                        collage.innerHTML = images.length ? `<figure class="tile tile--a"><img src="${images[0]}" alt="" loading="lazy"></figure>` : '';
+                        collage.innerHTML = images.length ? `<figure class="tile tile--a"><img src="${images[0]}" alt="" loading="${eagerAttr}" decoding="async" fetchpriority="${isMobile ? 'high' : 'auto'}"></figure>` : '';
                     } else if (images.length === 2) {
                         collage.classList.add('case-collage--hero');
                         collage.innerHTML = `
-                            <figure class=\"tile tile--a\"><img src=\"${images[0]}\" alt=\"\" loading=\"lazy\"></figure>
-                            <figure class=\"tile tile--b\"><img src=\"${images[1]}\" alt=\"\" loading=\"lazy\"></figure>
-                            <figure class=\"tile tile--d tile--dupe\"><img src=\"${images[0]}\" alt=\"\" loading=\"lazy\"></figure>
+                            <figure class=\"tile tile--a\"><img src=\"${images[0]}\" alt=\"\" loading=\"${eagerAttr}\" decoding=\"async\" fetchpriority=\"${isMobile ? 'high' : 'auto'}\"></figure>
+                            <figure class=\"tile tile--b\"><img src=\"${images[1]}\" alt=\"\" loading=\"lazy\" decoding=\"async\"></figure>
+                            <figure class=\"tile tile--d tile--dupe\"><img src=\"${images[0]}\" alt=\"\" loading=\"lazy\" decoding=\"async\"></figure>
                         `;
                     } else {
                         collage.classList.add('case-collage--hero');
                         collage.innerHTML = `
-                            <figure class=\"tile tile--a\"><img src=\"${images[0]}\" alt=\"\" loading=\"lazy\"></figure>
-                            <figure class=\"tile tile--b\"><img src=\"${images[1]}\" alt=\"\" loading=\"lazy\"></figure>
-                            <figure class=\"tile tile--d\"><img src=\"${images[2]}\" alt=\"\" loading=\"lazy\"></figure>
+                            <figure class=\"tile tile--a\"><img src=\"${images[0]}\" alt=\"\" loading=\"${eagerAttr}\" decoding=\"async\" fetchpriority=\"${isMobile ? 'high' : 'auto'}\"></figure>
+                            <figure class=\"tile tile--b\"><img src=\"${images[1]}\" alt=\"\" loading=\"lazy\" decoding=\"async\"></figure>
+                            <figure class=\"tile tile--d\"><img src=\"${images[2]}\" alt=\"\" loading=\"lazy\" decoding=\"async\"></figure>
                         `;
                     }
                 });
             }
+        })();
+        
+        // Eager-load first media faces on mobile to avoid lazy-load gaps
+        (function() {
+            const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+            if (!isMobile) return;
+            const imgs = document.querySelectorAll('.media-faces .client-image img');
+            imgs.forEach((img, idx) => {
+                if (idx < 4) {
+                    try {
+                        img.setAttribute('loading', 'eager');
+                        img.setAttribute('decoding', 'async');
+                        img.setAttribute('fetchpriority', 'high');
+                        // Force reload if browser ignored previous lazy hint
+                        if (img.complete === false) {
+                            const src = img.src;
+                            img.src = '';
+                            img.src = src;
+                        }
+                    } catch (e) {}
+                }
+            });
         })();
     </script>
     <script>
