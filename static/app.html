@@ -982,9 +982,9 @@
         .contact-form input,
         .contact-form select {
             padding: 1.4rem 1.2rem;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #fff;
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #000;
             font-size: 0.95rem;
             outline: none;
             border-radius: 12px;
@@ -994,14 +994,14 @@
         
         .contact-form input:focus,
         .contact-form select:focus {
-            border-color: rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.08);
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
         .contact-form input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(0, 0, 0, 0.5);
             font-weight: 300;
         }
 
@@ -1172,7 +1172,7 @@
         
         .clients-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
         }
         
@@ -1351,7 +1351,7 @@
             }
             
             .clients-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3, 1fr);
                 gap: 2rem;
             }
             
@@ -1615,7 +1615,7 @@
             }
             
             .clients-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(3, 1fr);
                 gap: 1.5rem;
             }
             
@@ -1782,6 +1782,7 @@
             }
             
             .clients-grid {
+                grid-template-columns: repeat(3, 1fr);
                 gap: 1rem;
             }
             
@@ -1894,17 +1895,18 @@
                 <div class="service-card reveal">
                     <h3>пиар</h3>
                     <ul>
-                        <li>Полноценное PR-сопровождение</li>
-                        <li>Проектный PR</li>
-                        <li>Консультации</li>
+                        <li>PR-сопровождение персон/бренда от 6 месяцев и более</li>
+                        <li>Проектный PR: создание pr-стратегии под запрос</li>
+                        <li>Консультация</li>
                     </ul>
                 </div>
                 
                 <div class="service-card reveal">
-                    <h3>гест-менеджер</h3>
+                    <h3>ивент</h3>
                     <ul>
-                        <li>Организация присутствия селебрити</li>
-                        <li>Создание креативных концепций для мероприятий и кампаний</li>
+                        <li>Организация мероприятия под ключ</li>
+                        <li>Создание креативной концепции</li>
+                        <li>Эксклюзивное участие западных артистов и звезд классической музыки</li>
                     </ul>
                 </div>
                 
@@ -1912,17 +1914,16 @@
                     <h3>реклама</h3>
                     <ul>
                         <li>Разработка креативных концепций</li>
-                        <li>Подбор амбассадора или инфлюенсера</li>
-                        <li>Работа директором по рекламе артиста</li>
+                        <li>Подбор амбассадора или инфлюэнсера</li>
+                        <li>Комплексное сопровождение артистов и инфлюэнсеров по рекламе</li>
                     </ul>
                 </div>
                 
                 <div class="service-card reveal">
-                    <h3>ивент</h3>
+                    <h3>гест-менеджмент</h3>
                     <ul>
-                        <li>Организация мероприятий</li>
-                        <li>Создание креативной концепции</li>
-                        <li>Возможность участия западных артистов и звёзд классической сцены</li>
+                        <li>Подбор инфлюенсера под любой запрос рекламодателя</li>
+                        <li>Приглашение релевантного списка гостей соответствующего запросам и целям мероприятия</li>
                     </ul>
                 </div>
             </div>
@@ -1932,12 +1933,9 @@
     <!-- Clients Section -->
     <section class="clients" id="clients">
         <div class="clients-container">
-            <h2 class="clients-title">клиенты</h2>
+            <h2 class="clients-title">клиенты & агентства</h2>
             
-            <!-- PR Clients -->
-            <div class="clients-category media-faces">
-                <h3>клиенты по PR</h3>
-                <div class="clients-grid reveal reveal-cascade">
+            <div class="clients-grid reveal reveal-cascade">
                     <div class="client-card">
                         <div class="client-image">
                             <img src="/static/clients/Верник.JPG" alt="Игорь Верник" loading="lazy">
@@ -2007,13 +2005,6 @@
                             <p class="client-desc">актер театра и кино. Снялся в таких проектах как: «Цикады», «Игры», «Кентавр» и др.</p>
                         </div>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Media Faces -->
-            <div class="clients-category media-faces">
-                <h3>медийные лица для рекламы и мероприятий</h3>
-                <div class="clients-grid reveal reveal-cascade">
                     <div class="client-card">
                         <div class="client-image">
                             <img src="/static/mediap/alex.JPG" alt="Арина Алекс" loading="lazy">
@@ -2021,6 +2012,16 @@
                         <div class="client-content">
                             <h4 class="client-name">Арина Алекс</h4>
                             <p class="client-desc">эксперт по видеоконтенту в социальных сетях, инфлюенсер. Основала самую большую школу в СНГ по видео контенту</p>
+                        </div>
+                    </div>
+                    
+                    <div class="client-card">
+                        <div class="client-image">
+                            <img src="/static/clients/Шпак.JPG" alt="Алина Шпак" loading="lazy">
+                        </div>
+                        <div class="client-content">
+                            <h4 class="client-name">Алина Шпак</h4>
+                            <p class="client-desc">тренер по дыхательным гимнастикам, блогер</p>
                         </div>
                     </div>
                     
@@ -2064,15 +2065,7 @@
                         </div>
                     </div>
                     
-                    <div class="client-card">
-                        <div class="client-image">
-                            <img src="/static/mediap/askeri.JPG" alt="Полина Аскери" loading="lazy">
-                        </div>
-                        <div class="client-content">
-                            <h4 class="client-name">Полина Аскери</h4>
-                            <p class="client-desc">галерист, коллекционер и активный популяризатор современного искусства</p>
-                        </div>
-                    </div>
+
                     
                     <div class="client-card">
                         <div class="client-image">
@@ -2114,15 +2107,7 @@
                         </div>
                     </div>
                     
-                    <div class="client-card">
-                        <div class="client-image">
-                            <img src="/static/mediap/sashaST.JPG" alt="ST (Александр Степанов)" loading="lazy">
-                        </div>
-                        <div class="client-content">
-                            <h4 class="client-name">ST (Александр Степанов)</h4>
-                            <p class="client-desc">автор, исполнитель</p>
-                        </div>
-                    </div>
+
                     
                     <div class="client-card">
                         <div class="client-image">
@@ -2134,7 +2119,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </section>
 
